@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 //
 // The Open Toolkit Library License
 //
@@ -34,11 +34,11 @@ namespace OpenTK
     /// <summary>
     /// Stores the width and height of a rectangle.
     /// </summary>
-    public struct Size : IEquatable<Size>
+    public struct SizeF : IEquatable<SizeF>
     {
         #region Fields
 
-        int width, height;
+        float width, height;
 
         #endregion
 
@@ -49,22 +49,18 @@ namespace OpenTK
         /// </summary>
         /// <param name="width">The width of this instance.</param>
         /// <param name="height">The height of this instance.</param>
-        public Size(int width, int height)
+        public SizeF(float width, float height)
             : this()
         {
             Width = width;
             Height = height;
         }
 
-        /// <summary>
-        /// Constructs a new Size instance.
-        /// </summary>
-        /// <param name="Fsize">SizeF instance to be converted.</param>
-        public Size(SizeF Fsize)
+        public SizeF(Size size)
             : this()
         {
-            Width = (int)Fsize.Width;
-            Height = (int)Fsize.Height;
+            Width = size.Width;
+            Height = size.Height;
         }
 
         #endregion
@@ -74,7 +70,7 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets the width of this instance.
         /// </summary>
-        public int Width
+        public float Width
         {
             get { return width; }
             set
@@ -88,7 +84,7 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets the height of this instance.
         /// </summary>
-        public int Height
+        public float Height
         {
             get { return height; }
             set
@@ -110,12 +106,12 @@ namespace OpenTK
         /// <summary>
         /// Returns a Size instance equal to (0, 0).
         /// </summary>
-        public static readonly Size Empty = new Size();
+        public static readonly SizeF Empty = new SizeF();
 
         /// <summary>
         /// Returns a Size instance equal to (0, 0).
         /// </summary>
-        public static readonly Size Zero = new Size();
+        public static readonly SizeF Zero = new SizeF();
 
         /// <summary>
         /// Compares two instances for equality.
@@ -123,7 +119,7 @@ namespace OpenTK
         /// <param name="left">The first instance.</param>
         /// <param name="right">The second instance.</param>
         /// <returns>True, if left is equal to right; false otherwise.</returns>
-        public static bool operator ==(Size left, Size right)
+        public static bool operator ==(SizeF left, SizeF right)
         {
             return left.Equals(right);
         }
@@ -134,7 +130,7 @@ namespace OpenTK
         /// <param name="left">The first instance.</param>
         /// <param name="right">The second instance.</param>
         /// <returns>True, if left is not equal to right; false otherwise.</returns>
-        public static bool operator !=(Size left, Size right)
+        public static bool operator !=(SizeF left, SizeF right)
         {
             return !left.Equals(right);
         }
@@ -146,9 +142,9 @@ namespace OpenTK
         /// <returns>True, if both instances are equal; false otherwise.</returns>
         public override bool Equals(object obj)
         {
-            if (obj is Size)
-                return Equals((Size)obj);
-            
+            if (obj is SizeF)
+                return Equals((SizeF)obj);
+
             return false;
         }
 
@@ -175,15 +171,15 @@ namespace OpenTK
         #region IEquatable<Size> Members
 
         /// <summary>
-        /// Indicates whether this instance is equal to the specified Size.
+        /// Indicates whether this instance is equal to the specified SizeF.
         /// </summary>
         /// <param name="other">The instance to compare to.</param>
         /// <returns>True, if both instances are equal; false otherwise.</returns>
-        public bool Equals(Size other)
+        public bool Equals(SizeF other)
         {
             return Width == other.Width && Height == other.Height;
         }
-        
+
         #endregion
     }
 }

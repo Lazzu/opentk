@@ -9,6 +9,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -324,6 +325,31 @@ namespace OpenTK
         public static double Clamp(double n, double min, double max)
         {
             return Math.Max(Math.Min(n, max), min);
+        }
+
+        #endregion
+
+        #region GCD
+
+        /// <summary>
+        /// Finds Greater Common Dividier for array.
+        /// </summary>
+        /// <param name="numbers"> array where to find greatest common dividier</param>
+        /// <returns></returns>
+        public static int GCD(int[] numbers)
+        {
+            return numbers.Aggregate(GCD);
+        }
+
+        /// <summary>
+        /// Finds Greatest Common Dividier for 2 integers)
+        /// </summary>
+        /// <param name="a">input A</param>
+        /// <param name="b">input B</param>
+        /// <returns></returns>
+        public static int GCD(int a, int b)
+        {
+            return b == 0 ? a : GCD(b, a % b);
         }
 
         #endregion
