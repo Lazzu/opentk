@@ -74,14 +74,14 @@ namespace OpenTK.Platform.Windows
                         success = Wgl.MakeCurrent(window.DeviceContext, Context.Handle);
                         if (!success)
                         {
-                            Debug.Print("wglMakeCurrent failed with error: {0}. Retrying", Marshal.GetLastWin32Error());
+                            Debug.WriteLine("wglMakeCurrent failed with error: {0}. Retrying", Marshal.GetLastWin32Error());
                             System.Threading.Thread.Sleep(10);
                         }
                     }
                 }
                 else
                 {
-                    Debug.Print("[WGL] CreateContext failed with error: {0}", Marshal.GetLastWin32Error());
+                    Debug.WriteLine("[WGL] CreateContext failed with error: {0}", Marshal.GetLastWin32Error());
                 }
 
                 if (!success)
@@ -132,7 +132,7 @@ namespace OpenTK.Platform.Windows
                         }
                     }
 
-                    Debug.Print("OpenGL will be bound to window:{0} on thread:{1}", window.Handle,
+                    Debug.WriteLine("OpenGL will be bound to window:{0} on thread:{1}", window.Handle,
                         System.Threading.Thread.CurrentThread.ManagedThreadId);
 
                     ModeSelector = new WinGraphicsMode(window.DeviceContext);
@@ -169,9 +169,9 @@ namespace OpenTK.Platform.Windows
                                     sharedContext != null ? (sharedContext as IGraphicsContextInternal).Context.Handle : IntPtr.Zero,
                                     attributes.ToArray()));
                             if (Handle == ContextHandle.Zero)
-                                Debug.Print("failed. (Error: {0})", Marshal.GetLastWin32Error());
+                                Debug.WriteLine("failed. (Error: {0})", Marshal.GetLastWin32Error());
                         }
-                        catch (Exception e) { Debug.Print(e.ToString()); }
+                        catch (Exception e) { Debug.WriteLine(e.ToString()); }
                     }
 
                     if (Handle == ContextHandle.Zero)
@@ -333,7 +333,7 @@ namespace OpenTK.Platform.Windows
                         }
                         if (!Wgl.Ext.SwapInterval(value))
                         {
-                            Debug.Print("wglSwapIntervalEXT call failed.");
+                            Debug.WriteLine("wglSwapIntervalEXT call failed.");
                         }
                     }
                 }
@@ -483,26 +483,12 @@ namespace OpenTK.Platform.Windows
         {
             if (Handle != ContextHandle.Zero)
             {
-#if !NETCORE
-                try
-#endif
                 {
                     // This will fail if the user calls Dispose() on thread X when the context is current on thread Y.
                     if (!Wgl.DeleteContext(Handle.Handle))
-                        Debug.Print("Failed to destroy OpenGL context {0}. Error: {1}",
+                        Debug.WriteLine("Failed to destroy OpenGL context {0}. Error: {1}",
                             Handle.ToString(), Marshal.GetLastWin32Error());
                 }
-#if !NETCORE
-                catch (AccessViolationException e)
-                {
-                    Debug.WriteLine("An access violation occured while destroying the OpenGL context. Please report at http://www.opentk.com.");
-                    Debug.Indent();
-                    Debug.Print("Marshal.GetLastWin32Error(): {0}", Marshal.GetLastWin32Error().ToString());
-                    Debug.WriteLine(e.ToString());
-                    Debug.Unindent();
-                }
-                Handle = ContextHandle.Zero;
-#endif
             }
         }
 

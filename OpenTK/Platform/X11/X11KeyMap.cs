@@ -76,11 +76,7 @@ namespace OpenTK.Platform.X11
                         // Symbols are handled in GetKey() instead.
                         for (int i = keyboard->min_key_code; i <= keyboard->max_key_code; ++i)
                         {
-#if !NETCORE
-                            string name = new string((sbyte*)keyboard->names->keys[i].name, 0, Xkb.KeyNameLength);
-#else
                             string name = UTF8String.String(keyboard->names->keys[i].name, Xkb.KeyNameLength);
-#endif
 
                             Key key = Key.Unknown;
                             switch (name)
@@ -640,7 +636,7 @@ namespace OpenTK.Platform.X11
             }
             if (key == Key.Unknown)
             {
-                Debug.Print("KeyCode {0} (Keysym: {1}, {2}) not mapped.", e.keycode, (XKey)keysym, (XKey)keysym2);
+                Debug.WriteLine("KeyCode {0} (Keysym: {1}, {2}) not mapped.", e.keycode, (XKey)keysym, (XKey)keysym2);
             }
 
             return key != Key.Unknown;

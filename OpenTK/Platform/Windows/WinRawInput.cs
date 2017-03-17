@@ -73,7 +73,7 @@ namespace OpenTK.Platform.Windows
                     new IntPtr((void*)&bdi), DeviceNotification.WINDOW_HANDLE);
             }
             if (dev_notify_handle == IntPtr.Zero)
-                Debug.Print("[Warning] Failed to register for device notifications. Error: {0}", Marshal.GetLastWin32Error());
+                Debug.WriteLine("[Warning] Failed to register for device notifications. Error: {0}", Marshal.GetLastWin32Error());
 
             return dev_notify_handle;
         }
@@ -130,7 +130,7 @@ namespace OpenTK.Platform.Windows
             }
             catch (Exception e)
             {
-                Debug.Print("[WinRawInput] Caught unhandled exception {0}", e);
+                Debug.WriteLine("[WinRawInput] Caught unhandled exception {0}", e);
                 return IntPtr.Zero;
             }
         }

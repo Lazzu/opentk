@@ -1,4 +1,4 @@
-﻿#if _NET_CORECLR
+﻿
 namespace System
 {
     public class ApplicationException : Exception
@@ -8,4 +8,3 @@ namespace System
         }
     }
 }
-#endif

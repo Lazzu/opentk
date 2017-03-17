@@ -80,16 +80,16 @@ namespace OpenTK.Platform.SDL2
                 if (SdlContext == ContextHandle.Zero)
                 {
                     var error = SDL.GetError();
-                    Debug.Print("SDL2 failed to create OpenGL context: {0}", error);
+                    Debug.WriteLine("SDL2 failed to create OpenGL context: {0}", error);
                     throw new GraphicsContextException(error);
                 }
 
                 Mode = GetGLAttributes(SdlContext, out flags);
             }
             Handle = GraphicsContext.GetCurrentContext();
-            Debug.Print("SDL2 created GraphicsContext (handle: {0})", Handle);
-            Debug.Print("    GraphicsMode: {0}", Mode);
-            Debug.Print("    GraphicsContextFlags: {0}", flags);
+            Debug.WriteLine("SDL2 created GraphicsContext (handle: {0})", Handle);
+            Debug.WriteLine("    GraphicsMode: {0}", Mode);
+            Debug.WriteLine("    GraphicsContextFlags: {0}", flags);
         }
 
         #region Private Members
@@ -340,7 +340,7 @@ namespace OpenTK.Platform.SDL2
 
             if (result < 0)
             {
-                Debug.Print("SDL2 MakeCurrent failed with: {0}", SDL.GetError());
+                Debug.WriteLine("SDL2 MakeCurrent failed with: {0}", SDL.GetError());
             }
         }
 
@@ -367,7 +367,7 @@ namespace OpenTK.Platform.SDL2
             {
                 if (SDL.GL.SetSwapInterval(value) < 0)
                 {
-                    Debug.Print("SDL2 failed to set swap interval: {0}", SDL.GetError());
+                    Debug.WriteLine("SDL2 failed to set swap interval: {0}", SDL.GetError());
                 }
             }
         }
@@ -382,7 +382,7 @@ namespace OpenTK.Platform.SDL2
             {
                 if (manual)
                 {
-                    Debug.Print("Disposing {0} (handle: {1})", GetType(), Handle);
+                    Debug.WriteLine("Disposing {0} (handle: {1})", GetType(), Handle);
                     lock (SDL.Sync)
                     {
                         SDL.GL.DeleteContext(SdlContext.Handle);
@@ -390,7 +390,7 @@ namespace OpenTK.Platform.SDL2
                 }
                 else
                 {
-                    Debug.Print("Sdl2GraphicsContext (handle: {0}) leaked, did you forget to call Dispose()?",
+                    Debug.WriteLine("Sdl2GraphicsContext (handle: {0}) leaked, did you forget to call Dispose()?",
                         Handle);
                 }
                 IsDisposed = true;

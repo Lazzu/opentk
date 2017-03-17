@@ -37,7 +37,8 @@ namespace OpenTK.Platform
         /// String instance corresponding to the null terminated bytes pointed by <paramref name="o"/>.
         /// </summary>
         /// <param name="o">Unmanaged pointer from which data will be read.</param>
-        public static string String(byte * o)
+        [CLSCompliant(false)]
+        public static string String(byte* o)
         {
             if (o == null)
             {
@@ -54,13 +55,7 @@ namespace OpenTK.Platform
                 {
                     throw new ArgumentOutOfRangeException("UTF-8 string too large");
                 }
-#if !_NET_CORECLR
-                byte[] bytes = new byte[nb];
-                Marshal.Copy((IntPtr) o, bytes, 0, (int) nb);
-                return Encoding.UTF8.GetString(bytes);
-#else
                 return Encoding.UTF8.GetString((byte*) o, (int) nb);
-#endif
             }
         }
 
@@ -77,6 +72,7 @@ namespace OpenTK.Platform
         /// </summary>
         /// <param name="o">Unmanaged pointer from which data will be read.</param>
         /// <param name="n">Index from where to copy the data</param>
+        [CLSCompliant(false)]
         public static string String(byte* o, int n)
         {
             if (o == null)
@@ -85,13 +81,7 @@ namespace OpenTK.Platform
             }
             else
             {
-#if !_NET_CORECLR
-                byte[] bytes = new byte[n];
-                Marshal.Copy((IntPtr) o, bytes, 0, (int) n);
-                return Encoding.UTF8.GetString(bytes, 0, n);
-#else
                 return Encoding.UTF8.GetString((byte*) o, n);
-#endif
             }
         }
 

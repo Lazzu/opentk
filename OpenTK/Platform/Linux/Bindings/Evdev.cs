@@ -366,7 +366,7 @@ namespace OpenTK.Platform.Linux
                 case EvdevButton.BTN8:
                     return MouseButton.Button9;
                 default:
-                    Debug.Print("[Input] Unknown EvdevButton {0}", button);
+                    Debug.WriteLine("[Input] Unknown EvdevButton {0}", button);
                     return MouseButton.Left;
             }
         }
@@ -412,11 +412,9 @@ namespace OpenTK.Platform.Linux
             {
                 sbyte* pname = stackalloc sbyte[129];
                 int ret = Libc.ioctl(fd, EvdevIoctl.Name128, new IntPtr(pname));
-#if !NETCORE
-                name = new string(pname);
-#else
+
                 name = UTF8String.String((IntPtr) pname);
-#endif
+
                 return ret;
             }
         }

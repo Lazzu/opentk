@@ -52,7 +52,7 @@ namespace OpenTK.Platform.Windows
         public WinRawMouse(IntPtr window)
         {
             Debug.WriteLine("Using WinRawMouse.");
-            Debug.Indent();
+            
 
             if (window == IntPtr.Zero)
                 throw new ArgumentNullException("window");
@@ -60,7 +60,7 @@ namespace OpenTK.Platform.Windows
             Window = window;
             RefreshDevices();
 
-            Debug.Unindent();
+            
         }
 
         #endregion
@@ -307,12 +307,12 @@ namespace OpenTK.Platform.Windows
 
             if (!Functions.RegisterRawInputDevices(rid, 1, API.RawInputDeviceSize))
             {
-                Debug.Print("[Warning] Raw input registration failed with error: {0}. Device: {1}",
+                Debug.WriteLine("[Warning] Raw input registration failed with error: {0}. Device: {1}",
                     Marshal.GetLastWin32Error(), rid[0].ToString());
             }
             else
             {
-                Debug.Print("Registered mouse {0}", device);
+                Debug.WriteLine("Registered mouse {0}", device);
             }
         }
 

@@ -150,7 +150,7 @@ namespace OpenTK.Platform.Windows
             {
                 if (this.dc != IntPtr.Zero)
                     if (!Functions.ReleaseDC(this.handle, this.dc))
-                        Debug.Print("[Warning] Failed to release device context {0}. Windows error: {1}.", this.dc, Marshal.GetLastWin32Error());
+                        Debug.WriteLine("[Warning] Failed to release device context {0}. Windows error: {1}.", this.dc, Marshal.GetLastWin32Error());
 
                 if (manual)
                 {

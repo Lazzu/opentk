@@ -32,9 +32,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using OpenTK;
 using OpenTK.Graphics;
-#if !MINIMAL
-using System.Drawing;
-#endif
 
 namespace OpenTK.Platform.Linux
 {
@@ -102,8 +99,8 @@ namespace OpenTK.Platform.Linux
 
         public LinuxDisplayDriver(int fd)
         {
-            Debug.Print("[KMS] Creating LinuxDisplayDriver for fd:{0}", fd);
-            Debug.Indent();
+            Debug.WriteLine("[KMS] Creating LinuxDisplayDriver for fd:{0}", fd);
+            
             try
             {
                 FD = fd;
@@ -111,7 +108,7 @@ namespace OpenTK.Platform.Linux
             }
             finally
             {
-                Debug.Unindent();
+                
             }
         }
 
@@ -139,10 +136,10 @@ namespace OpenTK.Platform.Linux
                 ModeRes* resources = (ModeRes*)Drm.ModeGetResources(fd);
                 if (resources == null)
                 {
-                    Debug.Print("[KMS] Drm.ModeGetResources failed.");
+                    Debug.WriteLine("[KMS] Drm.ModeGetResources failed.");
                     return false;
                 }
-                Debug.Print("[KMS] DRM found {0} connectors", resources->count_connectors);
+                Debug.WriteLine("[KMS] DRM found {0} connectors", resources->count_connectors);
 
                 // Search for a valid connector
                 ModeConnector* connector = null;
@@ -165,7 +162,7 @@ namespace OpenTK.Platform.Linux
                         }
                         catch (Exception e)
                         {
-                            Debug.Print("[KMS] Failed to add display. Error: {0}", e);
+                            Debug.WriteLine("[KMS] Failed to add display. Error: {0}", e);
                         }
 
                         if (success && displays != null)
@@ -204,7 +201,7 @@ namespace OpenTK.Platform.Linux
 
                     if (AvailableDevices.Count == 0)
                     {
-                        Debug.Print("[KMS] Failed to find any active displays");
+                        Debug.WriteLine("[KMS] Failed to find any active displays");
                     }
                 }
             }
@@ -232,12 +229,12 @@ namespace OpenTK.Platform.Linux
 
             if (encoder != null)
             {
-                Debug.Print("[KMS] Encoder {0} found for connector {1}",
+                Debug.WriteLine("[KMS] Encoder {0} found for connector {1}",
                     encoder->encoder_id, c->connector_id);
             }
             else
             {
-                Debug.Print("[KMS] Failed to find encoder for connector {0}", c->connector_id);
+                Debug.WriteLine("[KMS] Failed to find encoder for connector {0}", c->connector_id);
             }
 
             return encoder;
@@ -248,12 +245,12 @@ namespace OpenTK.Platform.Linux
             ModeCrtc* crtc = (ModeCrtc*)Drm.ModeGetCrtc(fd, encoder->crtc_id);
             if (crtc != null)
             {
-                Debug.Print("[KMS] CRTC {0} found for encoder {1}",
+                Debug.WriteLine("[KMS] CRTC {0} found for encoder {1}",
                     encoder->crtc_id, encoder->encoder_id);
             }
             else
             {
-                Debug.Print("[KMS] Failed to find crtc {0} for encoder {1}",
+                Debug.WriteLine("[KMS] Failed to find crtc {0} for encoder {1}",
                     encoder->crtc_id, encoder->encoder_id);
             }
             return crtc;
@@ -262,13 +259,13 @@ namespace OpenTK.Platform.Linux
         unsafe static void GetModes(LinuxDisplay display, DisplayResolution[] modes, out DisplayResolution current)
         {
             int mode_count = display.pConnector->count_modes;
-            Debug.Print("[KMS] Display supports {0} mode(s)", mode_count);
+            Debug.WriteLine("[KMS] Display supports {0} mode(s)", mode_count);
             for (int i = 0; i < mode_count; i++)
             {
                 ModeInfo* mode = display.pConnector->modes + i;
                 if (mode != null)
                 {
-                    Debug.Print("Mode {0}: {1}x{2} @{3}", i,
+                    Debug.WriteLine("Mode {0}: {1}x{2} @{3}", i,
                         mode->hdisplay, mode->vdisplay, mode->vrefresh);
                     DisplayResolution res = GetDisplayResolution(mode);
                     modes[i] = res;
@@ -284,7 +281,7 @@ namespace OpenTK.Platform.Linux
             {
                 current = GetDisplayResolution(display.pConnector->modes);
             }
-            Debug.Print("Current mode: {0}", current.ToString());
+            Debug.WriteLine("Current mode: {0}", current.ToString());
         }
 
         Rectangle GetBounds(DisplayResolution current)
@@ -305,7 +302,7 @@ namespace OpenTK.Platform.Linux
         {
             if (!DisplayIds.ContainsKey(display.Id))
             {
-                Debug.Print("[KMS] Adding display {0} as {1}", display.Id, AvailableDevices.Count);
+                Debug.WriteLine("[KMS] Adding display {0} as {1}", display.Id, AvailableDevices.Count);
                 DisplayIds.Add(display.Id, AvailableDevices.Count);
             }
             int index = DisplayIds[display.Id];
@@ -353,7 +350,7 @@ namespace OpenTK.Platform.Linux
 
             UpdateDisplayIndices(display, device);
 
-            Debug.Print("[KMS] Added DisplayDevice {0}", device);
+            Debug.WriteLine("[KMS] Added DisplayDevice {0}", device);
         }
 
         unsafe static DisplayResolution GetDisplayResolution(ModeInfo* mode)

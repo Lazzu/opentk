@@ -63,11 +63,13 @@ typedef void ALvoid;
  * void
 */
 
+
 namespace OpenTK.Audio.OpenAL
 {
     /// <summary>
     /// Provides access to the OpenAL 1.1 flat API.
     /// </summary>
+    [CLSCompliant(false)]
     public static partial class AL
     {
         internal static readonly NativeLibrary ALNativeLib = NativeLibrary.Load(AL.GetOpenALLibName());
@@ -156,7 +158,7 @@ namespace OpenTK.Audio.OpenAL
         /// <summary>This function returns a boolean OpenAL state.</summary>
         /// <param name="param">the state to be queried: AL_DOPPLER_FACTOR, AL_SPEED_OF_SOUND, AL_DISTANCE_MODEL</param>
         /// <returns>The boolean state described by param will be returned.</returns>
-        [DllImport( AL.Lib, EntryPoint = "alGetBoolean", ExactSpelling = true, CallingConvention = AL.Style ), SuppressUnmanagedCodeSecurity( )]
+        [DllImport( AL.Lib, EntryPoint = "alGetBoolean", ExactSpelling = true, CallingConvention = AL.Style )( )]
         public static bool Get (  ALGetBoolean param  ) => Get_dptr (  ALGetBoolean param  );
         private static Get_d Get_dptr = ALNativeLib.LoadFunctionPointer<Get_d>("xxx");
         private unsafe delegate bool Get_d (  ALGetBoolean param  );
@@ -183,7 +185,7 @@ namespace OpenTK.Audio.OpenAL
         /// <summary>This function returns a double-precision floating-point OpenAL state.</summary>
         /// <param name="param">the state to be queried: AL_DOPPLER_FACTOR, AL_SPEED_OF_SOUND, AL_DISTANCE_MODEL</param>
         /// <returns>The double value described by param will be returned.</returns>
-        [DllImport( AL.Lib, EntryPoint = "alGetDouble", ExactSpelling = true, CallingConvention = AL.Style ), SuppressUnmanagedCodeSecurity( )]
+        [DllImport( AL.Lib, EntryPoint = "alGetDouble", ExactSpelling = true, CallingConvention = AL.Style )( )]
         public static double Get (  ALGetDouble param  ) => Get_dptr (  ALGetDouble param  );
         private static Get_d Get_dptr = ALNativeLib.LoadFunctionPointer<Get_d>("xxx");
         private unsafe delegate double Get_d (  ALGetDouble param  );
@@ -1564,7 +1566,7 @@ namespace OpenTK.Audio.OpenAL
         */
 
         /*
-        [DllImport( Al.Lib, EntryPoint = "alBuffer3f", ExactSpelling = true, CallingConvention = Al.Style ), SuppressUnmanagedCodeSecurity( )]
+        [DllImport( Al.Lib, EntryPoint = "alBuffer3f", ExactSpelling = true, CallingConvention = Al.Style )( )]
         public static void Buffer3f (  uint bid, ALenum param, ALfloat value1, ALfloat value2, ALfloat value3  ) => Buffer3f_dptr (  uint bid, ALenum param, ALfloat value1, ALfloat value2, ALfloat value3  );
         private static Buffer3f_d Buffer3f_dptr = ALNativeLib.LoadFunctionPointer<Buffer3f_d>("xxx");
         private unsafe delegate void Buffer3f_d (  uint bid, ALenum param, ALfloat value1, ALfloat value2, ALfloat value3  );

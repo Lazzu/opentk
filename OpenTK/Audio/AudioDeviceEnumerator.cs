@@ -123,7 +123,7 @@ namespace OpenTK.Audio
             try
             {
                 Debug.WriteLine("Enumerating audio devices.");
-                Debug.Indent();
+                
 
                 // need a dummy context for correct results
                 dummy_device = Alc.OpenDevice(null);
@@ -156,7 +156,7 @@ namespace OpenTK.Audio
                 else
                 {
                     version = AlcVersion.Alc1_0;
-                    Debug.Print("Device enumeration extension not available. Failed to enumerate playback devices.");
+                    Debug.WriteLine("Device enumeration extension not available. Failed to enumerate playback devices.");
                 }
                 AlcError playback_err = Alc.GetError(dummy_device);
                 if (playback_err != AlcError.NoError)
@@ -170,7 +170,7 @@ namespace OpenTK.Audio
                 }
                 else
                 {
-                    Debug.Print("Capture extension not available. Failed to enumerate recording devices.");
+                    Debug.WriteLine("Capture extension not available. Failed to enumerate recording devices.");
                 }
                 AlcError record_err = Alc.GetError(dummy_device);
                 if (record_err != AlcError.NoError)
@@ -202,7 +202,7 @@ namespace OpenTK.Audio
             }
             finally
             {
-                Debug.Unindent();
+                
 
                 if (openal_supported)
                 {

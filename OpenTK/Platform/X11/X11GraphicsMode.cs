@@ -99,7 +99,7 @@ namespace OpenTK.Platform.X11
 
         IntPtr SelectFBConfig(GraphicsMode mode)
         {
-            Debug.Print("Selecting FB config for {0}", mode);
+            Debug.WriteLine("Selecting FB config for {0}", mode);
 
             List<int> visualAttributes = new List<int>();
 
@@ -175,39 +175,32 @@ namespace OpenTK.Platform.X11
                 {
                     int screen = Functions.XDefaultScreen(display);
                     IntPtr root = Functions.XRootWindow(display, screen);
-                    Debug.Print("Display: {0}, Screen: {1}, RootWindow: {2}", display, screen, root);
+                    Debug.WriteLine("Display: {0}, Screen: {1}, RootWindow: {2}", display, screen, root);
 
                     unsafe
                     {
-                        Debug.Print("Getting FB config.");
+                        Debug.WriteLine("Getting FB config.");
                         int fbcount;
                         // Note that ChooseFBConfig returns an array of GLXFBConfig opaque structures (i.e. mapped to IntPtrs).
                         IntPtr* fbconfigs = Glx.ChooseFBConfig(display, screen, visualAttributes.ToArray(), out fbcount);
                         if (fbcount > 0 && fbconfigs != null)
                         {
                             // We want to use the first GLXFBConfig from the fbconfigs array (the first one is the best match).
-                            Debug.Print("Selected FB config: {0}", *fbconfigs);
+                            Debug.WriteLine("Selected FB config: {0}", *fbconfigs);
                             result = *fbconfigs;
                             Functions.XFree((IntPtr)fbconfigs);
                         }
                         else
                         {
-                            Debug.Print("No matching FB config found.");
+                            Debug.WriteLine("No matching FB config found.");
                         }
                     }
                 }
-#if !NETCORE
-                catch (EntryPointNotFoundException)
-                {
-                    Debug.Print("Function glXChooseFBConfig not supported.");
-                }
-#else
-                    // CoreCLR has no such exception so we do nothing.
+                // CoreCLR has no such exception so we do nothing.
                 finally
                 {
                     
                 }
-#endif
             }
 
             return result;
@@ -215,7 +208,7 @@ namespace OpenTK.Platform.X11
 
         IntPtr SelectVisual(GraphicsMode mode)
         {
-            Debug.Print("Selecting FB config for {0}", mode);
+            Debug.WriteLine("Selecting FB config for {0}", mode);
 
             List<int> visualAttributes = new List<int>();
 
@@ -274,7 +267,7 @@ namespace OpenTK.Platform.X11
 
             visualAttributes.Add(0);
 
-            Debug.Print("Falling back to glXChooseVisual.");
+            Debug.WriteLine("Falling back to glXChooseVisual.");
             IntPtr display = API.DefaultDisplay;
             using (new XLock(display))
             {

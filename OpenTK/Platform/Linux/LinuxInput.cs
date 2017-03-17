@@ -30,9 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Runtime.InteropServices;
 using System.Threading;
 using OpenTK.Input;
@@ -167,8 +164,8 @@ namespace OpenTK.Platform.Linux
 
         public LinuxInput()
         {
-            Debug.Print("[Linux] Initializing {0}", GetType().Name);
-            Debug.Indent();
+            Debug.WriteLine("[Linux] Initializing {0}", GetType().Name);
+            
             try
             {
                 Semaphore ready = new Semaphore(0, 1);
@@ -191,9 +188,9 @@ namespace OpenTK.Platform.Linux
             }
             finally
             {
-                Debug.Print("Initialization {0}", exit == 0 ?
+                Debug.WriteLine("Initialization {0}", exit == 0 ?
                     "complete" : "failed");
-                Debug.Unindent();
+                
             }
         }
 
@@ -202,12 +199,12 @@ namespace OpenTK.Platform.Linux
         static CloseRestrictedCallback CloseRestricted = CloseRestrictedHandler;
         static void CloseRestrictedHandler(int fd, IntPtr data)
         {
-            Debug.Print("[Input] Closing fd {0}", fd);
+            Debug.WriteLine("[Input] Closing fd {0}", fd);
             int ret = Libc.close(fd);
 
             if (ret < 0)
             {
-                Debug.Print("[Input] Failed to close fd {0}. Error: {1}", fd, ret);
+                Debug.WriteLine("[Input] Failed to close fd {0}. Error: {1}", fd, ret);
             }
             else
             {
@@ -219,7 +216,7 @@ namespace OpenTK.Platform.Linux
         static int OpenRestrictedHandler(IntPtr path, int flags, IntPtr data) 
         {
             int fd = Libc.open(path, (OpenFlags)flags);
-            Debug.Print("[Input] Opening '{0}' with flags {1}. fd:{2}",
+            Debug.WriteLine("[Input] Opening '{0}' with flags {1}. fd:{2}",
                 Marshal.PtrToStringAnsi(path), (OpenFlags)flags, fd);
 
             if (fd >= 0)
@@ -232,20 +229,20 @@ namespace OpenTK.Platform.Linux
 
         void InputThreadLoop(object semaphore)
         {
-            Debug.Print("[Input] Running on thread {0}", Thread.CurrentThread.ManagedThreadId);
+            Debug.WriteLine("[Input] Running on thread {0}", Thread.CurrentThread.ManagedThreadId);
             Setup();
 
             // Inform the parent thread that initialization has completed successfully
             (semaphore as Semaphore).Release();
-            Debug.Print("[Input] Released main thread.", input_context);
+            Debug.WriteLine("[Input] Released main thread.", input_context);
 
             // Use a blocking poll for input messages, in order to reduce CPU usage
             PollFD poll_fd = new PollFD();
             poll_fd.fd = fd;
             poll_fd.events = PollFlags.In;
-            Debug.Print("[Input] Created PollFD({0}, {1})", poll_fd.fd, poll_fd.events);
+            Debug.WriteLine("[Input] Created PollFD({0}, {1})", poll_fd.fd, poll_fd.events);
 
-            Debug.Print("[Input] Entering input loop.", poll_fd.fd, poll_fd.events);
+            Debug.WriteLine("[Input] Entering input loop.", poll_fd.fd, poll_fd.events);
             while (Interlocked.Read(ref exit) == 0)
             {
                 int ret = Libc.poll(ref poll_fd, 1, -1);
@@ -267,12 +264,12 @@ namespace OpenTK.Platform.Linux
 
                 if (is_error)
                 {
-                    Debug.Print("[Input] Exiting input loop {0} due to poll error [ret:{1} events:{2}]. Error: {3}.",
+                    Debug.WriteLine("[Input] Exiting input loop {0} due to poll error [ret:{1} events:{2}]. Error: {3}.",
                         input_thread.ManagedThreadId, ret, poll_fd.revents, error);
                     Interlocked.Increment(ref exit);
                 }
             }
-            Debug.Print("[Input] Exited input loop.", poll_fd.fd, poll_fd.events);
+            Debug.WriteLine("[Input] Exited input loop.", poll_fd.fd, poll_fd.events);
         }
 
         void UpdateDisplayBounds()
@@ -308,38 +305,38 @@ namespace OpenTK.Platform.Linux
             udev = Udev.New();
             if (udev == IntPtr.Zero)
             {
-                Debug.Print("[Input] Udev.New() failed.");
+                Debug.WriteLine("[Input] Udev.New() failed.");
                 Interlocked.Increment(ref exit);
                 return;
             }
-            Debug.Print("[Input] Udev.New() = {0:x}", udev);
+            Debug.WriteLine("[Input] Udev.New() = {0:x}", udev);
 
             input_context = LibInput.CreateContext(input_interface, IntPtr.Zero, udev, "seat0");
             if (input_context == IntPtr.Zero)
             {
-                Debug.Print("[Input] LibInput.CreateContext({0:x}) failed.", udev);
+                Debug.WriteLine("[Input] LibInput.CreateContext({0:x}) failed.", udev);
                 Interlocked.Increment(ref exit);
                 return;
             }
-            Debug.Print("[Input] LibInput.CreateContext({0:x}) = {1:x}", udev, input_context);
+            Debug.WriteLine("[Input] LibInput.CreateContext({0:x}) = {1:x}", udev, input_context);
 
             fd = LibInput.GetFD(input_context);
             if (fd < 0)
             {
-                Debug.Print("[Input] LibInput.GetFD({0:x}) failed.", input_context);
+                Debug.WriteLine("[Input] LibInput.GetFD({0:x}) failed.", input_context);
                 Interlocked.Increment(ref exit);
                 return;
             }
-            Debug.Print("[Input] LibInput.GetFD({0:x}) = {1}.", input_context, fd);
+            Debug.WriteLine("[Input] LibInput.GetFD({0:x}) = {1}.", input_context, fd);
 
             ProcessEvents(input_context);
             LibInput.Resume(input_context);
-            Debug.Print("[Input] LibInput.Resume({0:x})", input_context);
+            Debug.WriteLine("[Input] LibInput.Resume({0:x})", input_context);
 
             if (Interlocked.Read(ref DeviceFDCount) <= 0)
             {
-                Debug.Print("[Error] Failed to open any input devices.");
-                Debug.Print("[Error] Ensure that you have access to '/dev/input/event*'.");
+                Debug.WriteLine("[Error] Failed to open any input devices.");
+                Debug.WriteLine("[Error] Ensure that you have access to '/dev/input/event*'.");
                 Interlocked.Increment(ref exit);
             }
         }
@@ -353,7 +350,7 @@ namespace OpenTK.Platform.Linux
                 int ret = LibInput.Dispatch(input_context);
                 if (ret != 0)
                 {
-                    Debug.Print("[Input] LibInput.Dispatch({0:x}) failed. Error: {1}",
+                    Debug.WriteLine("[Input] LibInput.Dispatch({0:x}) failed. Error: {1}",
                         input_context, ret);
                     break;
                 }
@@ -411,7 +408,7 @@ namespace OpenTK.Platform.Linux
             {
                 KeyboardDevice keyboard = new KeyboardDevice(device, Keyboards.Count);
                 KeyboardCandidates.Add(keyboard.Id, keyboard);
-                Debug.Print("[Input] Added keyboard device {0} '{1}' on '{2}' ('{3}')",
+                Debug.WriteLine("[Input] Added keyboard device {0} '{1}' on '{2}' ('{3}')",
                     keyboard.Id, keyboard.Name, keyboard.LogicalSeatName, keyboard.PhysicalSeatName);
             }
 
@@ -419,13 +416,13 @@ namespace OpenTK.Platform.Linux
             {
                 MouseDevice mouse = new MouseDevice(device, Mice.Count);
                 MouseCandidates.Add(mouse.Id, mouse);
-                Debug.Print("[Input] Added mouse device {0} '{1}' on '{2}' ('{3}')",
+                Debug.WriteLine("[Input] Added mouse device {0} '{1}' on '{2}' ('{3}')",
                     mouse.Id, mouse.Name, mouse.LogicalSeatName, mouse.PhysicalSeatName);
             }
 
             if (LibInput.DeviceHasCapability(device, DeviceCapability.Touch))
             {
-                Debug.Print("[Input] Todo: touch device.");
+                Debug.WriteLine("[Input] Todo: touch device.");
             }
         }
 
@@ -451,7 +448,7 @@ namespace OpenTK.Platform.Linux
             if (device != null)
             {
                 device.State.SetIsConnected(true);
-                Debug.Print("[Input] Added keyboard {0}", device.Id);
+                Debug.WriteLine("[Input] Added keyboard {0}", device.Id);
 
                 Key key = Key.Unknown;
                 uint raw = e.Key;
@@ -462,7 +459,7 @@ namespace OpenTK.Platform.Linux
 
                 if (key == Key.Unknown)
                 {
-                    Debug.Print("[Linux] Unknown key with code '{0}'", raw);
+                    Debug.WriteLine("[Linux] Unknown key with code '{0}'", raw);
                 }
 
                 device.State.SetKeyState(key, e.KeyState == KeyState.Pressed);
@@ -488,7 +485,7 @@ namespace OpenTK.Platform.Linux
                         break;
 
                     default:
-                        Debug.Print("[Input] Unknown scroll axis {0}.", axis);
+                        Debug.WriteLine("[Input] Unknown scroll axis {0}.", axis);
                         break;
                 }
             }
@@ -550,7 +547,7 @@ namespace OpenTK.Platform.Linux
             }
             else
             {
-                Debug.Print("[Input] Keyboard {0} does not exist in device list.", id);
+                Debug.WriteLine("[Input] Keyboard {0} does not exist in device list.", id);
             }
             return keyboard;
         }
@@ -565,7 +562,7 @@ namespace OpenTK.Platform.Linux
             }
             else
             {
-                Debug.Print("[Input] Mouse {0} does not exist in device list.", id);
+                Debug.WriteLine("[Input] Mouse {0} does not exist in device list.", id);
             }
             return mouse;
         }
@@ -685,7 +682,7 @@ namespace OpenTK.Platform.Linux
             {
                 if (input_context != IntPtr.Zero)
                 {
-                    Debug.Print("[Input] Destroying libinput context");
+                    Debug.WriteLine("[Input] Destroying libinput context");
                     LibInput.Suspend(input_context);
                     Interlocked.Increment(ref exit);
 
@@ -695,7 +692,7 @@ namespace OpenTK.Platform.Linux
 
                 if (udev != IntPtr.Zero)
                 {
-                    Debug.Print("[Input] Destroying udev context");
+                    Debug.WriteLine("[Input] Destroying udev context");
                     Udev.Destroy(udev);
                     udev = IntPtr.Zero;
                 }
@@ -704,7 +701,7 @@ namespace OpenTK.Platform.Linux
             }
             else
             {
-                Debug.Print("[Input] {0} leaked. Did you forget to call Dispose()?", GetType().FullName);
+                Debug.WriteLine("[Input] {0} leaked. Did you forget to call Dispose()?", GetType().FullName);
             }
         }
 

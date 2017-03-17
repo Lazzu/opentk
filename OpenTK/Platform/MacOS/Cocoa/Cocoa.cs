@@ -29,10 +29,6 @@
 
 using System.Runtime.InteropServices;
 using System;
-#if !MINIMAL
-using System.Drawing;
-using System.Drawing.Imaging;
-#endif
 
 namespace OpenTK.Platform.MacOS
 {
@@ -200,11 +196,7 @@ namespace OpenTK.Platform.MacOS
 
         public static string FromNSString(IntPtr handle)
         {
-#if !NETCORE
-            return Marshal.PtrToStringAuto(SendIntPtr(handle, selUTF8String));
-#else
             return UTF8String.String(SendIntPtr(handle, selUTF8String));
-#endif
         }
 
         public static unsafe IntPtr ToNSImage(Image img)

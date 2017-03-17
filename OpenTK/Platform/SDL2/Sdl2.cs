@@ -80,7 +80,7 @@ namespace OpenTK.Platform.SDL2
                 catch (Exception e)
                 {
                     // nom nom
-                    Debug.Print("[SDL2] Failed to retrieve version");
+                    Debug.WriteLine("[SDL2] Failed to retrieve version");
                     return new Version();
                 }
             }
@@ -98,83 +98,83 @@ namespace OpenTK.Platform.SDL2
 
         #region Cursor
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate Cursor SDL_CreateColorCursor_d ( Surface surface, int hot_x, int hot_y );
         private static SDL_CreateColorCursor_d SDL_CreateColorCursor_ptr = NativeLib.LoadFunctionPointer<SDL_CreateColorCursor_d>("SDL_CreateColorCursor");
         public static Cursor CreateColorCursor ( Surface surface, int hot_x, int hot_y) => SDL_CreateColorCursor_ptr( surface, hot_x, hot_y );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_FreeCursor_d ( Cursor cursor );
         private static SDL_FreeCursor_d SDL_FreeCursor_ptr = NativeLib.LoadFunctionPointer<SDL_FreeCursor_d>("SDL_FreeCursor");
         public static void FreeCursor ( Cursor cursor) => SDL_FreeCursor_ptr( cursor );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_GetDefaultCursor_d (  );
         private static SDL_GetDefaultCursor_d SDL_GetDefaultCursor_ptr = NativeLib.LoadFunctionPointer<SDL_GetDefaultCursor_d>("SDL_GetDefaultCursor");
         public static IntPtr GetDefaultCursor ( ) => SDL_GetDefaultCursor_ptr(  );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_SetCursor_d ( Cursor cursor );
         private static SDL_SetCursor_d SDL_SetCursor_ptr = NativeLib.LoadFunctionPointer<SDL_SetCursor_d>("SDL_SetCursor");
         public static void SetCursor ( Cursor cursor) => SDL_SetCursor_ptr( cursor );
 
         #endregion
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_AddEventWatch_d ( EventFilter filter, IntPtr userdata );
         private static SDL_AddEventWatch_d SDL_AddEventWatch_ptr = NativeLib.LoadFunctionPointer<SDL_AddEventWatch_d>("SDL_AddEventWatch");
         public static void AddEventWatch ( EventFilter filter, IntPtr userdata) => SDL_AddEventWatch_ptr( filter, userdata );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_AddEventWatch2_d ( IntPtr filter, IntPtr userdata );
         private static SDL_AddEventWatch2_d SDL_AddEventWatch2_ptr = NativeLib.LoadFunctionPointer<SDL_AddEventWatch2_d>("SDL_AddEventWatch");
         public static void AddEventWatch ( IntPtr filter, IntPtr userdata) => SDL_AddEventWatch2_ptr( filter, userdata );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_CreateRGBSurfaceFrom_d ( IntPtr pixels, int width, int height, int depth, int pitch,uint Rmask, uint Gmask, uint Bmask, uint Amask );
         private static SDL_CreateRGBSurfaceFrom_d SDL_CreateRGBSurfaceFrom_ptr = NativeLib.LoadFunctionPointer<SDL_CreateRGBSurfaceFrom_d>("SDL_CreateRGBSurfaceFrom");
         public static IntPtr CreateRGBSurfaceFrom ( IntPtr pixels, int width, int height, int depth, int pitch,uint Rmask, uint Gmask, uint Bmask, uint Amask)
             => SDL_CreateRGBSurfaceFrom_ptr( pixels, width, height, depth, pitch, Rmask,  Gmask,  Bmask,  Amask );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_CreateWindow_d ( string title, int x, int y, int w, int h, WindowFlags flags );
         private static SDL_CreateWindow_d SDL_CreateWindow_ptr = NativeLib.LoadFunctionPointer<SDL_CreateWindow_d>("SDL_CreateWindow");
         public static IntPtr CreateWindow ( string title, int x, int y, int w, int h, WindowFlags flags)
             => SDL_CreateWindow_ptr( title, x, y, w, h, flags );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_CreateWindowFrom_d ( IntPtr data );
         private static SDL_CreateWindowFrom_d SDL_CreateWindowFrom_ptr = NativeLib.LoadFunctionPointer<SDL_CreateWindowFrom_d>("SDL_CreateWindowFrom");
         public static IntPtr CreateWindowFrom ( IntPtr data) => SDL_CreateWindowFrom_ptr( data );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_DelEventWatch2_d ( EventFilter filter, IntPtr userdata );
         private static SDL_DelEventWatch2_d SDL_DelEventWatch2_ptr = NativeLib.LoadFunctionPointer<SDL_DelEventWatch2_d>("SDL_DelEventWatch");
         public static void DelEventWatch ( EventFilter filter, IntPtr userdata) => SDL_DelEventWatch2_ptr( filter, userdata );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_DelEventWatch_d ( IntPtr filter, IntPtr userdata );
         private static SDL_DelEventWatch_d SDL_DelEventWatch_ptr = NativeLib.LoadFunctionPointer<SDL_DelEventWatch_d>("SDL_DelEventWatch");
         public static void DelEventWatch ( IntPtr filter, IntPtr userdata) => SDL_DelEventWatch_ptr( filter, userdata );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_DestroyWindow_d ( IntPtr window );
         private static SDL_DestroyWindow_d SDL_DestroyWindow_ptr = NativeLib.LoadFunctionPointer<SDL_DestroyWindow_d>("SDL_DestroyWindow");
         public static void DestroyWindow ( IntPtr window) => SDL_DestroyWindow_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_FreeSurface_d ( IntPtr surface );
         private static SDL_FreeSurface_d SDL_FreeSurface_ptr = NativeLib.LoadFunctionPointer<SDL_FreeSurface_d>("SDL_FreeSurface");
         public static void FreeSurface ( IntPtr surface) => SDL_FreeSurface_ptr( surface );
 
         #region GameContoller
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate EventState SDL_GameControllerEventState_d ( EventState state );
         private static SDL_GameControllerEventState_d SDL_GameControllerEventState_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerEventState_d>("SDL_GameControllerEventState");
         public static EventState GameControllerEventState ( EventState state) => SDL_GameControllerEventState_ptr( state );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate short SDL_GameControllerGetAxis_d ( IntPtr gamecontroller, GameControllerAxis axis );
         private static SDL_GameControllerGetAxis_d SDL_GameControllerGetAxis_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerGetAxis_d>("SDL_GameControllerGetAxis");
         public static short GameControllerGetAxis ( IntPtr gamecontroller, GameControllerAxis axis) => SDL_GameControllerGetAxis_ptr( gamecontroller, axis );
@@ -185,7 +185,7 @@ namespace OpenTK.Platform.SDL2
         /// <param name="gamecontroller">Pointer to a game controller instance returned by <c>GameControllerOpen</c>.</param>
         /// <param name="axis">A value from the <c>GameControllerAxis</c> enumeration</param>
         /// <returns>A GameControllerButtonBind instance describing the specified binding</returns>
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate GameControllerButtonBind SDL_GameControllerGetBindForAxis_d ( IntPtr gamecontroller, GameControllerAxis axis );
         private static SDL_GameControllerGetBindForAxis_d SDL_GameControllerGetBindForAxis_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerGetBindForAxis_d>("SDL_GameControllerGetBindForAxis");
         public static GameControllerButtonBind GameControllerGetBindForAxis ( IntPtr gamecontroller, GameControllerAxis axis)
@@ -197,7 +197,7 @@ namespace OpenTK.Platform.SDL2
         /// <param name="gamecontroller">Pointer to a game controller instance returned by <c>GameControllerOpen</c>.</param>
         /// <param name="button">A value from the <c>GameControllerButton</c> enumeration</param>
         /// <returns>A GameControllerButtonBind instance describing the specified binding</returns>
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate GameControllerButtonBind SDL_GameControllerGetBindForButton_d ( IntPtr gamecontroller, GameControllerButton button );
         private static SDL_GameControllerGetBindForButton_d SDL_GameControllerGetBindForButton_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerGetBindForButton_d>("SDL_GameControllerGetBindForButton");
         public static GameControllerButtonBind GameControllerGetBindForButton ( IntPtr gamecontroller, GameControllerButton button)
@@ -209,7 +209,7 @@ namespace OpenTK.Platform.SDL2
         /// <param name="gamecontroller">A game controller handle previously opened with <c>GameControllerOpen</c>.</param>
         /// <param name="button">A zero-based <c>GameControllerButton</c> value.</param>
         /// <returns><c>true</c> if the specified button is pressed; <c>false</c> otherwise.</returns>
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate bool SDL_GameControllerGetButton_d ( IntPtr gamecontroller, GameControllerButton button );
         private static SDL_GameControllerGetButton_d SDL_GameControllerGetButton_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerGetButton_d>("SDL_GameControllerGetButton");
         public static bool GameControllerGetButton ( IntPtr gamecontroller, GameControllerButton button)
@@ -220,18 +220,18 @@ namespace OpenTK.Platform.SDL2
         /// </summary>
         /// <param name="gamecontroller">A game controller handle previously opened with <c>GameControllerOpen</c>.</param>
         /// <returns>A handle to a joystick, or IntPtr.Zero in case of error. The pointer is owned by the callee. Use <c>SDL.GetError</c> to retrieve error information</returns>
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_GameControllerGetJoystick_d ( IntPtr gamecontroller );
         private static SDL_GameControllerGetJoystick_d SDL_GameControllerGetJoystick_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerGetJoystick_d>("SDL_GameControllerGetJoystick");
         public static IntPtr GameControllerGetJoystick ( IntPtr gamecontroller) => SDL_GameControllerGetJoystick_ptr( gamecontroller );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_GetCurrentDisplayMode_d ( int displayIndex, out DisplayMode mode );
         private static SDL_GetCurrentDisplayMode_d SDL_GetCurrentDisplayMode_ptr = NativeLib.LoadFunctionPointer<SDL_GetCurrentDisplayMode_d>("SDL_GetCurrentDisplayMode");
         public static int GetCurrentDisplayMode ( int displayIndex, out DisplayMode mode)
             => SDL_GetCurrentDisplayMode_ptr( displayIndex, out mode );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_GameControllerName_d ( IntPtr gamecontroller );
         private static SDL_GameControllerName_d SDL_GameControllerName_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerName_d>("SDL_GameControllerName");
         static IntPtr GameControllerNameInternal ( IntPtr gamecontroller) => SDL_GameControllerName_ptr( gamecontroller );
@@ -245,11 +245,7 @@ namespace OpenTK.Platform.SDL2
         {
             unsafe
             {
-#if !NETCORE
-                return new string((sbyte*)GameControllerNameInternal(gamecontroller));
-#else
                 return UTF8String.String(GameControllerNameInternal(gamecontroller));
-#endif
             }
         }
 
@@ -261,25 +257,25 @@ namespace OpenTK.Platform.SDL2
         /// This index is the value which will identify this controller in future controller events.
         /// </param>
         /// <returns>A handle to the game controller instance, or IntPtr.Zero in case of error.</returns>
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_GameControllerOpen_d ( int joystick_index );
         private static SDL_GameControllerOpen_d SDL_GameControllerOpen_ptr = NativeLib.LoadFunctionPointer<SDL_GameControllerOpen_d>("SDL_GameControllerOpen");
         public static IntPtr GameControllerOpen ( int joystick_index) => SDL_GameControllerOpen_ptr( joystick_index );
 
         #endregion
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_GetDisplayBounds_d ( int displayIndex, out Rect rect );
         private static SDL_GetDisplayBounds_d SDL_GetDisplayBounds_ptr = NativeLib.LoadFunctionPointer<SDL_GetDisplayBounds_d>("SDL_GetDisplayBounds");
         public static int GetDisplayBounds ( int displayIndex, out Rect rect) => SDL_GetDisplayBounds_ptr( displayIndex, out rect );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_GetDisplayMode_d ( int displayIndex, int modeIndex, out DisplayMode mode );
         private static SDL_GetDisplayMode_d SDL_GetDisplayMode_ptr = NativeLib.LoadFunctionPointer<SDL_GetDisplayMode_d>("SDL_GetDisplayMode");
         public static int GetDisplayMode ( int displayIndex, int modeIndex, out DisplayMode mode)
             => SDL_GetDisplayMode_ptr( displayIndex, modeIndex, out mode );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_GetError_d (  );
         private static SDL_GetError_d SDL_GetError_ptr = NativeLib.LoadFunctionPointer<SDL_GetError_d>("SDL_GetError");
         static IntPtr GetErrorInternal ( ) => SDL_GetError_ptr(  );
@@ -288,32 +284,32 @@ namespace OpenTK.Platform.SDL2
             return IntPtrToString(GetErrorInternal());
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate Keymod SDL_GetModState_d (  );
         private static SDL_GetModState_d SDL_GetModState_ptr = NativeLib.LoadFunctionPointer<SDL_GetModState_d>("SDL_GetModState");
         public static Keymod GetModState ( ) => SDL_GetModState_ptr(  );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate ButtonFlags SDL_GetMouseState_d ( out int hx, out int hy );
         private static SDL_GetMouseState_d SDL_GetMouseState_ptr = NativeLib.LoadFunctionPointer<SDL_GetMouseState_d>("SDL_GetMouseState");
         public static ButtonFlags GetMouseState ( out int hx, out int hy) => SDL_GetMouseState_ptr( out hx, out hy );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_GetNumDisplayModes_d ( int displayIndex );
         private static SDL_GetNumDisplayModes_d SDL_GetNumDisplayModes_ptr = NativeLib.LoadFunctionPointer<SDL_GetNumDisplayModes_d>("SDL_GetNumDisplayModes");
         public static int GetNumDisplayModes ( int displayIndex) => SDL_GetNumDisplayModes_ptr( displayIndex );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_GetNumVideoDisplays_d (  );
         private static SDL_GetNumVideoDisplays_d SDL_GetNumVideoDisplays_ptr = NativeLib.LoadFunctionPointer<SDL_GetNumVideoDisplays_d>("SDL_GetNumVideoDisplays");
         public static int GetNumVideoDisplays ( ) => SDL_GetNumVideoDisplays_ptr(  );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate Scancode SDL_GetScancodeFromKey_d ( Keycode key );
         private static SDL_GetScancodeFromKey_d SDL_GetScancodeFromKey_ptr = NativeLib.LoadFunctionPointer<SDL_GetScancodeFromKey_d>("SDL_GetScancodeFromKey");
         public static Scancode GetScancodeFromKey ( Keycode key) => SDL_GetScancodeFromKey_ptr( key );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_GetVersion_d ( out Version version );
         private static SDL_GetVersion_d SDL_GetVersion_ptr = NativeLib.LoadFunctionPointer<SDL_GetVersion_d>("SDL_GetVersion");
         public static void GetVersion ( out Version version) => SDL_GetVersion_ptr( out version );
@@ -324,22 +320,22 @@ namespace OpenTK.Platform.SDL2
             return v;
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate uint SDL_GetWindowID_d ( IntPtr window );
         private static SDL_GetWindowID_d SDL_GetWindowID_ptr = NativeLib.LoadFunctionPointer<SDL_GetWindowID_d>("SDL_GetWindowID");
         public static uint GetWindowID ( IntPtr window) => SDL_GetWindowID_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_GetWindowPosition_d ( IntPtr window, out int x, out int y );
         private static SDL_GetWindowPosition_d SDL_GetWindowPosition_ptr = NativeLib.LoadFunctionPointer<SDL_GetWindowPosition_d>("SDL_GetWindowPosition");
         public static void GetWindowPosition ( IntPtr window, out int x, out int y) => SDL_GetWindowPosition_ptr( window, out x, out y );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_GetWindowSize_d ( IntPtr window, out int w, out int h );
         private static SDL_GetWindowSize_d SDL_GetWindowSize_ptr = NativeLib.LoadFunctionPointer<SDL_GetWindowSize_d>("SDL_GetWindowSize");
         public static void GetWindowSize ( IntPtr window, out int w, out int h) => SDL_GetWindowSize_ptr( window, out w, out h );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_GetWindowTitle_d ( IntPtr window );
         private static SDL_GetWindowTitle_d SDL_GetWindowTitle_ptr = NativeLib.LoadFunctionPointer<SDL_GetWindowTitle_d>("SDL_GetWindowTitle");
         static IntPtr GetWindowTitlePrivate ( IntPtr window) => SDL_GetWindowTitle_ptr( window );
@@ -348,17 +344,17 @@ namespace OpenTK.Platform.SDL2
             return Marshal.PtrToStringAnsi(GetWindowTitlePrivate(window));
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_HideWindow_d ( IntPtr window );
         private static SDL_HideWindow_d SDL_HideWindow_ptr = NativeLib.LoadFunctionPointer<SDL_HideWindow_d>("SDL_HideWindow");
         public static void HideWindow ( IntPtr window) => SDL_HideWindow_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_Init_d ( SystemFlags flags );
         private static SDL_Init_d SDL_Init_ptr = NativeLib.LoadFunctionPointer<SDL_Init_d>("SDL_Init");
         public static int Init ( SystemFlags flags) => SDL_Init_ptr( flags );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_InitSubSystem_d ( SystemFlags flags );
         private static SDL_InitSubSystem_d SDL_InitSubSystem_ptr = NativeLib.LoadFunctionPointer<SDL_InitSubSystem_d>("SDL_InitSubSystem");
         public static int InitSubSystem ( SystemFlags flags) => SDL_InitSubSystem_ptr( flags );
@@ -368,37 +364,37 @@ namespace OpenTK.Platform.SDL2
         /// </summary>
         /// <returns><c>true</c> if joystick_index is supported by the GameController API; <c>false</c> otherwise.</returns>
         /// <param name="joystick_index">The index of the joystick to check.</param>
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate bool SDL_IsGameController_d ( int joystick_index );
         private static SDL_IsGameController_d SDL_IsGameController_ptr = NativeLib.LoadFunctionPointer<SDL_IsGameController_d>("SDL_IsGameController");
         public static bool IsGameController ( int joystick_index) => SDL_IsGameController_ptr( joystick_index );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_JoystickClose_d ( IntPtr joystick );
         private static SDL_JoystickClose_d SDL_JoystickClose_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickClose_d>("SDL_JoystickClose");
         public static void JoystickClose ( IntPtr joystick) => SDL_JoystickClose_ptr( joystick );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate EventState SDL_JoystickEventState_d ( EventState enabled );
         private static SDL_JoystickEventState_d SDL_JoystickEventState_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickEventState_d>("SDL_JoystickEventState");
         public static EventState JoystickEventState ( EventState enabled) => SDL_JoystickEventState_ptr( enabled );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate short SDL_JoystickGetAxis_d ( IntPtr joystick, int axis );
         private static SDL_JoystickGetAxis_d SDL_JoystickGetAxis_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickGetAxis_d>("SDL_JoystickGetAxis");
         public static short JoystickGetAxis ( IntPtr joystick, int axis) => SDL_JoystickGetAxis_ptr( joystick, axis );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate byte SDL_JoystickGetButton_d ( IntPtr joystick, int button );
         private static SDL_JoystickGetButton_d SDL_JoystickGetButton_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickGetButton_d>("SDL_JoystickGetButton");
         public static byte JoystickGetButton ( IntPtr joystick, int button) => SDL_JoystickGetButton_ptr( joystick, button );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate JoystickGuid SDL_JoystickGetGUID_d ( IntPtr joystick );
         private static SDL_JoystickGetGUID_d SDL_JoystickGetGUID_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickGetGUID_d>("SDL_JoystickGetGUID");
         public static JoystickGuid JoystickGetGUID ( IntPtr joystick) => SDL_JoystickGetGUID_ptr( joystick );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_JoystickName_d ( IntPtr joystick );
         private static SDL_JoystickName_d SDL_JoystickName_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickName_d>("SDL_JoystickName");
         static IntPtr JoystickNameInternal ( IntPtr joystick) => SDL_JoystickName_ptr( joystick );
@@ -406,55 +402,51 @@ namespace OpenTK.Platform.SDL2
         {
             unsafe
             {
-#if !NETCORE
-                return new string((sbyte*)JoystickNameInternal(joystick));
-#else
                 return UTF8String.String(JoystickNameInternal(joystick));
-#endif
             }
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_JoystickNumAxes_d ( IntPtr joystick );
         private static SDL_JoystickNumAxes_d SDL_JoystickNumAxes_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickNumAxes_d>("SDL_JoystickNumAxes");
         public static int JoystickNumAxes ( IntPtr joystick) => SDL_JoystickNumAxes_ptr( joystick );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_JoystickNumBalls_d ( IntPtr joystick );
         private static SDL_JoystickNumBalls_d SDL_JoystickNumBalls_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickNumBalls_d>("SDL_JoystickNumBalls");
         public static int JoystickNumBalls ( IntPtr joystick) => SDL_JoystickNumBalls_ptr( joystick );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_JoystickNumButtons_d ( IntPtr joystick );
         private static SDL_JoystickNumButtons_d SDL_JoystickNumButtons_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickNumButtons_d>("SDL_JoystickNumButtons");
         public static int JoystickNumButtons ( IntPtr joystick) => SDL_JoystickNumButtons_ptr( joystick );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_JoystickNumHats_d ( IntPtr joystick );
         private static SDL_JoystickNumHats_d SDL_JoystickNumHats_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickNumHats_d>("SDL_JoystickNumHats");
         public static int JoystickNumHats ( IntPtr joystick) => SDL_JoystickNumHats_ptr( joystick );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate IntPtr SDL_JoystickOpen_d ( int device_index );
         private static SDL_JoystickOpen_d SDL_JoystickOpen_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickOpen_d>("SDL_JoystickOpen");
         public static IntPtr JoystickOpen ( int device_index) => SDL_JoystickOpen_ptr( device_index );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_JoystickUpdate_d (  );
         private static SDL_JoystickUpdate_d SDL_JoystickUpdate_ptr = NativeLib.LoadFunctionPointer<SDL_JoystickUpdate_d>("SDL_JoystickUpdate");
         public static void JoystickUpdate ( ) => SDL_JoystickUpdate_ptr(  );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_MaximizeWindow_d ( IntPtr window );
         private static SDL_MaximizeWindow_d SDL_MaximizeWindow_ptr = NativeLib.LoadFunctionPointer<SDL_MaximizeWindow_d>("SDL_MaximizeWindow");
         public static void MaximizeWindow ( IntPtr window) => SDL_MaximizeWindow_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_MinimizeWindow_d ( IntPtr window );
         private static SDL_MinimizeWindow_d SDL_MinimizeWindow_ptr = NativeLib.LoadFunctionPointer<SDL_MinimizeWindow_d>("SDL_MinimizeWindow");
         public static void MinimizeWindow ( IntPtr window) => SDL_MinimizeWindow_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_NumJoysticks_d (  );
         private static SDL_NumJoysticks_d SDL_NumJoysticks_ptr = NativeLib.LoadFunctionPointer<SDL_NumJoysticks_d>("SDL_NumJoysticks");
         public static int NumJoysticks ( ) => SDL_NumJoysticks_ptr(  );
@@ -486,100 +478,100 @@ namespace OpenTK.Platform.SDL2
             }
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private unsafe delegate int SDL_PeepEvents_d ( Event* e, int count, EventAction action, EventType min, EventType max );
         private static SDL_PeepEvents_d SDL_PeepEvents_ptr = NativeLib.LoadFunctionPointer<SDL_PeepEvents_d>("SDL_PeepEvents");
         unsafe static int PeepEvents ( Event* e, int count, EventAction action, EventType min, EventType max)
             => SDL_PeepEvents_ptr( e, count, action, min, max );
 
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate bool SDL_PixelFormatEnumToMasks_d ( uint format, out int bpp, out uint rmask, out uint gmask, out uint bmask, out uint amask );
         private static SDL_PixelFormatEnumToMasks_d SDL_PixelFormatEnumToMasks_ptr = NativeLib.LoadFunctionPointer<SDL_PixelFormatEnumToMasks_d>("SDL_PixelFormatEnumToMasks");
         public static bool PixelFormatEnumToMasks ( uint format, out int bpp, out uint rmask, out uint gmask, out uint bmask, out uint amask)
             => SDL_PixelFormatEnumToMasks_ptr( format, out bpp, out rmask, out gmask, out bmask, out amask );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_PollEvent_d ( out Event e );
         private static SDL_PollEvent_d SDL_PollEvent_ptr = NativeLib.LoadFunctionPointer<SDL_PollEvent_d>("SDL_PollEvent");
         public static int PollEvent ( out Event e) => SDL_PollEvent_ptr( out e );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_PumpEvents_d (  );
         private static SDL_PumpEvents_d SDL_PumpEvents_ptr = NativeLib.LoadFunctionPointer<SDL_PumpEvents_d>("SDL_PumpEvents");
         public static void PumpEvents ( ) => SDL_PumpEvents_ptr(  );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_PushEvent_d ( ref Event @event );
         private static SDL_PushEvent_d SDL_PushEvent_ptr = NativeLib.LoadFunctionPointer<SDL_PushEvent_d>("SDL_PushEvent");
         public static int PushEvent ( ref Event @event) => SDL_PushEvent_ptr( ref @event );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_RaiseWindow_d ( IntPtr window );
         private static SDL_RaiseWindow_d SDL_RaiseWindow_ptr = NativeLib.LoadFunctionPointer<SDL_RaiseWindow_d>("SDL_RaiseWindow");
         public static void RaiseWindow ( IntPtr window) => SDL_RaiseWindow_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_RestoreWindow_d ( IntPtr window );
         private static SDL_RestoreWindow_d SDL_RestoreWindow_ptr = NativeLib.LoadFunctionPointer<SDL_RestoreWindow_d>("SDL_RestoreWindow");
         public static void RestoreWindow ( IntPtr window) => SDL_RestoreWindow_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_SetRelativeMouseMode_d ( bool enabled );
         private static SDL_SetRelativeMouseMode_d SDL_SetRelativeMouseMode_ptr = NativeLib.LoadFunctionPointer<SDL_SetRelativeMouseMode_d>("SDL_SetRelativeMouseMode");
         public static int SetRelativeMouseMode ( bool enabled) => SDL_SetRelativeMouseMode_ptr( enabled );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_SetWindowBordered_d ( IntPtr window, bool bordered );
         private static SDL_SetWindowBordered_d SDL_SetWindowBordered_ptr = NativeLib.LoadFunctionPointer<SDL_SetWindowBordered_d>("SDL_SetWindowBordered");
         public static void SetWindowBordered ( IntPtr window, bool bordered) => SDL_SetWindowBordered_ptr( window, bordered );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_SetWindowFullscreen_d ( IntPtr window, uint flags );
         private static SDL_SetWindowFullscreen_d SDL_SetWindowFullscreen_ptr = NativeLib.LoadFunctionPointer<SDL_SetWindowFullscreen_d>("SDL_SetWindowFullscreen");
         public static int SetWindowFullscreen ( IntPtr window, uint flags) => SDL_SetWindowFullscreen_ptr( window, flags );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_SetWindowGrab_d ( IntPtr window, bool grabbed );
         private static SDL_SetWindowGrab_d SDL_SetWindowGrab_ptr = NativeLib.LoadFunctionPointer<SDL_SetWindowGrab_d>("SDL_SetWindowGrab");
         public static void SetWindowGrab ( IntPtr window, bool grabbed) => SDL_SetWindowGrab_ptr( window, grabbed );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_SetWindowIcon_d ( IntPtr window, IntPtr icon );
         private static SDL_SetWindowIcon_d SDL_SetWindowIcon_ptr = NativeLib.LoadFunctionPointer<SDL_SetWindowIcon_d>("SDL_SetWindowIcon");
         public static void SetWindowIcon ( IntPtr window, IntPtr icon) => SDL_SetWindowIcon_ptr( window, icon );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_SetWindowPosition_d ( IntPtr window, int x, int y );
         private static SDL_SetWindowPosition_d SDL_SetWindowPosition_ptr = NativeLib.LoadFunctionPointer<SDL_SetWindowPosition_d>("SDL_SetWindowPosition");
         public static void SetWindowPosition ( IntPtr window, int x, int y) => SDL_SetWindowPosition_ptr( window, x, y );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_SetWindowSize_d ( IntPtr window, int x, int y );
         private static SDL_SetWindowSize_d SDL_SetWindowSize_ptr = NativeLib.LoadFunctionPointer<SDL_SetWindowSize_d>("SDL_SetWindowSize");
         public static void SetWindowSize ( IntPtr window, int x, int y) => SDL_SetWindowSize_ptr( window, x, y );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_SetWindowTitle_d ( IntPtr window, string title );
         private static SDL_SetWindowTitle_d SDL_SetWindowTitle_ptr = NativeLib.LoadFunctionPointer<SDL_SetWindowTitle_d>("SDL_SetWindowTitle");
         public static void SetWindowTitle ( IntPtr window, string title) => SDL_SetWindowTitle_ptr( window, title );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate int SDL_ShowCursor_d ( bool toggle );
         private static SDL_ShowCursor_d SDL_ShowCursor_ptr = NativeLib.LoadFunctionPointer<SDL_ShowCursor_d>("SDL_ShowCursor");
         public static int ShowCursor ( bool toggle) => SDL_ShowCursor_ptr( toggle );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_ShowWindow_d ( IntPtr window );
         private static SDL_ShowWindow_d SDL_ShowWindow_ptr = NativeLib.LoadFunctionPointer<SDL_ShowWindow_d>("SDL_ShowWindow");
         public static void ShowWindow ( IntPtr window) => SDL_ShowWindow_ptr( window );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate bool SDL_WasInit_d ( SystemFlags flags );
         private static SDL_WasInit_d SDL_WasInit_ptr = NativeLib.LoadFunctionPointer<SDL_WasInit_d>("SDL_WasInit");
         public static bool WasInit ( SystemFlags flags) => SDL_WasInit_ptr( flags );
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate void SDL_WarpMouseInWindow_d ( IntPtr window, int x, int y );
         private static SDL_WarpMouseInWindow_d SDL_WarpMouseInWindow_ptr = NativeLib.LoadFunctionPointer<SDL_WarpMouseInWindow_d>("SDL_WarpMouseInWindow");
         public static void WarpMouseInWindow ( IntPtr window, int x, int y) => SDL_WarpMouseInWindow_ptr( window, x, y );
@@ -606,7 +598,7 @@ namespace OpenTK.Platform.SDL2
             return GetWindowWMInfoInternal(window, ref info);
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         private delegate bool SDL_GetWindowWMInfo_d ( IntPtr window, ref SysWMInfo info );
         private static SDL_GetWindowWMInfo_d SDL_GetWindowWMInfo_ptr = NativeLib.LoadFunctionPointer<SDL_GetWindowWMInfo_d>("SDL_GetWindowWMInfoInternal");
         static bool GetWindowWMInfoInternal ( IntPtr window, ref SysWMInfo info) => SDL_GetWindowWMInfo_ptr( window, ref info );
@@ -615,32 +607,32 @@ namespace OpenTK.Platform.SDL2
 
         public partial class GL
         {
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate IntPtr SDL_GL_CreateContext_d ( IntPtr window );
         private static SDL_GL_CreateContext_d SDL_GL_CreateContext_ptr = NativeLib.LoadFunctionPointer<SDL_GL_CreateContext_d>("SDL_GL_CreateContext");
         public static IntPtr CreateContext ( IntPtr window) => SDL_GL_CreateContext_ptr( window );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate void SDL_GL_DeleteContext_d ( IntPtr context );
         private static SDL_GL_DeleteContext_d SDL_GL_DeleteContext_ptr = NativeLib.LoadFunctionPointer<SDL_GL_DeleteContext_d>("SDL_GL_DeleteContext");
         public static void DeleteContext ( IntPtr context) => SDL_GL_DeleteContext_ptr( context );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate int SDL_GL_GetAttribute_d ( ContextAttribute attr, out int value );
         private static SDL_GL_GetAttribute_d SDL_GL_GetAttribute_ptr = NativeLib.LoadFunctionPointer<SDL_GL_GetAttribute_d>("SDL_GL_GetAttribute");
         public static int GetAttribute ( ContextAttribute attr, out int value) => SDL_GL_GetAttribute_ptr( attr, out value );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate IntPtr SDL_GL_GetCurrentContext_d (  );
         private static SDL_GL_GetCurrentContext_d SDL_GL_GetCurrentContext_ptr = NativeLib.LoadFunctionPointer<SDL_GL_GetCurrentContext_d>("SDL_GL_GetCurrentContext");
         public static IntPtr GetCurrentContext ( ) => SDL_GL_GetCurrentContext_ptr(  );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate void SDL_GL_GetDrawableSize_d ( IntPtr window, out int w, out int h );
         private static SDL_GL_GetDrawableSize_d SDL_GL_GetDrawableSize_ptr = NativeLib.LoadFunctionPointer<SDL_GL_GetDrawableSize_d>("SDL_GL_GetDrawableSize");
         public static void GetDrawableSize ( IntPtr window, out int w, out int h) => SDL_GL_GetDrawableSize_ptr( window, out w, out h );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate IntPtr SDL_GL_GetProcAddress_d ( IntPtr proc );
         private static SDL_GL_GetProcAddress_d SDL_GL_GetProcAddress_ptr = NativeLib.LoadFunctionPointer<SDL_GL_GetProcAddress_d>("SDL_GL_GetProcAddress");
         public static IntPtr GetProcAddress ( IntPtr proc) => SDL_GL_GetProcAddress_ptr( proc );
@@ -657,17 +649,17 @@ namespace OpenTK.Platform.SDL2
                 }
             }
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate int SDL_GL_GetSwapInterval_d (  );
         private static SDL_GL_GetSwapInterval_d SDL_GL_GetSwapInterval_ptr = NativeLib.LoadFunctionPointer<SDL_GL_GetSwapInterval_d>("SDL_GL_GetSwapInterval");
         public static int GetSwapInterval ( ) => SDL_GL_GetSwapInterval_ptr(  );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate int SDL_GL_MakeCurrent_d ( IntPtr window, IntPtr context );
         private static SDL_GL_MakeCurrent_d SDL_GL_MakeCurrent_ptr = NativeLib.LoadFunctionPointer<SDL_GL_MakeCurrent_d>("SDL_GL_MakeCurrent");
         public static int MakeCurrent ( IntPtr window, IntPtr context) => SDL_GL_MakeCurrent_ptr( window, context );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate int SDL_GL_SetAttribute_d ( ContextAttribute attr, int value );
         private static SDL_GL_SetAttribute_d SDL_GL_SetAttribute_ptr = NativeLib.LoadFunctionPointer<SDL_GL_SetAttribute_d>("SDL_GL_SetAttribute");
         public static int SetAttribute ( ContextAttribute attr, int value) => SDL_GL_SetAttribute_ptr( attr, value );
@@ -680,12 +672,12 @@ namespace OpenTK.Platform.SDL2
                 return SetAttribute(attr, (int)value);
             }
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate int SDL_GL_SetSwapInterval_d ( int interval );
         private static SDL_GL_SetSwapInterval_d SDL_GL_SetSwapInterval_ptr = NativeLib.LoadFunctionPointer<SDL_GL_SetSwapInterval_d>("SDL_GL_SetSwapInterval");
         public static int SetSwapInterval ( int interval) => SDL_GL_SetSwapInterval_ptr( interval );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             private delegate void SDL_GL_SwapWindow_d ( IntPtr window );
         private static SDL_GL_SwapWindow_d SDL_GL_SwapWindow_ptr = NativeLib.LoadFunctionPointer<SDL_GL_SwapWindow_d>("SDL_GL_SwapWindow");
         public static void SwapWindow ( IntPtr window) => SDL_GL_SwapWindow_ptr( window );

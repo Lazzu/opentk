@@ -29,9 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -146,7 +143,7 @@ namespace OpenTK.Platform.X11
             if (height <= 0)
                 throw new ArgumentOutOfRangeException("height", "Must be higher than zero.");
 
-            Debug.Indent();
+            
 
             using (new XLock(window.Display))
             {
@@ -194,29 +191,9 @@ namespace OpenTK.Platform.X11
             hints.flags = (IntPtr)(XSizeHintsFlags.PSize | XSizeHintsFlags.PPosition);
 
             XClassHint class_hint = new XClassHint();
-#if !NETCORE
-            var entry_assembly = Assembly.GetEntryAssembly();
 
-            // May not have an entry assembly, try to find a "matching" assembly in the AppDomain
-            if (entry_assembly == null)
-            {
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                {
-                    if (AppDomain.CurrentDomain.FriendlyName.EndsWith(assembly.ManifestModule.Name))
-                    {
-                        if (entry_assembly == null || assembly.ManifestModule.Name.Length > entry_assembly.ManifestModule.Name.Length)
-                        {
-                            entry_assembly = assembly;
-                        }
-                    }
-                }
-            }
-
-            var name = entry_assembly.GetName().Name;
-#else
-                // In CoreCLR we do not have `Assembly.GetEntryAssembly' so we will a different name.
+            // In CoreCLR we do not have `Assembly.GetEntryAssembly' so we will a different name.
             var name = typeof (X11GLNative).GetTypeInfo().Assembly.GetName().Name;
-#endif
 
             class_hint.Class = name;
             class_hint.Name = name.ToLower();
@@ -246,7 +223,7 @@ namespace OpenTK.Platform.X11
             EmptyCursor = CreateEmptyCursor(window);
 
             Debug.WriteLine(String.Format("X11GLNative window created successfully (id: {0}).", Handle));
-            Debug.Unindent();
+            
 
             using (new XLock(window.Display))
             {
@@ -281,8 +258,8 @@ namespace OpenTK.Platform.X11
         {
             try
             {
-                Debug.Print("Creating X11GLNative window.");
-                Debug.Indent();
+                Debug.WriteLine("Creating X11GLNative window.");
+                
 
                 // Open a display connection to the X server, and obtain the screen and root window.
                 window.Display = Functions.XOpenDisplay(IntPtr.Zero);
@@ -297,14 +274,14 @@ namespace OpenTK.Platform.X11
                     KeyMap = new X11KeyMap(window.Display);
                 }
 
-                Debug.Print("Display: {0}, Screen {1}, Root window: {2}", window.Display, window.Screen,
+                Debug.WriteLine("Display: {0}, Screen {1}, Root window: {2}", window.Display, window.Screen,
                             window.RootWindow);
                 
                 RegisterAtoms(window);
             }
             finally
             {
-                Debug.Unindent();
+                
             }
         }
 
@@ -472,7 +449,7 @@ namespace OpenTK.Platform.X11
         {
             if (DisableMotifDecorations())
             {
-                Debug.Print("Removed decorations through motif.");
+                Debug.WriteLine("Removed decorations through motif.");
                 _decorations_hidden = true;
             }
             
@@ -544,11 +521,11 @@ namespace OpenTK.Platform.X11
         {
             if (EnableMotifDecorations())
             {
-                Debug.Print("Activated decorations through motif.");
+                Debug.WriteLine("Activated decorations through motif.");
                 _decorations_hidden = false;
             }
 
-            //if (EnableGnomeDecorations()) { Debug.Print("Activated decorations through gnome."); activated = true; }
+            //if (EnableGnomeDecorations()) { Debug.WriteLine("Activated decorations through gnome."); activated = true; }
 
             using (new XLock(window.Display))
             {
@@ -767,7 +744,7 @@ namespace OpenTK.Platform.X11
                 OnResize(EventArgs.Empty);
             }
 
-            //Debug.Print("[X11] Window bounds changed: {0}", bounds);
+            //Debug.WriteLine("[X11] Window bounds changed: {0}", bounds);
         }
 
         static IntPtr CreateEmptyCursor(X11WindowInfo window)
@@ -833,7 +810,7 @@ namespace OpenTK.Platform.X11
                     case XEventName.ClientMessage:
                         if (!isExiting && e.ClientMessageEvent.ptr1 == _atom_wm_destroy)
                         {
-                            Debug.Print("[X11] Exit message received for window {0:X} on display {1:X}", window.Handle, window.Display);
+                            Debug.WriteLine("[X11] Exit message received for window {0:X} on display {1:X}", window.Handle, window.Display);
                             CancelEventArgs ce = new CancelEventArgs();
                             OnClosing(ce);
 
@@ -882,11 +859,8 @@ namespace OpenTK.Platform.X11
                                 int status = 0;
                                 status = Functions.XLookupString(
                                     ref e.KeyEvent, ascii, ascii.Length, null, IntPtr.Zero);
-#if !NETCORE
-                                Encoding.Default.GetChars(ascii, 0, status, chars, 0);
-#else
+
                                 Encoding.UTF8.GetChars(ascii, 0, status, chars, 0);
-#endif
     
                                 for (int i = 0; i < status; i++)
                                 {
@@ -998,7 +972,7 @@ namespace OpenTK.Platform.X11
                         // 0 == MappingModifier, 1 == MappingKeyboard
                         if (e.MappingEvent.request == 0 || e.MappingEvent.request == 1)
                         {
-                            Debug.Print("keybard mapping refreshed");
+                            Debug.WriteLine("keybard mapping refreshed");
                             Functions.XRefreshKeyboardMapping(ref e.MappingEvent);
                             KeyMap.RefreshKeycodes(window.Display);
                         }
@@ -1269,7 +1243,7 @@ namespace OpenTK.Platform.X11
                 if (current_state == value)
                     return;
 
-                Debug.Print("GameWindow {0} changing WindowState from {1} to {2}.", window.Handle.ToString(),
+                Debug.WriteLine("GameWindow {0} changing WindowState from {1} to {2}.", window.Handle.ToString(),
                     current_state.ToString(), value.ToString());
 
                 // When minimizing the window, call XIconifyWindow and bail out.
@@ -1408,15 +1382,15 @@ namespace OpenTK.Platform.X11
             switch (value)
             {
                 case WindowBorder.Fixed:
-                    Debug.Print("Making WindowBorder fixed.");
+                    Debug.WriteLine("Making WindowBorder fixed.");
                     SetWindowMinMax((short)width, (short)height, (short)width, (short)height);
                     break;
                 case WindowBorder.Resizable:
-                    Debug.Print("Making WindowBorder resizable.");
+                    Debug.WriteLine("Making WindowBorder resizable.");
                     SetWindowMinMax(_min_width, _min_height, -1, -1);
                     break;
                 case WindowBorder.Hidden:
-                    Debug.Print("Making WindowBorder hidden.");
+                    Debug.WriteLine("Making WindowBorder hidden.");
                     // Make the hidden border resizable, otherwise
                     // we won't be able to maximize the window or
                     // enter fullscreen mode.
@@ -1650,7 +1624,7 @@ namespace OpenTK.Platform.X11
 
         public void Exit()
         {
-            Debug.Print("[X11] Sending exit message window {0:X} on display {1:X}", window.Handle, window.Display);
+            Debug.WriteLine("[X11] Sending exit message window {0:X} on display {1:X}", window.Handle, window.Display);
 
             XEvent ev = new XEvent();
             ev.type = XEventName.ClientMessage;
@@ -1672,7 +1646,7 @@ namespace OpenTK.Platform.X11
 
         public void DestroyWindow()
         {
-            Debug.Print("[X11] Destroying window {0:X} on display {1:X}", window.Handle, window.Display);
+            Debug.WriteLine("[X11] Destroying window {0:X} on display {1:X}", window.Handle, window.Display);
 
             using (new XLock(window.Display))
             {
@@ -1753,7 +1727,7 @@ namespace OpenTK.Platform.X11
                 }
                 else
                 {
-                    Debug.Print("[Warning] {0} leaked.", this.GetType().Name);
+                    Debug.WriteLine("[Warning] {0} leaked.", this.GetType().Name);
                 }
                 disposed = true;
             }

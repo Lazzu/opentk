@@ -186,7 +186,7 @@ namespace OpenTK
         /// </summary>
         ~Toolkit()
         {
-            Debug.Print("[Warning] {0} leaked, did you forget to call Dispose()?");
+            Debug.WriteLine("[Warning] {0} leaked, did you forget to call Dispose()?");
             // We may not Dispose() the toolkit from the finalizer thread,
             // as that will crash on many operating systems.
         }

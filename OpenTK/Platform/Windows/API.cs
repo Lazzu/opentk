@@ -29,9 +29,6 @@
 #endregion
 
 using System;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Security;
@@ -168,10 +165,10 @@ namespace OpenTK.Platform.Windows
         /// The AdjustWindowRect function does not take the WS_VSCROLL or WS_HSCROLL styles into account. To account for the scroll bars, call the GetSystemMetrics function with SM_CXVSCROLL or SM_CYHSCROLL.
         /// Found Winuser.h, user32.dll
         /// </remarks>
-        [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern BOOL AdjustWindowRect([In, Out] ref Win32Rectangle lpRect, WindowStyle dwStyle, BOOL bMenu);
 
-        [DllImport("user32.dll", EntryPoint = "AdjustWindowRectEx", CallingConvention = CallingConvention.StdCall, SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", EntryPoint = "AdjustWindowRectEx", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool AdjustWindowRectEx(
             ref Win32Rectangle lpRect,
@@ -183,11 +180,8 @@ namespace OpenTK.Platform.Windows
 
         #region CreateWindowEx
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern IntPtr CreateWindowEx(
             ExtendedWindowStyle ExStyle,
             [MarshalAs(UnmanagedType.LPTStr)] string className,
@@ -213,11 +207,8 @@ namespace OpenTK.Platform.Windows
             [In]IntPtr Instance,
             [In]IntPtr Param);
         */
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern IntPtr CreateWindowEx(
             ExtendedWindowStyle ExStyle,
             IntPtr ClassAtom,
@@ -240,66 +231,48 @@ namespace OpenTK.Platform.Windows
 
         #region RegisterClass
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern ushort RegisterClass(ref WindowClass window_class);
 
         #endregion
 
         #region RegisterClassEx
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern ushort RegisterClassEx(ref ExtendedWindowClass window_class);
 
         #endregion
 
         #region UnregisterClass
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern short UnregisterClass([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR className, IntPtr instance);
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern short UnregisterClass(IntPtr className, IntPtr instance);
 
         #endregion
 
         #region GetClassInfoEx
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern BOOL GetClassInfoEx(HINSTANCE hinst,
             [MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpszClass, ref ExtendedWindowClass lpwcx);
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern BOOL GetClassInfoEx(HINSTANCE hinst, UIntPtr lpszClass, ref ExtendedWindowClass lpwcx);
 
         #endregion
 
         #region CallWindowProc
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern LRESULT CallWindowProc(WNDPROC lpPrevWndFunc, HWND hWnd, WindowMessage Msg,
             WPARAM wParam, LPARAM lParam);
@@ -339,20 +312,20 @@ namespace OpenTK.Platform.Windows
             return SetWindowLong(handle, GetWindowLongOffsets.WNDPROC, Marshal.GetFunctionPointerForDelegate(newValue));
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLong")]
         static extern LONG SetWindowLongInternal(HWND hWnd, GetWindowLongOffsets nIndex, LONG dwNewLong);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLongPtr")]
         static extern LONG_PTR SetWindowLongPtrInternal(HWND hWnd, GetWindowLongOffsets nIndex, LONG_PTR dwNewLong);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLong")]
         static extern LONG SetWindowLongInternal(HWND hWnd, GetWindowLongOffsets nIndex,
             [MarshalAs(UnmanagedType.FunctionPtr)]WindowProcedure dwNewLong);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLongPtr")]
         static extern LONG_PTR SetWindowLongPtrInternal(HWND hWnd, GetWindowLongOffsets nIndex,
             [MarshalAs(UnmanagedType.FunctionPtr)]WindowProcedure dwNewLong);
@@ -369,11 +342,11 @@ namespace OpenTK.Platform.Windows
             return GetWindowLongPtrInternal(handle, index);
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "GetWindowLong")]
         static extern ULONG GetWindowLongInternal(HWND hWnd, GetWindowLongOffsets nIndex);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "GetWindowLongPtr")]
         static extern UIntPtr GetWindowLongPtrInternal(HWND hWnd, GetWindowLongOffsets nIndex);
 
@@ -394,7 +367,7 @@ namespace OpenTK.Platform.Windows
         /// <param name="messageFilterMax">Not used</param>
         /// <param name="flags">Not used</param>
         /// <returns>True if there is a message pending.</returns>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("User32.dll"), CLSCompliant(false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool PeekMessage(ref MSG msg, IntPtr hWnd, int messageFilterMin, int messageFilterMax, PeekMessageFlags flags);
@@ -416,7 +389,7 @@ namespace OpenTK.Platform.Windows
         /// 1 indicates that an error occurred  for example, the function fails if hWnd is an invalid window handle.
         /// To get extended error information, call GetLastError.
         /// </returns>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("User32.dll"), CLSCompliant(false)]
         //[return: MarshalAs(UnmanagedType.Bool)]
         internal static extern INT GetMessage(ref MSG msg,
@@ -441,11 +414,7 @@ namespace OpenTK.Platform.Windows
 
         #region SendMessage
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-#endif
         internal static extern LRESULT SendMessage(HWND hWnd, WindowMessage Msg, WPARAM wParam, LPARAM lParam);
 
         #endregion
@@ -453,12 +422,7 @@ namespace OpenTK.Platform.Windows
         #region PostMessage
 
         [CLSCompliant(false)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
-#if NETCORE
         [DllImport("User32.dll", CharSet = CharSet.Unicode)]
-#else
-        [DllImport("User32.dll", CharSet = CharSet.Auto)]
-#endif
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern BOOL PostMessage(
             HWND hWnd,
@@ -471,19 +435,15 @@ namespace OpenTK.Platform.Windows
 
         #region PostQuitMessage
 
-#if NETCORE
-        [DllImport("User32.dll", CharSet = CharSet.Unicode)]
-#else
-        [DllImport("User32.dll", CharSet = CharSet.Auto)]
-#endif
 
+        [DllImport("User32.dll", CharSet = CharSet.Unicode)]
         internal static extern void PostQuitMessage(int exitCode);
 
         #endregion
 
         #region DispatchMessage
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("User32.dll"), CLSCompliant(false)]
         internal static extern LRESULT DispatchMessage(ref MSG msg);
 
@@ -491,7 +451,7 @@ namespace OpenTK.Platform.Windows
 
         #region TranslateMessage
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("User32.dll"), CLSCompliant(false)]
         internal static extern BOOL TranslateMessage(ref MSG lpMsg);
 
@@ -522,7 +482,7 @@ namespace OpenTK.Platform.Windows
         /// to get messages in different ranges.
         /// </para>
         /// </remarks>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("User32.dll", CharSet = CharSet.Unicode)]
         internal static extern DWORD GetQueueStatus([MarshalAs(UnmanagedType.U4)] QueueStatusFlags flags);
 
@@ -546,7 +506,7 @@ namespace OpenTK.Platform.Windows
         /// </summary>
         /// <param name="period">Timing resolution in msec (?)</param>
         /// <returns>(?)</returns>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("winmm.dll")]
         internal static extern IntPtr TimeBeginPeriod(int period);
 
@@ -559,7 +519,7 @@ namespace OpenTK.Platform.Windows
         /// </summary>
         /// <param name="PerformanceFrequency"></param>
         /// <returns></returns>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool QueryPerformanceFrequency(ref long PerformanceFrequency);
@@ -573,7 +533,7 @@ namespace OpenTK.Platform.Windows
         /// </summary>
         /// <param name="PerformanceCount"></param>
         /// <returns></returns>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool QueryPerformanceCounter(ref long PerformanceCount);
@@ -644,7 +604,7 @@ namespace OpenTK.Platform.Windows
 
         #region SwapBuffers
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport("gdi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool SwapBuffers(IntPtr dc);
@@ -678,12 +638,12 @@ namespace OpenTK.Platform.Windows
         [DllImport("kernel32.dll")]
         internal static extern IntPtr GetModuleHandle([MarshalAs(UnmanagedType.LPTStr)]string module_name);
 
-#if NETCORE
+
         internal static IntPtr MarshalGetHINSTANCE(System.Reflection.Module m)
         {
             return GetModuleHandle(m.Name);
         }
-#endif
+
 
         #endregion
 
@@ -716,7 +676,7 @@ namespace OpenTK.Platform.Windows
 
         #region GetAsyncKeyState
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern SHORT GetAsyncKeyState(VirtualKeys vKey);
 
@@ -724,7 +684,7 @@ namespace OpenTK.Platform.Windows
 
         #region GetKeyState
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern SHORT GetKeyState(VirtualKeys vKey);
 
@@ -732,11 +692,11 @@ namespace OpenTK.Platform.Windows
 
         #region MapVirtualKey
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern UINT MapVirtualKey(UINT uCode, MapVirtualKeyType uMapType);
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern UINT MapVirtualKey(VirtualKeys vkey, MapVirtualKeyType uMapType);
 
@@ -759,7 +719,7 @@ namespace OpenTK.Platform.Windows
         /// <item>Applications create their main window by calling CreateWindow with the WS_VISIBLE flag cleared, and later call ShowWindow with the SW_SHOW flag set to make it visible.</item>
         /// </list>
         /// </remarks>
-        [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern BOOL ShowWindow(HWND hWnd, ShowWindowCommand nCmdShow);
 
         #endregion
@@ -781,12 +741,8 @@ namespace OpenTK.Platform.Windows
         /// <para>The SetWindowText function does not expand tab characters (ASCII code 0x09). Tab characters are displayed as vertical bar (|) characters. </para>
         /// <para>Windows 95/98/Me: SetWindowTextW is supported by the Microsoft Layer for Unicode (MSLU). To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows 95/98/Me Systems .</para>
         /// </remarks>
-#if NETCORE
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         internal static extern BOOL SetWindowText(HWND hWnd, [MarshalAs(UnmanagedType.LPTStr)] string lpString);
 
         #endregion
@@ -808,11 +764,8 @@ namespace OpenTK.Platform.Windows
         /// <para>To retrieve the text of a control in another process, send a WM_GETTEXT message directly instead of calling GetWindowText.</para>
         /// <para>Windows 95/98/Me: GetWindowTextW is supported by the Microsoft Layer for Unicode (MSLU). To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows 95/98/Me</para>
         /// </remarks>
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         internal static extern int GetWindowText(HWND hWnd, [MarshalAs(UnmanagedType.LPTStr), In, Out] StringBuilder lpString, int nMaxCount);
 
         #endregion
@@ -831,7 +784,7 @@ namespace OpenTK.Platform.Windows
         /// <para>All coordinates are in device units.</para>
         /// <para>Do not use ScreenToClient when in a mirroring situation, that is, when changing from left-to-right layout to right-to-left layout. Instead, use MapWindowPoints. For more information, see "Window Layout and Mirroring" in Window Features.</para>
         /// </remarks>
-        [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", SetLastError = true)]
         //internal static extern BOOL ScreenToClient(HWND hWnd, ref POINT point);
         internal static extern BOOL ScreenToClient(HWND hWnd, ref Point point);
 
@@ -849,7 +802,7 @@ namespace OpenTK.Platform.Windows
         /// <para>The ClientToScreen function replaces the client-area coordinates in the POINT structure with the screen coordinates. The screen coordinates are relative to the upper-left corner of the screen. Note, a screen-coordinate point that is above the window's client area has a negative y-coordinate. Similarly, a screen coordinate to the left of a client area has a negative x-coordinate.</para>
         /// <para>All coordinates are device coordinates.</para>
         /// </remarks>
-        [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern BOOL ClientToScreen(HWND hWnd, ref Point point);
 
         #endregion
@@ -866,7 +819,7 @@ namespace OpenTK.Platform.Windows
         /// <para>If the function fails, the return value is zero. To get extended error information, call GetLastError.</para>
         /// </returns>
         /// <remarks>In conformance with conventions for the RECT structure, the bottom-right coordinates of the returned rectangle are exclusive. In other words, the pixel at (right, bottom) lies immediately outside the rectangle.</remarks>
-        [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", SetLastError = true)]
         internal extern static BOOL GetClientRect(HWND windowHandle, out Win32Rectangle clientRectangle);
 
         #endregion
@@ -883,14 +836,14 @@ namespace OpenTK.Platform.Windows
         /// <para>If the function fails, the return value is zero. To get extended error information, call GetLastError.</para>
         /// </returns>
         /// <remarks>In conformance with conventions for the RECT structure, the bottom-right coordinates of the returned rectangle are exclusive. In other words, the pixel at (right, bottom) lies immediately outside the rectangle.</remarks>
-        [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", SetLastError = true)]
         internal extern static BOOL GetWindowRect(HWND windowHandle, out Win32Rectangle windowRectangle);
 
         #endregion
 
         #region GetWindowInfo
 
-        [DllImport("user32.dll"), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll")]
         internal static extern BOOL GetWindowInfo(HWND hwnd, ref WindowInfo wi);
 
         #endregion
@@ -1069,12 +1022,8 @@ namespace OpenTK.Platform.Windows
 
         #region ChangeDisplaySettingsEx
 
-#if NETCORE
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
 
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern LONG ChangeDisplaySettingsEx([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpszDeviceName,
             LPDEVMODE lpDevMode, HWND hwnd, ChangeDisplaySettingsEnum dwflags, LPVOID lParam);
 
@@ -1082,11 +1031,8 @@ namespace OpenTK.Platform.Windows
 
         #region EnumDisplayDevices
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern BOOL EnumDisplayDevices([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpDevice,
             DWORD iDevNum, [In, Out] WindowsDisplayDevice lpDisplayDevice, DWORD dwFlags);
@@ -1095,20 +1041,14 @@ namespace OpenTK.Platform.Windows
 
         #region EnumDisplaySettings
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern BOOL EnumDisplaySettings([MarshalAs(UnmanagedType.LPTStr)] string device_name,
             int graphics_mode, [In, Out] DeviceMode device_mode);
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern BOOL EnumDisplaySettings([MarshalAs(UnmanagedType.LPTStr)] string device_name,
              DisplayModeSettingsEnum graphics_mode, [In, Out] DeviceMode device_mode);
@@ -1117,19 +1057,12 @@ namespace OpenTK.Platform.Windows
 
         #region EnumDisplaySettingsEx
 
-#if NETCORE
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         public static extern BOOL EnumDisplaySettingsEx([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpszDeviceName, DisplayModeSettingsEnum iModeNum,
             [In, Out] DeviceMode lpDevMode, DWORD dwFlags);
 
-#if NETCORE
+
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-#else
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-#endif
         public static extern BOOL EnumDisplaySettingsEx([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpszDeviceName, DWORD iModeNum,
             [In, Out] DeviceMode lpDevMode, DWORD dwFlags);
 
@@ -1182,12 +1115,8 @@ namespace OpenTK.Platform.Windows
 
         #region GetDeviceCaps
 
-#if NETCORE
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
-#else
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-#endif
 
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
         public static extern int GetDeviceCaps(IntPtr hDC, DeviceCaps nIndex);
 
         #endregion
@@ -1199,60 +1128,25 @@ namespace OpenTK.Platform.Windows
         [DllImport("user32.dll", SetLastError = true)]
         public static extern BOOL TrackMouseEvent(ref TrackMouseEventStructure lpEventTrack);
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true, ExactSpelling = true)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-#endif
-
         public static extern bool ReleaseCapture();
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-#endif
-
         public static extern IntPtr SetCapture(IntPtr hwnd);
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-#endif
-
         public static extern IntPtr GetCapture();
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-#endif
-
         public static extern IntPtr SetFocus(IntPtr hwnd);
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-#endif
-
         public static extern int ShowCursor(bool show);
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-#endif
-
         public static extern bool ClipCursor(ref RECT rcClip);
 
-#if NETCORE
         [DllImport("user32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
-#else
-        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-#endif
-
         public static extern bool ClipCursor(IntPtr rcClip);
 
         [DllImport("user32.dll")]
@@ -1277,12 +1171,7 @@ namespace OpenTK.Platform.Windows
         /// or GMMP_USE_HIGH_RESOLUTION_POINTS.
         /// </param>
         /// <returns></returns>
-#if NETCORE
         [DllImport("user32", ExactSpelling = true, CharSet = CharSet.Unicode, SetLastError = true)]
-#else
-        [DllImport("user32", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
-#endif
-
         unsafe internal static extern int GetMouseMovePointsEx(
             uint cbSize, MouseMovePoint* pointsIn,
             MouseMovePoint* pointsBufferOut, int nBufPoints, uint resolution);
@@ -1348,7 +1237,7 @@ namespace OpenTK.Platform.Windows
         /// <para>The calling process must have WINSTA_READATTRIBUTES access to the window station.</para>
         /// <para>The input desktop must be the current desktop when you call GetCursorPos. Call OpenInputDesktop to determine whether the current desktop is the input desktop. If it is not, call SetThreadDesktop with the HDESK returned by OpenInputDesktop to switch to that desktop.</para>
         /// </remarks>
-        [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("user32.dll", SetLastError = true)]
         internal static extern BOOL GetCursorPos(ref POINT point);
 
         #endregion
@@ -1370,17 +1259,17 @@ namespace OpenTK.Platform.Windows
         /// <param name="SizeHeader">Size, in bytes, of the RawInputHeader structure.</param>
         /// <returns>If successful, the function returns S_OK. Otherwise it returns an error value.</returns>
         [CLSCompliant(false)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern LRESULT DefRawInputProc(RawInput[] RawInput, INT Input, UINT SizeHeader);
 
         [CLSCompliant(false)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         unsafe internal static extern LRESULT DefRawInputProc(ref RawInput RawInput, INT Input, UINT SizeHeader);
 
         [CLSCompliant(false)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         unsafe internal static extern LRESULT DefRawInputProc(IntPtr RawInput, INT Input, UINT SizeHeader);
 
@@ -1440,7 +1329,7 @@ namespace OpenTK.Platform.Windows
         /// If an error occurs, the return value is (UINT)-1. Call GetLastError for the error code.
         /// </returns>
         [CLSCompliant(false)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern UINT GetRawInputBuffer(
             [Out] RawInput[] Data,
@@ -1448,7 +1337,7 @@ namespace OpenTK.Platform.Windows
             [In] UINT SizeHeader
         );
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputBuffer(
             [Out] RawInput[] Data,
@@ -1456,7 +1345,7 @@ namespace OpenTK.Platform.Windows
             [In] INT SizeHeader
         );
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputBuffer(
             [Out] IntPtr Data,
@@ -1632,7 +1521,7 @@ namespace OpenTK.Platform.Windows
         /// <para>If Data is not large enough for the data, the function returns -1. If Data is NULL, the function returns a value of zero. In both of these cases, Size is set to the minimum size required for the Data buffer.</para>
         /// <para>Call GetLastError to identify any other errors.</para>
         /// </returns>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputDeviceInfo(
             HANDLE Device,
@@ -1642,7 +1531,7 @@ namespace OpenTK.Platform.Windows
         );
 
         [CLSCompliant(false)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputDeviceInfo(
             HANDLE Device,
@@ -1683,7 +1572,7 @@ namespace OpenTK.Platform.Windows
         /// <para>Call GetLastError to identify any other errors.</para>
         /// </returns>
         [CLSCompliant(false)]
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern UINT GetRawInputDeviceInfo(
             HANDLE Device,
@@ -1692,7 +1581,7 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref UINT Size
         );
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputDeviceInfo(
             HANDLE Device,
@@ -1727,7 +1616,7 @@ namespace OpenTK.Platform.Windows
         /// <remarks>
         /// GetRawInputData gets the raw input one RawInput structure at a time. In contrast, GetRawInputBuffer gets an array of RawInput structures.
         /// </remarks>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputData(
             HRAWINPUT RawInput,
@@ -1758,7 +1647,7 @@ namespace OpenTK.Platform.Windows
         /// <remarks>
         /// GetRawInputData gets the raw input one RawInput structure at a time. In contrast, GetRawInputBuffer gets an array of RawInput structures.
         /// </remarks>
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputData(
             HRAWINPUT RawInput,
@@ -1768,7 +1657,7 @@ namespace OpenTK.Platform.Windows
             INT SizeHeader
         );
 
-        [System.Security.SuppressUnmanagedCodeSecurity]
+        
         [DllImport("user32.dll", SetLastError = true)]
         unsafe internal static extern INT GetRawInputData(
             HRAWINPUT RawInput,
@@ -2335,12 +2224,8 @@ namespace OpenTK.Platform.Windows
     #endif 
     } DEVMODE; 
     */
-#if NETCORE
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-#else
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-#endif
 
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     [SecuritySafeCritical]
     internal class DeviceMode
     {
@@ -2401,12 +2286,8 @@ namespace OpenTK.Platform.Windows
     /// <summary>
     /// The DISPLAY_DEVICE structure receives information about the display device specified by the iDevNum parameter of the EnumDisplayDevices function.
     /// </summary>
-#if NETCORE
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-#else
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-#endif
 
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     [SecuritySafeCritical]
     internal class WindowsDisplayDevice
     {
@@ -2456,12 +2337,8 @@ namespace OpenTK.Platform.Windows
 
     #region ExtendedWindowClass
 
-#if NETCORE
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-#else
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-#endif
 
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     struct ExtendedWindowClass
     {
         public UINT Size;
@@ -3285,12 +3162,8 @@ namespace OpenTK.Platform.Windows
 
     #region ShFileInfo
 
-#if NETCORE
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-#else
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-#endif
 
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     struct SHFILEINFO
     {
         public IntPtr hIcon;
@@ -3344,8 +3217,6 @@ namespace OpenTK.Platform.Windows
 
     #region Registry
 
-#if ANDROID || IPHONE || MINIMAL
-
     internal class RegistryKey
     {
         IntPtr hkey;
@@ -3377,8 +3248,6 @@ namespace OpenTK.Platform.Windows
         internal static readonly RegistryKey LocalMachine =
             new RegistryKey(Constants.HKEY_LOCAL_MACHINE);
     }
-
-#endif
 
     #endregion
 
@@ -4857,7 +4726,7 @@ namespace OpenTK.Platform.Windows
 
     #region --- Callbacks ---
 
-    [SuppressUnmanagedCodeSecurity]
+    
     [UnmanagedFunctionPointer(CallingConvention.Winapi)]
     internal delegate IntPtr WindowProcedure(IntPtr handle, WindowMessage message, IntPtr wParam, IntPtr lParam);
 

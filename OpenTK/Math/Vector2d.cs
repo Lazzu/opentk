@@ -24,13 +24,11 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-#if !NETCORE
-using System.Xml.Serialization;
-#endif
+
 namespace OpenTK
 {
     /// <summary>Represents a 2D vector using two double-precision floating-point numbers.</summary>
-    [Serializable]
+
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector2d : IEquatable<Vector2d>
     {
@@ -854,7 +852,7 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the Y and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2d Yx { get { return new Vector2d(Y, X); } set { Y = value.X; X = value.Y; } }
 
         #endregion

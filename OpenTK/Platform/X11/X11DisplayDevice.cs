@@ -28,9 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Runtime.InteropServices;
 
 namespace OpenTK.Platform.X11
@@ -75,7 +72,7 @@ namespace OpenTK.Platform.X11
                 }
                 catch
                 {
-                    Debug.Print("Xinerama query failed.");
+                    Debug.WriteLine("Xinerama query failed.");
                 }
 
                 if (!xinerama_supported)
@@ -99,7 +96,7 @@ namespace OpenTK.Platform.X11
 
                 if (!xrandr_supported)
                 {
-                    Debug.Print("XRandR query failed, falling back to XF86.");
+                    Debug.WriteLine("XRandR query failed, falling back to XF86.");
                     try
                     {
                         xf86_supported = QueryXF86(devices);
@@ -108,7 +105,7 @@ namespace OpenTK.Platform.X11
 
                     if (!xf86_supported)
                     {
-                        Debug.Print("XF86 query failed, no DisplayDevice support available.");
+                        Debug.WriteLine("XF86 query failed, no DisplayDevice support available.");
                     }
                 }
 
@@ -178,7 +175,7 @@ namespace OpenTK.Platform.X11
                 {
                     if (size.Width == 0 || size.Height == 0)
                     {
-                        Debug.Print("[Warning] XRandR returned an invalid resolution ({0}) for display device {1}", size, screen);
+                        Debug.WriteLine("[Warning] XRandR returned an invalid resolution ({0}) for display device {1}", size, screen);
                         continue;
                     }
                     short[] rates = null;
@@ -261,7 +258,7 @@ namespace OpenTK.Platform.X11
             }
             
             int currentScreen = 0;
-            Debug.Print("Using XF86 v" + major.ToString() + "." + minor.ToString());
+            Debug.WriteLine("Using XF86 v" + major.ToString() + "." + minor.ToString());
 
             foreach (DisplayDevice dev in devices)
             {
@@ -269,7 +266,7 @@ namespace OpenTK.Platform.X11
 
                 IntPtr srcArray;
                 API.XF86VidModeGetAllModeLines(API.DefaultDisplay, currentScreen, out count, out srcArray);
-                Debug.Print(count.ToString() + " modes detected on screen " + currentScreen.ToString());
+                Debug.WriteLine(count.ToString() + " modes detected on screen " + currentScreen.ToString());
                 IntPtr[] array = new IntPtr[count];
                 Marshal.Copy(srcArray, array, 0, count);
                 API.XF86VidModeModeInfo Mode = new API.XF86VidModeModeInfo();
@@ -357,7 +354,7 @@ namespace OpenTK.Platform.X11
                 else
                     new_resolution_index = deviceToDefaultResolution[device];
 
-                Debug.Print("Changing size of screen {0} from {1} to {2}",
+                Debug.WriteLine("Changing size of screen {0} from {1} to {2}",
                     screen, current_resolution_index, new_resolution_index);
 
                 int ret = 0;
@@ -377,7 +374,7 @@ namespace OpenTK.Platform.X11
 
                 if (ret != 0)
                 {
-                    Debug.Print("[Error] Change to resolution {0} failed with error {1}.",
+                    Debug.WriteLine("[Error] Change to resolution {0} failed with error {1}.",
                         resolution, (ErrorCode)ret);
                 }
 

@@ -8,14 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-#if !MINIMAL
-using System.Drawing;
-#endif
-#if ANDROID || IPHONE || MINIMAL
-using OpenTK.Minimal;
-#else
-using System.Drawing.Imaging;
-#endif
 using System.Text;
 using System.Runtime.InteropServices;
 

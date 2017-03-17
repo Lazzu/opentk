@@ -113,7 +113,7 @@ namespace OpenTK.Platform.MacOS
                 bool is_ui_thread = thread_id == NSApplication.ThreadId;
                 if (!is_ui_thread)
                 {
-                    Debug.Print("[Warning] UI resources must be disposed in the UI thread #{0}, not #{1}.",
+                    Debug.WriteLine("[Warning] UI resources must be disposed in the UI thread #{0}, not #{1}.",
                         NSApplication.ThreadId, thread_id);
                 }
                 return is_ui_thread;

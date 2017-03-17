@@ -40,75 +40,75 @@ namespace OpenTK.Platform.Windows
     {
         const string lib = "hid.dll";
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetButtonCaps")]
         public static extern HidProtocolStatus GetButtonCaps(HidProtocolReportType hidProtocolReportType,
             IntPtr button_caps, ref ushort p, [In] byte[] preparsed_data);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetButtonCaps")]
         public static extern HidProtocolStatus GetButtonCaps(HidProtocolReportType hidProtocolReportType,
             [Out] HidProtocolButtonCaps[] button_caps, ref ushort p, [In] byte[] preparsed_data);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetCaps")]
         public static extern HidProtocolStatus GetCaps([In] byte[] preparsed_data, ref HidProtocolCaps capabilities);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetData")]
         public static extern HidProtocolStatus GetData(HidProtocolReportType type,
             IntPtr data, ref int data_length,
             [In] byte[] preparsed_data, IntPtr report, int report_length);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetData")]
         public static extern HidProtocolStatus GetData(HidProtocolReportType type,
             [Out] HidProtocolData[] data, ref int data_length,
             [In] byte[] preparsed_data, IntPtr report, int report_length);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetLinkCollectionNodes")]
         public static extern HidProtocolStatus GetLinkCollectionNodes(
             [Out] HidProtocolLinkCollectionNode[] LinkCollectionNodes,
             ref int LinkCollectionNodesLength,
             [In] byte[] PreparsedData);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetScaledUsageValue")]
         static public extern HidProtocolStatus GetScaledUsageValue(HidProtocolReportType type,
             HIDPage usage_page, short link_collection, short usage, ref int usage_value,
             [In] byte[] preparsed_data, IntPtr report, int report_length);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetSpecificButtonCaps")]
         public static extern HidProtocolStatus GetSpecificButtonCaps(HidProtocolReportType ReportType,
             HIDPage UsagePage, ushort LinkCollection, ushort Usage,
             [Out] HidProtocolButtonCaps[] ButtonCaps, ref ushort ButtonCapsLength,
             [In] byte[] PreparsedData);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetUsages")]
         unsafe public static extern HidProtocolStatus GetUsages(HidProtocolReportType type,
             HIDPage usage_page, short link_collection, short* usage_list, ref int usage_length,
             [In] byte[] preparsed_data, IntPtr report, int report_length);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetUsageValue")]
         public static extern HidProtocolStatus GetUsageValue(HidProtocolReportType type,
             HIDPage usage_page, short link_collection, short usage, ref uint usage_value,
             [In] byte[] preparsed_data, IntPtr report, int report_length);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetValueCaps")]
         public static extern HidProtocolStatus GetValueCaps(HidProtocolReportType type,
             IntPtr caps, ref ushort caps_length, [In] byte[] preparsed_data);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_GetValueCaps")]
         public static extern HidProtocolStatus GetValueCaps(HidProtocolReportType type,
             [Out] HidProtocolValueCaps[] caps, ref ushort caps_length, [In] byte[] preparsed_data);
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(lib, SetLastError = true, EntryPoint = "HidP_MaxDataListLength")]
         public static extern int MaxDataListLength(HidProtocolReportType type, [In] byte[] preparsed_data);
     }

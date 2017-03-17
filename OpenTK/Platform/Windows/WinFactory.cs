@@ -36,7 +36,6 @@ using OpenTK.Input;
 
 namespace OpenTK.Platform.Windows
 {
-
     class WinFactory : PlatformFactoryBase
     {
         readonly object SyncRoot = new object();
@@ -51,28 +50,18 @@ namespace OpenTK.Platform.Windows
 
         public WinFactory()
         {
-#if !NETCORE
-            if (System.Environment.OSVersion.Version.Major <= 4)
-            {
-                throw new PlatformNotSupportedException("OpenTK requires Windows XP or higher");
-            }
-#endif
-
             // Dynamically load opengl32.dll in order to use the extension loading capabilities of Wgl.
             // Note: opengl32.dll must be loaded before gdi32.dll, otherwise strange failures may occur
             // (such as "error: 2000" when calling wglSetPixelFormat or slowness/lag on specific GPUs).
             LoadOpenGL();
 
-#if !NETCORE
-            if (System.Environment.OSVersion.Version.Major >= 6)
-#endif
             {
                 if (Toolkit.Options.EnableHighResolution)
                 {
                     // Enable high-dpi support
                     // Only available on Windows Vista and higher
                     bool result = Functions.SetProcessDPIAware();
-                    Debug.Print("SetProcessDPIAware() returned {0}", result);
+                    Debug.WriteLine("SetProcessDPIAware() returned {0}", result);
                 }
             }
         }

@@ -79,10 +79,10 @@ namespace OpenTK.Platform.Egl
             }
 
             RenderApi api = (Renderable & RenderableFlags.GL) != 0 ? RenderApi.GL : RenderApi.ES;
-            Debug.Print("[EGL] Binding {0} rendering API.", api);
+            Debug.WriteLine("[EGL] Binding {0} rendering API.", api);
             if (!Egl.BindAPI(api))
             {
-                Debug.Print("[EGL] Failed to bind rendering API. Error: {0}", Egl.GetError());
+                Debug.WriteLine("[EGL] Failed to bind rendering API. Error: {0}", Egl.GetError());
             }
 
             Mode = new EglGraphicsMode().SelectGraphicsMode(window,
@@ -157,7 +157,7 @@ namespace OpenTK.Platform.Egl
                 if (Egl.SwapInterval(WindowInfo.Display, value))
                     swap_interval = value;
                 else
-                    Debug.Print("[Warning] Egl.SwapInterval({0}, {1}) failed. Error: {2}",
+                    Debug.WriteLine("[Warning] Egl.SwapInterval({0}, {1}) failed. Error: {2}",
                         WindowInfo.Display, value, Egl.GetError());
             }
         }

@@ -27,9 +27,6 @@
 
 using System;
 using System.Collections.Generic;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -85,11 +82,6 @@ namespace OpenTK.Graphics.OpenGL4
 
         #region public static void ClearColor() overloads
 
-        public static void ClearColor(Color color)
-        {
-            GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-        }
-
         public static void ClearColor(Color4 color)
         {
             GL.ClearColor(color.R, color.G, color.B, color.A);
@@ -98,11 +90,6 @@ namespace OpenTK.Graphics.OpenGL4
         #endregion
 
         #region public static void BlendColor() overloads
-
-        public static void BlendColor(Color color)
-        {
-            GL.BlendColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-        }
 
         public static void BlendColor(Color4 color)
         {

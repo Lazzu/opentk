@@ -112,7 +112,7 @@ namespace OpenTK.Platform.MacOS
             }
             else
             {
-                Debug.Print("CocoaWindowInfo:{0} leaked, did you forget to call Dispose()?", nsWindowRef);
+                Debug.WriteLine("CocoaWindowInfo:{0} leaked, did you forget to call Dispose()?", nsWindowRef);
             }
 
             disposed = true;

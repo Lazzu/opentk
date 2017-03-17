@@ -396,20 +396,20 @@ namespace OpenTK.Platform.Windows
             internal XInputGetState GetState;
             internal XInputSetState SetState;
 
-            [SuppressUnmanagedCodeSecurity]
+            
             internal delegate XInputErrorCode XInputGetCapabilities(
                 XInputUserIndex dwUserIndex,
                 XInputCapabilitiesFlags dwFlags,
                 out XInputDeviceCapabilities pCapabilities);
 
-            [SuppressUnmanagedCodeSecurity]
+            
             internal delegate XInputErrorCode XInputGetState
             (
                 XInputUserIndex dwUserIndex,
                 out XInputState pState
             );
 
-            [SuppressUnmanagedCodeSecurity]
+            
             internal delegate XInputErrorCode XInputSetState
             (
                 XInputUserIndex dwUserIndex,
@@ -459,7 +459,7 @@ namespace OpenTK.Platform.Windows
             }
             else
             {
-                Debug.Print("{0} leaked, did you forget to call Dispose()?", typeof(XInputJoystick).Name);
+                Debug.WriteLine("{0} leaked, did you forget to call Dispose()?", typeof(XInputJoystick).Name);
             }
         }
 

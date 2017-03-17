@@ -29,9 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Threading;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -228,7 +225,7 @@ namespace OpenTK
             }
             catch (Exception e)
             {
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
                 base.Dispose();
                 throw;
             }
@@ -422,7 +419,7 @@ namespace OpenTK
                 //Move += DispatchUpdateAndRenderFrame;
                 //Resize += DispatchUpdateAndRenderFrame;
 
-                Debug.Print("Entering main loop.");
+                Debug.WriteLine("Entering main loop.");
                 watch.Start();
                 while (true)
                 {
@@ -724,7 +721,7 @@ namespace OpenTK
                 {
                     TargetRenderPeriod = 1.0 / value;
                 }
-                else Debug.Print("Target render frequency clamped to {0}Hz.", MaxFrequency);
+                else Debug.WriteLine("Target render frequency clamped to {0}Hz.", MaxFrequency);
             }
         }
 
@@ -757,7 +754,7 @@ namespace OpenTK
                 {
                     target_render_period = value;
                 }
-                else Debug.Print("Target render period clamped to 1.0 seconds.");
+                else Debug.WriteLine("Target render period clamped to 1.0 seconds.");
             }
         }
 
@@ -792,7 +789,7 @@ namespace OpenTK
                 {
                     TargetUpdatePeriod = 1.0 / value;
                 }
-                else Debug.Print("Target render frequency clamped to {0}Hz.", MaxFrequency);
+                else Debug.WriteLine("Target render frequency clamped to {0}Hz.", MaxFrequency);
             }
         }
 
@@ -825,7 +822,7 @@ namespace OpenTK
                 {
                     target_update_period = value;
                 }
-                else Debug.Print("Target update period clamped to 1.0 seconds.");
+                else Debug.WriteLine("Target update period clamped to 1.0 seconds.");
             }
         }
 
@@ -944,7 +941,7 @@ namespace OpenTK
             set
             {
                 base.WindowState = value;
-                Debug.Print("Updating Context after setting WindowState to {0}", value);
+                Debug.WriteLine("Updating Context after setting WindowState to {0}", value);
 
                 if (Context != null)
                     Context.Update(WindowInfo);

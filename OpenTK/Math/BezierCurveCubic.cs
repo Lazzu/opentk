@@ -17,7 +17,7 @@ namespace OpenTK
     /// <summary>
     /// Represents a cubic bezier curve with two anchor and two control points.
     /// </summary>
-    [Serializable]
+    
     public struct BezierCurveCubic
     {
         #region Fields

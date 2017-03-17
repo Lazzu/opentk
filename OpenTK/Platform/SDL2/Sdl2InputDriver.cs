@@ -64,11 +64,11 @@ namespace OpenTK.Platform.SDL2
                 SDL.AddEventWatch(EventFilterDelegate, driver_handle);
                 if (SDL.InitSubSystem(SystemFlags.JOYSTICK) < 0)
                 {
-                    Debug.Print("[SDL2] InputDriver failed to init Joystick subsystem. Error: {0}", SDL.GetError());
+                    Debug.WriteLine("[SDL2] InputDriver failed to init Joystick subsystem. Error: {0}", SDL.GetError());
                 }
                 if (SDL.InitSubSystem(SystemFlags.GAMECONTROLLER) < 0)
                 {
-                    Debug.Print("[SDL2] InputDriver failed to init GameController subsystem. Error: {0}", SDL.GetError());
+                    Debug.WriteLine("[SDL2] InputDriver failed to init GameController subsystem. Error: {0}", SDL.GetError());
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace OpenTK.Platform.SDL2
             }
             catch (Exception ex)
             {
-                Debug.Print(ex.ToString());
+                Debug.WriteLine(ex.ToString());
             }
 
             return 0;
@@ -198,7 +198,7 @@ namespace OpenTK.Platform.SDL2
             {
                 if (manual)
                 {
-                    Debug.Print("Disposing {0}", GetType());
+                    Debug.WriteLine("Disposing {0}", GetType());
                     joystick_driver.Dispose();
                     lock (SDL.Sync)
                     {

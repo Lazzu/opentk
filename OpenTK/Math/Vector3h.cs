@@ -25,20 +25,15 @@ SOFTWARE.
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-#if !NETCORE
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
-#endif
+
 namespace OpenTK
 {
     /// <summary>
     /// 3-component Vector of the Half type. Occupies 6 Byte total.
     /// </summary>
-    [Serializable, StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct Vector3h : IEquatable<Vector3h>
-#if !NETCORE
-        , ISerializable
-#endif
+
     {
         #region Public Fields
 
@@ -227,37 +222,37 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector2h with the X and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2h Xy { get { return new Vector2h(X, Y); } set { X = value.X; Y = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2h with the X and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2h Xz { get { return new Vector2h(X, Z); } set { X = value.X; Z = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2h with the Y and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2h Yx { get { return new Vector2h(Y, X); } set { Y = value.X; X = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2h with the Y and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2h Yz { get { return new Vector2h(Y, Z); } set { Y = value.X; Z = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2h with the Z and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2h Zx { get { return new Vector2h(Z, X); } set { Z = value.X; X = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2h with the Z and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2h Zy { get { return new Vector2h(Z, Y); } set { Z = value.X; Y = value.Y; } }
 
         #endregion
@@ -267,31 +262,31 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector3h with the X, Z, and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3h Xzy { get { return new Vector3h(X, Z, Y); } set { X = value.X; Z = value.Y; Y = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3h with the Y, X, and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3h Yxz { get { return new Vector3h(Y, X, Z); } set { Y = value.X; X = value.Y; Z = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3h with the Y, Z, and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3h Yzx { get { return new Vector3h(Y, Z, X); } set { Y = value.X; Z = value.Y; X = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3h with the Z, X, and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3h Zxy { get { return new Vector3h(Z, X, Y); } set { Z = value.X; X = value.Y; Y = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3h with the Z, Y, and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3h Zyx { get { return new Vector3h(Z, Y, X); } set { Z = value.X; Y = value.Y; X = value.Z; } }
 
         #endregion
@@ -369,32 +364,6 @@ namespace OpenTK
         public static readonly int SizeInBytes = 6;
 
         #endregion Constants
-
-#if !NETCORE
-        #region ISerializable
-
-        /// <summary>Constructor used by ISerializable to deserialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public Vector3h(SerializationInfo info, StreamingContext context)
-        {
-            this.X = (Half)info.GetValue("X", typeof(Half));
-            this.Y = (Half)info.GetValue("Y", typeof(Half));
-            this.Z = (Half)info.GetValue("Z", typeof(Half));
-        }
-
-        /// <summary>Used by ISerialize to serialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("X", this.X);
-            info.AddValue("Y", this.Y);
-            info.AddValue("Z", this.Z);
-        }
-
-        #endregion ISerializable
-#endif
 
         #region Binary dump
 

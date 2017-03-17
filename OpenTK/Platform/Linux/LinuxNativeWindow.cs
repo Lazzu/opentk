@@ -29,9 +29,6 @@
 
 using System;
 using System.Diagnostics;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Runtime.InteropServices;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -65,7 +62,7 @@ namespace OpenTK.Platform.Linux
             GraphicsMode mode, GameWindowFlags options,
             DisplayDevice display_device)
         {
-            Debug.Print("[KMS] Creating window on display {0:x}", display);
+            Debug.WriteLine("[KMS] Creating window on display {0:x}", display);
 
             Title = title;
 
@@ -89,17 +86,17 @@ namespace OpenTK.Platform.Linux
             {
                 mode = new EglGraphicsMode().SelectGraphicsMode(window, mode, 0);
             }
-            Debug.Print("[KMS] Selected EGL mode {0}", mode);
+            Debug.WriteLine("[KMS] Selected EGL mode {0}", mode);
 
             SurfaceFormat format = GetSurfaceFormat(display, mode);
             SurfaceFlags usage = SurfaceFlags.Rendering | SurfaceFlags.Scanout;
             if (!Gbm.IsFormatSupported(gbm, format, usage))
             {
-                Debug.Print("[KMS] Failed to find suitable surface format, using XRGB8888");
+                Debug.WriteLine("[KMS] Failed to find suitable surface format, using XRGB8888");
                 format = SurfaceFormat.XRGB8888;
             }
 
-            Debug.Print("[KMS] Creating GBM surface on {0:x} with {1}x{2} {3} [{4}]",
+            Debug.WriteLine("[KMS] Creating GBM surface on {0:x} with {1}x{2} {3} [{4}]",
                 gbm, width, height, format, usage);
             IntPtr gbm_surface = Gbm.CreateSurface(gbm,
                     width, height, format, usage);
@@ -109,10 +106,10 @@ namespace OpenTK.Platform.Linux
             }
 
             window.Handle = gbm_surface;
-            Debug.Print("[KMS] Created GBM surface {0:x}", window.Handle);
+            Debug.WriteLine("[KMS] Created GBM surface {0:x}", window.Handle);
 
             window.CreateWindowSurface(mode.Index.Value);
-            Debug.Print("[KMS] Created EGL surface {0:x}", window.Surface);
+            Debug.WriteLine("[KMS] Created EGL surface {0:x}", window.Surface);
 
             cursor_default = CreateCursor(gbm, Cursors.Default);
             cursor_empty = CreateCursor(gbm, Cursors.Empty);
@@ -126,7 +123,7 @@ namespace OpenTK.Platform.Linux
         {
             if (cursor.Width > 64 || cursor.Height > 64)
             {
-                Debug.Print("[KMS] Cursor size {0}x{1} unsupported. Maximum is 64x64.",
+                Debug.WriteLine("[KMS] Cursor size {0}x{1} unsupported. Maximum is 64x64.",
                     cursor.Width, cursor.Height);
                 return default(BufferObject);
             }
@@ -136,7 +133,7 @@ namespace OpenTK.Platform.Linux
             SurfaceFormat format = SurfaceFormat.ARGB8888;
             SurfaceFlags usage = SurfaceFlags.Cursor64x64 | SurfaceFlags.Write;
 
-            Debug.Print("[KMS] Gbm.CreateBuffer({0:X}, {1}, {2}, {3}, {4}).",
+            Debug.WriteLine("[KMS] Gbm.CreateBuffer({0:X}, {1}, {2}, {3}, {4}).",
                 gbm, width, height, format, usage);
 
             BufferObject bo = Gbm.CreateBuffer(
@@ -144,7 +141,7 @@ namespace OpenTK.Platform.Linux
 
             if (bo == BufferObject.Zero)
             {
-                Debug.Print("[KMS] Failed to create buffer.");
+                Debug.WriteLine("[KMS] Failed to create buffer.");
                 return bo;
             }
 
@@ -209,9 +206,9 @@ namespace OpenTK.Platform.Linux
             if ((SurfaceFormat)format != 0)
                 return (SurfaceFormat)format;
 
-            Debug.Print("[KMS] Failed to retrieve EGL visual from GBM surface. Error: {0}",
+            Debug.WriteLine("[KMS] Failed to retrieve EGL visual from GBM surface. Error: {0}",
                 Egl.GetError());
-            Debug.Print("[KMS] Falling back to hardcoded formats.");
+            Debug.WriteLine("[KMS] Falling back to hardcoded formats.");
 
             int r = mode.ColorFormat.Red;
             int g = mode.ColorFormat.Green;
@@ -378,13 +375,13 @@ namespace OpenTK.Platform.Linux
         {
             if (disposing)
             {
-                Debug.Print("[KMS] Destroying window {0}.", window.Handle);
+                Debug.WriteLine("[KMS] Destroying window {0}.", window.Handle);
                 window.Dispose();
                 Gbm.DestroySurface(window.Handle);
             }
             else
             {
-                Debug.Print("[KMS] {0} leaked. Did you forget to call Dispose()?", GetType().FullName);
+                Debug.WriteLine("[KMS] {0} leaked. Did you forget to call Dispose()?", GetType().FullName);
             }
         }
 

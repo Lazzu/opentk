@@ -88,10 +88,10 @@ namespace OpenTK.Platform.X11
             int major = 1;
             int minor = 0;
             bool supported = QueryExtension(display, out opcode, out ev, out error, ref major, ref minor);
-            Debug.Print("XKB extension is {0}.", supported ? "supported" : "not supported");
+            Debug.WriteLine("XKB extension is {0}.", supported ? "supported" : "not supported");
             if (supported)
             {
-                Debug.Print("XKB version is {0}.{1}", major, minor);
+                Debug.WriteLine("XKB version is {0}.{1}", major, minor);
             }
             return supported;
         }

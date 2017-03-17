@@ -30,9 +30,6 @@
 
 using System;
 using System.Collections.Generic;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Reflection;
@@ -135,16 +132,6 @@ namespace OpenTK.Graphics.OpenGL
 
         #region public static void Color[34]() overloads
 
-        public static void Color3(Color color)
-        {
-			GL.Color3(color.R, color.G, color.B);
-        }
-
-        public static void Color4(Color color)
-        {
-            GL.Color4(color.R, color.G, color.B, color.A);
-        }
-
         public static void Color3(Vector3 color)
         {
             GL.Color3(color.X, color.Y, color.Z);
@@ -164,11 +151,6 @@ namespace OpenTK.Graphics.OpenGL
 
         #region public static void ClearColor() overloads
 
-        public static void ClearColor(Color color)
-        {
-            GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-        }
-
         public static void ClearColor(Color4 color)
         {
             GL.ClearColor(color.R, color.G, color.B, color.A);
@@ -177,11 +159,6 @@ namespace OpenTK.Graphics.OpenGL
         #endregion
 
         #region public static void BlendColor() overloads
-
-        public static void BlendColor(Color color)
-        {
-            GL.BlendColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-        }
 
         public static void BlendColor(Color4 color)
         {
@@ -1105,15 +1082,6 @@ namespace OpenTK.Graphics.OpenGL
         #endregion
 
         #region TexEnv
-
-        public static void TexEnv(TextureEnvTarget target, TextureEnvParameter pname, Color color)
-        {
-            Color4 c = new Color4(color.R, color.G, color.B, color.A);
-            unsafe
-            {
-                TexEnv(target, pname, &c.R);
-            }
-        }
 
         public static void TexEnv(TextureEnvTarget target, TextureEnvParameter pname, Color4 color)
         {

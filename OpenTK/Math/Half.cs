@@ -59,9 +59,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-#if !NETCORE
-using System.Runtime.Serialization;
-#endif
 
 namespace OpenTK
 {
@@ -77,11 +74,8 @@ namespace OpenTK
     /// but must not lead to GL interruption or termination. Providing a denormalized number or negative zero to GL must yield
     /// predictable results.
     /// </remarks>
-    [Serializable, StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct Half : IComparable<Half>, IFormattable, IEquatable<Half>
-#if !NETCORE
-        , ISerializable
-#endif
     {
         #region Internal Field
 
@@ -400,28 +394,6 @@ namespace OpenTK
         public static readonly Single Epsilon = 0.00097656f;
 
         #endregion Constants
-
-#if !NETCORE
-        #region ISerializable
-
-        /// <summary>Constructor used by ISerializable to deserialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public Half(SerializationInfo info, StreamingContext context)
-        {
-            this.bits = (ushort)info.GetValue("bits", typeof(ushort));
-        }
-
-        /// <summary>Used by ISerialize to serialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("bits", this.bits);
-        }
-
-        #endregion ISerializable
-#endif
 
         #region Binary dump
 

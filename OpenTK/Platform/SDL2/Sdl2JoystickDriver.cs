@@ -102,14 +102,14 @@ namespace OpenTK.Platform.SDL2
                 joystick.Details.HatCount = num_hats;
                 joystick.Details.BallCount = num_balls;
 
-                Debug.Print("[SDL2] Joystick device {0} opened successfully. ", id);
-                Debug.Print("\t\t'{0}' has {1} axes, {2} buttons, {3} hats, {4} balls",
+                Debug.WriteLine("[SDL2] Joystick device {0} opened successfully. ", id);
+                Debug.WriteLine("\t\t'{0}' has {1} axes, {2} buttons, {3} hats, {4} balls",
                     joystick.Description, joystick.Axis.Count, joystick.Button.Count,
                     joystick.Details.HatCount, joystick.Details.BallCount);
             }
             else
             {
-                Debug.Print("[SDL2] Failed to open joystick device {0}", id);
+                Debug.WriteLine("[SDL2] Failed to open joystick device {0}", id);
             }
 
             return joystick;
@@ -290,7 +290,7 @@ namespace OpenTK.Platform.SDL2
                     return Buttons.BigButton;
 
                 default:
-                    Debug.Print("[SDL2] Unknown button {0}", button);
+                    Debug.WriteLine("[SDL2] Unknown button {0}", button);
                     return 0;
             }
         }
@@ -305,7 +305,7 @@ namespace OpenTK.Platform.SDL2
             int id = ev.Which;
             if (id < 0)
             {
-                Debug.Print("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
                 return;
             }
 
@@ -351,7 +351,7 @@ namespace OpenTK.Platform.SDL2
                     }
                     else
                     {
-                        Debug.Print("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
+                        Debug.WriteLine("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
                     }
                     break;
             }
@@ -370,7 +370,7 @@ namespace OpenTK.Platform.SDL2
             }
             else
             {
-                Debug.Print("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
             }
         }
 
@@ -386,7 +386,7 @@ namespace OpenTK.Platform.SDL2
             }
             else
             {
-                Debug.Print("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
             }
         }
 
@@ -402,7 +402,7 @@ namespace OpenTK.Platform.SDL2
             }
             else
             {
-                Debug.Print("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
             }
         }
 
@@ -419,13 +419,13 @@ namespace OpenTK.Platform.SDL2
                 }
                 else
                 {
-                    Debug.Print("[SDL2] Hat {0} out of range [0, {1}]", ev.Hat, JoystickState.MaxHats);
+                    Debug.WriteLine("[SDL2] Hat {0} out of range [0, {1}]", ev.Hat, JoystickState.MaxHats);
                 }
                 joystick.Details.PacketNumber = Math.Max(0, unchecked(joystick.Details.PacketNumber + 1));
             }
             else
             {
-                Debug.Print("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid joystick id {0} in {1}", id, ev.Type);
             }
         }
 
@@ -435,7 +435,7 @@ namespace OpenTK.Platform.SDL2
             int id = ev.Which;
             if (id < 0)
             {
-                Debug.Print("[SDL2] Invalid controller id {0} in {1}", id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid controller id {0} in {1}", id, ev.Type);
                 return;
             }
 
@@ -480,7 +480,7 @@ namespace OpenTK.Platform.SDL2
                         }
                         else
                         {
-                            Debug.Print("[SDL2] Failed to retrieve joystick from game controller. Error: {0}", SDL.GetError());
+                            Debug.WriteLine("[SDL2] Failed to retrieve joystick from game controller. Error: {0}", SDL.GetError());
                         }
                     }
                     break;
@@ -496,7 +496,7 @@ namespace OpenTK.Platform.SDL2
                     }
                     else
                     {
-                        Debug.Print("[SDL2] Invalid game controller instance {0} in {1}", id, ev.Type);
+                        Debug.WriteLine("[SDL2] Invalid game controller instance {0} in {1}", id, ev.Type);
                     }
                     break;
 
@@ -507,7 +507,7 @@ namespace OpenTK.Platform.SDL2
                     }
                     else
                     {
-                        Debug.Print("[SDL2] Invalid game controller instance {0} in {1}", id, ev.Type);
+                        Debug.WriteLine("[SDL2] Invalid game controller instance {0} in {1}", id, ev.Type);
                     }
                     break;
             }
@@ -523,7 +523,7 @@ namespace OpenTK.Platform.SDL2
             }
             else
             {
-                Debug.Print("[SDL2] Invalid game controller instance {0} in {1}", instance_id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid game controller instance {0} in {1}", instance_id, ev.Type);
             }
         }
 
@@ -537,7 +537,7 @@ namespace OpenTK.Platform.SDL2
             }
             else
             {
-                Debug.Print("[SDL2] Invalid game controller instance {0} in {1}", instance_id, ev.Type);
+                Debug.WriteLine("[SDL2] Invalid game controller instance {0} in {1}", instance_id, ev.Type);
             }
         }
 #endif
@@ -664,7 +664,7 @@ namespace OpenTK.Platform.SDL2
             {
                 if (manual)
                 {
-                    Debug.Print("Disposing {0}", GetType());
+                    Debug.WriteLine("Disposing {0}", GetType());
 
                     foreach (var j in joysticks)
                     {
@@ -677,7 +677,7 @@ namespace OpenTK.Platform.SDL2
                 }
                 else
                 {
-                    Debug.Print("{0} leaked, did you forget to call Dispose()?", GetType());
+                    Debug.WriteLine("{0} leaked, did you forget to call Dispose()?", GetType());
                 }
                 disposed = true;
             }

@@ -160,8 +160,8 @@ namespace OpenTK.Platform.X11
             }
             catch (DllNotFoundException e)
             {
-                Debug.Print(e.ToString());
-                Debug.Print("XInput2 extension not supported. Mouse support will suffer.");
+                Debug.WriteLine(e.ToString());
+                Debug.WriteLine("XInput2 extension not supported. Mouse support will suffer.");
             }
 
             return false;
@@ -278,8 +278,8 @@ namespace OpenTK.Platform.X11
                     XIDeviceInfo* list = (XIDeviceInfo*)XI.QueryDevice(window.Display,
                         XI.XIAllDevices, out count);
 
-                    Debug.Print("Refreshing input device list");
-                    Debug.Print("{0} input devices detected", count);
+                    Debug.WriteLine("Refreshing input device list");
+                    Debug.WriteLine("{0} input devices detected", count);
 
                     for (int i = 0; i < count; i++)
                     {
@@ -311,7 +311,7 @@ namespace OpenTK.Platform.X11
                        
                                     d.State.SetIsConnected(d.DeviceInfo.enabled);
                                     d.Name = Marshal.PtrToStringAnsi(d.DeviceInfo.name);
-                                    Debug.Print("Device {0} \"{1}\" is {2} and has:",
+                                    Debug.WriteLine("Device {0} \"{1}\" is {2} and has:",
                                         i, d.Name, d.DeviceInfo.enabled ? "enabled" : "disabled");
 
                                     // Decode the XIDeviceInfo to axes, buttons and scroll types
@@ -323,7 +323,7 @@ namespace OpenTK.Platform.X11
                                             case XIClassType.Button:
                                                 {
                                                     XIButtonClassInfo* button = (XIButtonClassInfo*)class_info;
-                                                    Debug.Print("\t{0} buttons", button->num_buttons);
+                                                    Debug.WriteLine("\t{0} buttons", button->num_buttons);
                                                 }
                                                 break;
 
@@ -343,7 +343,7 @@ namespace OpenTK.Platform.X11
                                                             break;
 
                                                         default:
-                                                            Debug.Print("\tUnknown scrolling type {0}", scroll->scroll_type);
+                                                            Debug.WriteLine("\tUnknown scrolling type {0}", scroll->scroll_type);
                                                             break;
                                                     }
                                                 }
@@ -380,7 +380,7 @@ namespace OpenTK.Platform.X11
                                                     else
                                                     {
                                                         IntPtr label = Functions.XGetAtomName(window.Display, valuator->label);
-                                                        Debug.Print("\tUnknown valuator {0}",
+                                                        Debug.WriteLine("\tUnknown valuator {0}",
                                                             Marshal.PtrToStringAnsi(label));
                                                         Functions.XFree(label);
                                                     }
@@ -515,7 +515,7 @@ namespace OpenTK.Platform.X11
         {
             if (!rawids.ContainsKey(deviceid))
             {
-                Debug.Print("Unknown mouse device {0} encountered, ignoring.", deviceid);
+                Debug.WriteLine("Unknown mouse device {0} encountered, ignoring.", deviceid);
                 mouse = null;
                 return false;
             }
@@ -527,7 +527,7 @@ namespace OpenTK.Platform.X11
         {
             if (!keyboard_ids.ContainsKey(deviceid))
             {
-                Debug.Print("Unknown keyboard device {0} encountered, ignoring.", deviceid);
+                Debug.WriteLine("Unknown keyboard device {0} encountered, ignoring.", deviceid);
                 keyboard = null;
                 return false;
             }

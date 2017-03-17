@@ -56,7 +56,7 @@ namespace OpenTK.Platform.Linux
 
         public LinuxKeyboardTTY()
         {
-            Debug.Print("[Linux] Using TTY keyboard input.");
+            Debug.WriteLine("[Linux] Using TTY keyboard input.");
 
             if (!SetupTTY(stdin))
             {
@@ -76,7 +76,7 @@ namespace OpenTK.Platform.Linux
             // rather than some short of file redirection.thing.
             if (!Terminal.IsTerminal(stdin))
             {
-                Debug.Print("[Linux] Terminal.IsTerminal({0}) returned false.", stdin);
+                Debug.WriteLine("[Linux] Terminal.IsTerminal({0}) returned false.", stdin);
                 return false;
             }
 
@@ -85,7 +85,7 @@ namespace OpenTK.Platform.Linux
             int ret = Terminal.GetAttributes(stdin, out original_state);
             if (ret < 0)
             {
-                Debug.Print("[Linux] Terminal.GetAttributes({0}) failed. Error: {1}",
+                Debug.WriteLine("[Linux] Terminal.GetAttributes({0}) failed. Error: {1}",
                     stdin, ret);
                 return false;
             }
@@ -94,7 +94,7 @@ namespace OpenTK.Platform.Linux
             ret = Libc.ioctl(stdin, KeyboardIoctlCode.GetMode, ref original_mode);
             if (ret != 0)
             {
-                Debug.Print("[Linux] Libc.ioctl({0}, KeyboardIoctlCode.GetMode) failed. Error: {1}",
+                Debug.WriteLine("[Linux] Libc.ioctl({0}, KeyboardIoctlCode.GetMode) failed. Error: {1}",
                     stdin, ret);
                 return false;
             }
@@ -114,7 +114,7 @@ namespace OpenTK.Platform.Linux
             ret = Libc.ioctl(stdin, KeyboardIoctlCode.SetMode, mode);
             if (ret != 0)
             {
-                Debug.Print("[Linux] Libc.ioctl({0}, KeyboardIoctlCode.SetMode, {1}) failed. Error: {2}",
+                Debug.WriteLine("[Linux] Libc.ioctl({0}, KeyboardIoctlCode.SetMode, {1}) failed. Error: {2}",
                     stdin, mode, ret);
                 ExitTTY(this, EventArgs.Empty);
                 return false;
@@ -131,7 +131,7 @@ namespace OpenTK.Platform.Linux
         {
             if (original_mode != new IntPtr(-1))
             {
-                Debug.Print("[Linux] Exiting TTY keyboard input.");
+                Debug.WriteLine("[Linux] Exiting TTY keyboard input.");
 
                 Libc.ioctl(stdin, KeyboardIoctlCode.SetMode, ref original_mode);
                 Terminal.SetAttributes(stdin, OptionalActions.FLUSH, ref original_state);
@@ -167,7 +167,7 @@ namespace OpenTK.Platform.Linux
                     bool pressed = (scancode & 0x80) == 0;
                     int key = scancode & ~0x80;
                     KeyModifiers mods;
-                    Debug.Print("{0}:{1} is {2}", key, (int)TranslateKey(key, out mods), pressed);
+                    Debug.WriteLine("{0}:{1} is {2}", key, (int)TranslateKey(key, out mods), pressed);
 
                     if (key == 0)
                     {
@@ -252,7 +252,7 @@ namespace OpenTK.Platform.Linux
             }
             else
             {
-                Debug.Print("{0} leaked, did you forget to call Dispose()?", typeof(LinuxKeyboardTTY).FullName);
+                Debug.WriteLine("{0} leaked, did you forget to call Dispose()?", typeof(LinuxKeyboardTTY).FullName);
             }
         }
 

@@ -59,7 +59,7 @@ namespace OpenTK.Platform.X11
         public X11Factory()
         {
             int result = Functions.XInitThreads();
-            Debug.Print("Initializing threaded X: {0}.", result != 0 ? "success" : "failed");
+            Debug.WriteLine("Initializing threaded X: {0}.", result != 0 ? "success" : "failed");
         }
 
         #endregion

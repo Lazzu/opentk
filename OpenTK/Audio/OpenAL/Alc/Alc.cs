@@ -338,7 +338,7 @@ namespace OpenTK.Audio.OpenAL
             }
             else
             {
-                Debug.Print("[Audio] Alc.GetString({0}, {1}) returned null.",
+                Debug.WriteLine("[Audio] Alc.GetString({0}, {1}) returned null.",
                     device, param);
             }
 
@@ -392,6 +392,7 @@ namespace OpenTK.Audio.OpenAL
         /// <param name="format">the requested capture buffer format.</param>
         /// <param name="buffersize">the size of the capture buffer in samples, not bytes.</param>
         /// <returns>Returns the capture device pointer, or NULL on failure.</returns>
+        [CLSCompliant(false)]
         public static IntPtr CaptureOpenDevice ( string devicename, uint frequency, ALFormat format, int buffersize ) => CaptureOpenDevice_dptr ( devicename, frequency, format, buffersize );
         private static CaptureOpenDevice_d CaptureOpenDevice_dptr = AL.ALNativeLib.LoadFunctionPointer<CaptureOpenDevice_d>("alcCaptureOpenDevice");
         private delegate IntPtr CaptureOpenDevice_d ( string devicename, uint frequency, ALFormat format, int buffersize );

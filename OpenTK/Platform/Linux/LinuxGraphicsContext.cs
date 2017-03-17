@@ -79,7 +79,7 @@ namespace OpenTK.Platform.Linux
                 WaitFlip(true); // WaitFlip(SwapInterval > 0)
                 if (is_flip_queued)
                 {
-                    Debug.Print("[KMS] Dropping frame");
+                    Debug.WriteLine("[KMS] Dropping frame");
                     return;
                 }
             }
@@ -163,7 +163,7 @@ namespace OpenTK.Platform.Linux
 
                 if (ret < 0)
                 {
-                    Debug.Print("[KMS] Failed to enqueue framebuffer flip. Error: {0}", ret);
+                    Debug.WriteLine("[KMS] Failed to enqueue framebuffer flip. Error: {0}", ret);
                 }
 
                 is_flip_queued = true;
@@ -190,7 +190,7 @@ namespace OpenTK.Platform.Linux
 
                 if (ret != 0)
                 {
-                    Debug.Print("[KMS] Drm.ModeSetCrtc{0}, {1}, {2}, {3}, {4:x}, {5}, {6:x}) failed. Error: {7}",
+                    Debug.WriteLine("[KMS] Drm.ModeSetCrtc{0}, {1}, {2}, {3}, {4:x}, {5}, {6:x}) failed. Error: {7}",
                         fd, crtc_id, buffer, x, y, (IntPtr)connector_id, connector_count, (IntPtr)mode, ret);
                 }
             }
@@ -210,7 +210,7 @@ namespace OpenTK.Platform.Linux
             int bo_handle = bo.Handle;
             if (bo_handle == 0)
             {
-                Debug.Print("[KMS] Gbm.BOGetHandle({0:x}) failed.", bo);
+                Debug.WriteLine("[KMS] Gbm.BOGetHandle({0:x}) failed.", bo);
                 goto fail;
             }
 
@@ -222,7 +222,7 @@ namespace OpenTK.Platform.Linux
 
             if (width == 0 || height == 0 || bpp == 0)
             {
-                Debug.Print("[KMS] Invalid framebuffer format: {0}x{1} {2} {3} {4}",
+                Debug.WriteLine("[KMS] Invalid framebuffer format: {0}x{1} {2} {3} {4}",
                     width, height, stride, bpp, depth);
                 goto fail;
             }
@@ -234,7 +234,7 @@ namespace OpenTK.Platform.Linux
                 out buffer);
             if (ret != 0)
             {
-                Debug.Print("[KMS] Drm.ModeAddFB({0}, {1}, {2}, {3}, {4}, {5}, {6}) failed. Error: {7}",
+                Debug.WriteLine("[KMS] Drm.ModeAddFB({0}, {1}, {2}, {3}, {4}, {5}, {6}) failed. Error: {7}",
                     fd, width, height, depth, bpp, stride, bo_handle, ret);
                 goto fail;
             }
@@ -243,7 +243,7 @@ namespace OpenTK.Platform.Linux
             return buffer;
 
             fail:
-            Debug.Print("[Error] Failed to create framebuffer.");
+            Debug.WriteLine("[Error] Failed to create framebuffer.");
             return -1;
         }
 
@@ -263,7 +263,7 @@ namespace OpenTK.Platform.Linux
         {
             IntPtr gbm = bo.Device;
             int fb = data.ToInt32();
-            Debug.Print("[KMS] Destroying framebuffer {0}", fb);
+            Debug.WriteLine("[KMS] Destroying framebuffer {0}", fb);
 
             if (fb != 0)
             {

@@ -53,7 +53,7 @@ namespace OpenTK.Platform.Linux
 
         public LinuxFactory()
         {
-            Debug.Print("[KMS] Using Linux/KMS backend.");
+            Debug.WriteLine("[KMS] Using Linux/KMS backend.");
         }
 
         #region Private Members
@@ -106,7 +106,7 @@ namespace OpenTK.Platform.Linux
                             Debug.WriteLine(e.ToString());
                         }
 
-                        Debug.Print("[KMS] GPU '{0}' is not connected, skipping.", gpu);
+                        Debug.WriteLine("[KMS] GPU '{0}' is not connected, skipping.", gpu);
                         Libc.close(test_fd);
                     }
                 }
@@ -114,7 +114,7 @@ namespace OpenTK.Platform.Linux
 
             if (fd == 0)
             {
-                Debug.Print("[Error] No valid GPU found, bailing out.");
+                Debug.WriteLine("[Error] No valid GPU found, bailing out.");
                 throw new PlatformNotSupportedException();
             }
 
@@ -123,7 +123,7 @@ namespace OpenTK.Platform.Linux
 
         static int SetupDisplay(string gpu, out IntPtr gbm_device, out IntPtr egl_display)
         {
-            Debug.Print("[KMS] Attempting to use gpu '{0}'.", gpu);
+            Debug.WriteLine("[KMS] Attempting to use gpu '{0}'.", gpu);
 
             gbm_device = IntPtr.Zero;
             egl_display = IntPtr.Zero;
@@ -131,24 +131,24 @@ namespace OpenTK.Platform.Linux
             int fd = Libc.open(gpu, OpenFlags.ReadWrite | OpenFlags.CloseOnExec);
             if (fd < 0)
             {
-                Debug.Print("[KMS] Failed to open gpu");
+                Debug.WriteLine("[KMS] Failed to open gpu");
                 return fd;
             }
-            Debug.Print("[KMS] GPU '{0}' opened as fd:{1}", gpu, fd);
+            Debug.WriteLine("[KMS] GPU '{0}' opened as fd:{1}", gpu, fd);
 
             gbm_device = Gbm.CreateDevice(fd);
             if (gbm_device == IntPtr.Zero)
             {
                 throw new NotSupportedException("[KMS] Failed to create GBM device");
             }
-            Debug.Print("[KMS] GBM {0:x} created successfully; ", gbm_device);
+            Debug.WriteLine("[KMS] GBM {0:x} created successfully; ", gbm_device);
 
             egl_display = Egl.GetDisplay(gbm_device);
             if (egl_display == IntPtr.Zero)
             {
                 throw new NotSupportedException("[KMS] Failed to create EGL display");
             }
-            Debug.Print("[KMS] EGL display {0:x} created successfully", egl_display);
+            Debug.WriteLine("[KMS] EGL display {0:x} created successfully", egl_display);
 
             int major, minor;
             if (!Egl.Initialize(egl_display, out major, out minor))
@@ -156,7 +156,7 @@ namespace OpenTK.Platform.Linux
                 ErrorCode error = Egl.GetError();
                 throw new NotSupportedException("[KMS] Failed to initialize EGL display. Error code: " + error);
             }
-            Debug.Print("[KMS] EGL {0}.{1} initialized successfully on display {2:x}", major, minor, egl_display);
+            Debug.WriteLine("[KMS] EGL {0}.{1} initialized successfully on display {2:x}", major, minor, egl_display);
 
             return fd;
         }
@@ -169,19 +169,19 @@ namespace OpenTK.Platform.Linux
         {
             if (egl_display != IntPtr.Zero)
             {
-                Debug.Print("[KMS] Terminating EGL.");
+                Debug.WriteLine("[KMS] Terminating EGL.");
                 Egl.Terminate(egl_display);
                 egl_display = IntPtr.Zero;
             }
             if (gbm_device != IntPtr.Zero)
             {
-                Debug.Print("[KMS] Destroying GBM device.");
+                Debug.WriteLine("[KMS] Destroying GBM device.");
                 Gbm.DestroyDevice(gbm_device);
                 gbm_device = IntPtr.Zero;
             }
             if (_fd >= 0)
             {
-                Debug.Print("[KMS] Closing GPU fd.");
+                Debug.WriteLine("[KMS] Closing GPU fd.");
                 Libc.close(_fd);
             }
 

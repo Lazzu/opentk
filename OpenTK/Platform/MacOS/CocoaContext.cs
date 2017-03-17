@@ -61,8 +61,8 @@ namespace OpenTK
 
         public CocoaContext(GraphicsMode mode, IWindowInfo window, IGraphicsContext shareContext, int majorVersion, int minorVersion)
         {
-            Debug.Print("Context Type: {0}", shareContext);
-            Debug.Print("Window info: {0}", window);
+            Debug.WriteLine("Context Type: {0}", shareContext);
+            Debug.WriteLine("Window info: {0}", window);
             
             cocoaWindow = (CocoaWindowInfo)window;
             
@@ -77,7 +77,7 @@ namespace OpenTK
 
             if (shareContextRef == IntPtr.Zero)
             {
-                Debug.Print("No context sharing will take place.");
+                Debug.WriteLine("No context sharing will take place.");
             }
             
             CreateContext(mode, cocoaWindow, shareContextRef, majorVersion, minorVersion, true);
@@ -96,14 +96,14 @@ namespace OpenTK
 
         private void AddPixelAttrib(List<NSOpenGLPixelFormatAttribute> attributes, NSOpenGLPixelFormatAttribute attribute)
         {
-            Debug.Print(attribute.ToString());
+            Debug.WriteLine(attribute.ToString());
             
             attributes.Add(attribute);
         }
 
         private void AddPixelAttrib(List<NSOpenGLPixelFormatAttribute> attributes, NSOpenGLPixelFormatAttribute attribute, int value)
         {
-            Debug.Print("{0} : {1}", attribute, value);
+            Debug.WriteLine("{0} : {1}", attribute, value);
             
             attributes.Add(attribute);
             attributes.Add((NSOpenGLPixelFormatAttribute)value);
@@ -154,15 +154,15 @@ namespace OpenTK
             if (majorVersion > 3 || (majorVersion == 3 && minorVersion >= 2))
             {
                 profile = NSOpenGLProfile.Version3_2Core;
-                Debug.Print("Running the OpenGL core profile.");
+                Debug.WriteLine("Running the OpenGL core profile.");
             }
             else
             {
-                Debug.Print("Running the legacy OpenGL profile. Start with version major=3, minor=2 or later for the 3.2 profile.");
+                Debug.WriteLine("Running the legacy OpenGL profile. Start with version major=3, minor=2 or later for the 3.2 profile.");
             }
 
-            Debug.Print("NSGL pixel format attributes:");
-            Debug.Indent();
+            Debug.WriteLine("NSGL pixel format attributes:");
+            
 
             AddPixelAttrib(attributes, NSOpenGLPixelFormatAttribute.OpenGLProfile, (int)profile);
 
@@ -207,7 +207,7 @@ namespace OpenTK
 
             AddPixelAttrib(attributes, (NSOpenGLPixelFormatAttribute)0);
 
-            Debug.Unindent();
+            
 
             Debug.Write("Attribute array:  ");
             for (int i = 0; i < attributes.Count; i++)
@@ -331,7 +331,7 @@ namespace OpenTK
             if (IsDisposed || Handle.Handle == IntPtr.Zero)
                 return;
 
-            Debug.Print("Disposing of Cocoa context.");
+            Debug.WriteLine("Disposing of Cocoa context.");
 
             if (!NSApplication.IsUIThread)
                 return;
@@ -370,7 +370,7 @@ namespace OpenTK
 
                 if (i >= max - 1)
                 {
-                    Debug.Print("Function {0} too long. Loading will fail.",
+                    Debug.WriteLine("Function {0} too long. Loading will fail.",
                         Marshal.PtrToStringAnsi(function));
                 }
 

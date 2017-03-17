@@ -2619,11 +2619,7 @@ namespace OpenTK.Graphics.ES10
             using (new ErrorHelper(GraphicsContext.CurrentContext))
             {
 #endif
-#if NETCORE
                 unsafe { return new string((char*)Core.GetString((OpenTK.Graphics.ES10.All)name)); }
-#else
-                unsafe { return new string((sbyte*)Core.GetString((OpenTK.Graphics.ES10.All)name)); }
-#endif
 #if DEBUG
             }
 #endif

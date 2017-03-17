@@ -105,7 +105,7 @@ namespace OpenTK.Platform.Egl
         {
             if (Surface != IntPtr.Zero)
                 if (!Egl.DestroySurface(Display, Surface))
-                    Debug.Print("[Warning] Failed to destroy {0}:{1}.", Surface.GetType().Name, Surface);
+                    Debug.WriteLine("[Warning] Failed to destroy {0}:{1}.", Surface.GetType().Name, Surface);
         }
 
         #endregion
@@ -129,7 +129,7 @@ namespace OpenTK.Platform.Egl
                 }
                 else
                 {
-                    Debug.Print("[Warning] Failed to destroy {0}:{1}.", this.GetType().Name, Handle);
+                    Debug.WriteLine("[Warning] Failed to destroy {0}:{1}.", this.GetType().Name, Handle);
                 }
             }
         }

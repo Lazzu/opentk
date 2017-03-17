@@ -28,9 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-#if !MINIMAL
-using System.Drawing;
-#endif
 using OpenTK.Input;
 
 namespace OpenTK.Platform.SDL2
@@ -66,7 +63,7 @@ namespace OpenTK.Platform.SDL2
                     return MouseButton.Button2;
 
                 default:
-                    Debug.Print("SDL2 unknown button {0}", button);
+                    Debug.WriteLine("SDL2 unknown button {0}", button);
                     return MouseButton.Left;
             }
         }

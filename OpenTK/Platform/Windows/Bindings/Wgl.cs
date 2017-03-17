@@ -62,43 +62,43 @@ namespace OpenTK.Platform.Windows
             EntryPoints = new IntPtr[EntryPointNames.Length];
         }
 
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglCreateContext", ExactSpelling = true, SetLastError = true)]
         internal extern static IntPtr CreateContext(IntPtr hDc);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglDeleteContext", ExactSpelling = true, SetLastError = true)]
         internal extern static Boolean DeleteContext(IntPtr oldContext);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglGetCurrentContext", ExactSpelling = true, SetLastError = true)]
         internal extern static IntPtr GetCurrentContext();
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglMakeCurrent", ExactSpelling = true, SetLastError = true)]
         internal extern static Boolean MakeCurrent(IntPtr hDc, IntPtr newContext);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglChoosePixelFormat", ExactSpelling = true, SetLastError = true)]
         internal extern static unsafe int ChoosePixelFormat(IntPtr hDc, ref PixelFormatDescriptor pPfd);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglDescribePixelFormat", ExactSpelling = true, SetLastError = true)]
         internal extern static unsafe int DescribePixelFormat(IntPtr hdc, int ipfd, int cjpfd, ref PixelFormatDescriptor ppfd);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglGetCurrentDC", ExactSpelling = true, SetLastError = true)]
         internal extern static IntPtr GetCurrentDC();
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglGetProcAddress", ExactSpelling = true, SetLastError = true)]
         internal extern static IntPtr GetProcAddress(String lpszProc);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglGetProcAddress", ExactSpelling = true, SetLastError = true)]
         internal extern static IntPtr GetProcAddress(IntPtr lpszProc);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglGetPixelFormat", ExactSpelling = true, SetLastError = true)]
         internal extern static int GetPixelFormat(IntPtr hdc);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglSetPixelFormat", ExactSpelling = true, SetLastError = true)]
         internal extern static Boolean SetPixelFormat(IntPtr hdc, int ipfd, ref PixelFormatDescriptor ppfd);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglSwapBuffers", ExactSpelling = true, SetLastError = true)]
         internal extern static Boolean SwapBuffers(IntPtr hdc);
-        [SuppressUnmanagedCodeSecurity]
+        
         [DllImport(Wgl.Library, EntryPoint = "wglShareLists", ExactSpelling = true, SetLastError = true)]
         internal extern static Boolean ShareLists(IntPtr hrcSrvShare, IntPtr hrcSrvSource);
 

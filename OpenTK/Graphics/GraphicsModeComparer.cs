@@ -1,8 +1,8 @@
-#region License
+﻿#region License
 //
 // The Open Toolkit Library License
 //
-// Copyright (c) 2006 - 2009 the Open Toolkit library.
+// Copyright (c) 2006 - 2010 the Open Toolkit library.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,39 +26,38 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-#if !NETCORE
-
-namespace OpenTK
+namespace OpenTK.Graphics
 {
-
-    /// <summary>
-    /// This exception is thrown when a GraphicsContext property cannot be changed after creation.
-    /// </summary>
-    public class ContextExistsException : ApplicationException
+    sealed class GraphicsModeComparer : IComparer<GraphicsMode>
     {
-        string msg;
+        #region IComparer<GraphicsMode> Members
 
-        /// <summary>
-        /// Constructs a new ContextExistsException instance.
-        /// </summary>
-        /// <param name="message">A System.String explaining the cause of this exception.</param>
-        public ContextExistsException(string message)
+        public int Compare(GraphicsMode x, GraphicsMode y)
         {
-            msg = message;
+            int result = x.ColorFormat.CompareTo(y.ColorFormat);
+            if (result != 0)
+                return result;
+            result = x.Depth.CompareTo(y.Depth);
+            if (result != 0)
+                return result;
+            result = x.Stencil.CompareTo(y.Stencil);
+            if (result != 0)
+                return result;
+            result = x.Samples.CompareTo(y.Samples);
+            if (result != 0)
+                return result;
+            result = x.Stereo.CompareTo(y.Stereo);
+            if (result != 0)
+                return result;
+            result = x.Buffers.CompareTo(y.Buffers);
+            if (result != 0)
+                return result;
+            return x.AccumulatorFormat.CompareTo(y.AccumulatorFormat);
         }
 
-        /// <summary>
-        /// Gets a System.String explaining the cause of this exception.
-        /// </summary>
-        public override string Message
-        {
-            get
-            {
-                return msg;
-            }
-        }
+        #endregion
     }
 }
-
-#endif

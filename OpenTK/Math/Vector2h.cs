@@ -25,20 +25,14 @@ SOFTWARE.
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-#if !NETCORE
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
-#endif
 
 namespace OpenTK
 {
 
     /// <summary>2-component Vector of the Half type. Occupies 4 Byte total.</summary>
-    [Serializable, StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct Vector2h : IEquatable<Vector2h>
-#if !NETCORE
-        , ISerializable
-#endif
+
     {
         #region Fields
 
@@ -205,7 +199,7 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector2h with the Y and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2h Yx { get { return new Vector2h(Y, X); } set { Y = value.X; X = value.Y; } }
 
         #endregion
@@ -273,30 +267,6 @@ namespace OpenTK
         public static readonly int SizeInBytes = 4;
 
         #endregion Constants
-
-#if !NETCORE
-        #region ISerializable
-
-        /// <summary>Constructor used by ISerializable to deserialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public Vector2h(SerializationInfo info, StreamingContext context)
-        {
-            this.X = (Half)info.GetValue("X", typeof(Half));
-            this.Y = (Half)info.GetValue("Y", typeof(Half));
-        }
-
-        /// <summary>Used by ISerialize to serialize the object.</summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("X", this.X);
-            info.AddValue("Y", this.Y);
-        }
-
-        #endregion ISerializable
-#endif
 
         #region Binary dump
 

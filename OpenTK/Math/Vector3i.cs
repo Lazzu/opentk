@@ -33,7 +33,7 @@ namespace OpenTK
     /// <remarks>
     /// The Vector3i structure is suitable for interoperation with unmanaged code requiring three consecutive int's.
     /// </remarks>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3i : IEquatable<Vector3>
     {
@@ -1235,37 +1235,37 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector2i with the X and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2i Xy { get { return new Vector2i(X, Y); } set { X = value.X; Y = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2i with the X and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2i Xz { get { return new Vector2i(X, Z); } set { X = value.X; Z = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2i with the Y and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2i Yx { get { return new Vector2i(Y, X); } set { Y = value.X; X = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2i with the Y and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2i Yz { get { return new Vector2i(Y, Z); } set { Y = value.X; Z = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2i with the Z and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2i Zx { get { return new Vector2i(Z, X); } set { Z = value.X; X = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2i with the Z and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2i Zy { get { return new Vector2i(Z, Y); } set { Z = value.X; Y = value.Y; } }
 
         #endregion
@@ -1275,31 +1275,31 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector3i with the X, Z, and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3i Xzy { get { return new Vector3i(X, Z, Y); } set { X = value.X; Z = value.Y; Y = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3i with the Y, X, and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3i Yxz { get { return new Vector3i(Y, X, Z); } set { Y = value.X; X = value.Y; Z = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3i with the Y, Z, and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3i Yzx { get { return new Vector3i(Y, Z, X); } set { Y = value.X; Z = value.Y; X = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3i with the Z, X, and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3i Zxy { get { return new Vector3i(Z, X, Y); } set { Z = value.X; X = value.Y; Y = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3i with the Z, Y, and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3i Zyx { get { return new Vector3i(Z, Y, X); } set { Z = value.X; Y = value.Y; X = value.Z; } }
 
         #endregion

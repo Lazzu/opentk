@@ -100,12 +100,12 @@ namespace OpenTK.Platform.MacOS
                 if (!Elements.ContainsKey(e.Cookie))
                 {
                     Elements.Add(e.Cookie, e);
-                    Debug.Print("Discovered joystick element {0:x} ({1}/{2})",
+                    Debug.WriteLine("Discovered joystick element {0:x} ({1}/{2})",
                         e.Cookie, e.Page, e.Usage);
                 }
                 else
                 {
-                    Debug.Print("Duplicate joystick element {0:x} ({1}/{2}) ignored.",
+                    Debug.WriteLine("Duplicate joystick element {0:x} ({1}/{2}) ignored.",
                         e.Cookie, e.Page, e.Usage);
                 }
             }
@@ -198,14 +198,14 @@ namespace OpenTK.Platform.MacOS
 
         public HIDInput()
         {
-            Debug.Print("Using HIDInput.");
+            Debug.WriteLine("Using HIDInput.");
 
             RunLoop = CF.CFRunLoopGetMain();
             if (RunLoop == IntPtr.Zero)
                 RunLoop = CF.CFRunLoopGetCurrent();
             if (RunLoop == IntPtr.Zero)
             {
-                Debug.Print("[Error] No CFRunLoop found for {0}", GetType().FullName);
+                Debug.WriteLine("[Error] No CFRunLoop found for {0}", GetType().FullName);
                 throw new InvalidOperationException();
             }
             CF.CFRetain(RunLoop);
@@ -218,7 +218,7 @@ namespace OpenTK.Platform.MacOS
             hidmanager = CreateHIDManager();
             if (hidmanager == IntPtr.Zero)
             {
-                Debug.Print("[Mac] Failed to create IO HID manager, HIDInput driver not supported.");
+                Debug.WriteLine("[Mac] Failed to create IO HID manager, HIDInput driver not supported.");
                 throw new NotSupportedException();
             }
 
@@ -316,7 +316,7 @@ namespace OpenTK.Platform.MacOS
             catch (Exception e)
             {
                 // Do not let any exceptions escape into unmanaged code!
-                Debug.Print(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
 
             return @event;
@@ -394,7 +394,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print("[Mac] Exception in managed callback: {0}", e);
+                Debug.WriteLine("[Mac] Exception in managed callback: {0}", e);
             }
         }
 
@@ -436,7 +436,7 @@ namespace OpenTK.Platform.MacOS
             }
             catch (Exception e)
             {
-                Debug.Print("[Mac] Exception in managed callback: {0}", e);
+                Debug.WriteLine("[Mac] Exception in managed callback: {0}", e);
             }
         }
 
@@ -446,7 +446,7 @@ namespace OpenTK.Platform.MacOS
             {
                 if (disposed)
                 {
-                    Debug.Print("DeviceValueReceived({0}, {1}, {2}, {3}) called on disposed {4}",
+                    Debug.WriteLine("DeviceValueReceived({0}, {1}, {2}, {3}) called on disposed {4}",
                         context, res, sender, val, GetType());
                     return;
                 }
@@ -469,12 +469,12 @@ namespace OpenTK.Platform.MacOS
                 }
                 else
                 {
-                    //Debug.Print ("Device {0:x} not found in list of keyboards or mice", sender);
+                    //Debug.WriteLine ("Device {0:x} not found in list of keyboards or mice", sender);
                 }
             }
             catch (Exception e)
             {
-                Debug.Print("[Mac] Exception in managed callback: {0}", e);
+                Debug.WriteLine("[Mac] Exception in managed callback: {0}", e);
             }
         }
 
@@ -482,7 +482,7 @@ namespace OpenTK.Platform.MacOS
 
         void AddMouse(CFAllocatorRef sender, CFAllocatorRef device)
         {
-            Debug.Print("Mouse device {0:x} discovered, sender is {1:x}", device, sender);
+            Debug.WriteLine("Mouse device {0:x} discovered, sender is {1:x}", device, sender);
             MouseData mouse = new MouseData(device);
             mouse.State.SetIsConnected(true);
             MouseDevices.Add(device.ToInt64(), mouse);
@@ -490,7 +490,7 @@ namespace OpenTK.Platform.MacOS
 
         void RemoveMouse(CFAllocatorRef sender, long id)
         {
-            Debug.Print("Mouse device {0:x} disconnected, sender is {1:x}", id, sender);
+            Debug.WriteLine("Mouse device {0:x} disconnected, sender is {1:x}", id, sender);
             MouseDevices.Remove(id);
         }
 
@@ -548,7 +548,7 @@ namespace OpenTK.Platform.MacOS
 
         void AddKeyboard(CFAllocatorRef sender, CFAllocatorRef device)
         {
-            Debug.Print("Keyboard device {0:x} discovered, sender is {1:x}", device, sender);
+            Debug.WriteLine("Keyboard device {0:x} discovered, sender is {1:x}", device, sender);
             KeyboardData keyboard = new KeyboardData(device);
             keyboard.State.SetIsConnected(true);
             KeyboardDevices.Add(device.ToInt64(), keyboard);
@@ -556,7 +556,7 @@ namespace OpenTK.Platform.MacOS
 
         void RemoveKeyboard(CFAllocatorRef sender, long id)
         {
-            Debug.Print("Keyboard device {0:x} disconnected, sender is {1:x}", id, sender);
+            Debug.WriteLine("Keyboard device {0:x} disconnected, sender is {1:x}", id, sender);
             KeyboardDevices.Remove(id);
         }
 
@@ -578,7 +578,7 @@ namespace OpenTK.Platform.MacOS
                     case HIDPage.KeyboardOrKeypad:
                         if (usage >= RawKeyMap.Length)
                         {
-                            Debug.Print("[Warning] Key {0} not mapped.", usage);
+                            Debug.WriteLine("[Warning] Key {0} not mapped.", usage);
                         }
 
                         keyboard.State[RawKeyMap[usage]] = v_int != 0;
@@ -702,17 +702,17 @@ namespace OpenTK.Platform.MacOS
 
                 if (axis_elements.Count >= JoystickState.MaxAxes)
                 {
-                    Debug.Print("[Mac] JoystickAxis limit reached ({0} > {1}), please report a bug at http://www.opentk.com",
+                    Debug.WriteLine("[Mac] JoystickAxis limit reached ({0} > {1}), please report a bug at http://www.opentk.com",
                         axis_elements.Count, JoystickState.MaxAxes);
                 }
                 if (button_elements.Count > JoystickState.MaxButtons)
                 {
-                    Debug.Print("[Mac] JoystickButton limit reached ({0} > {1}), please report a bug at http://www.opentk.com",
+                    Debug.WriteLine("[Mac] JoystickButton limit reached ({0} > {1}), please report a bug at http://www.opentk.com",
                         button_elements.Count, JoystickState.MaxButtons);
                 }
                 if (hat_elements.Count > JoystickState.MaxHats)
                 {
-                    Debug.Print("[Mac] JoystickHat limit reached ({0} > {1}), please report a bug at http://www.opentk.com",
+                    Debug.WriteLine("[Mac] JoystickHat limit reached ({0} > {1}), please report a bug at http://www.opentk.com",
                         hat_elements.Count, JoystickState.MaxHats);
                 }
 
@@ -828,8 +828,8 @@ namespace OpenTK.Platform.MacOS
 
         void AddJoystick(CFAllocatorRef sender, CFAllocatorRef device)
         {
-            Debug.Print("Joystick device {0:x} discovered, sender is {1:x}", device, sender);
-            Debug.Indent();
+            Debug.WriteLine("Joystick device {0:x} discovered, sender is {1:x}", device, sender);
+            
 
             try
             {
@@ -841,13 +841,13 @@ namespace OpenTK.Platform.MacOS
             }
             finally
             {
-                Debug.Unindent();
+                
             }
         }
 
         void RemoveJoystick(CFAllocatorRef sender, long id)
         {
-            Debug.Print("Joystick device {0:x} disconnected, sender is {1:x}", id, sender);
+            Debug.WriteLine("Joystick device {0:x} disconnected, sender is {1:x}", id, sender);
             JoystickDevices.Remove(id);
         }
 
@@ -860,7 +860,7 @@ namespace OpenTK.Platform.MacOS
 
             if (!joy.Elements.ContainsKey(cookie))
             {
-                Debug.Print("[{0}] Reported joystick element {1:x} ({2}/{3}) is unknown",
+                Debug.WriteLine("[{0}] Reported joystick element {1:x} ({2}/{3}) is unknown",
                     typeof(HIDInput).Name, cookie, page, usage);
                 return;
             }
@@ -1741,7 +1741,7 @@ namespace OpenTK.Platform.MacOS
                 }
                 else
                 {
-                    Debug.Print("{0} leaked, did you forget to call Dispose()?", GetType());
+                    Debug.WriteLine("{0} leaked, did you forget to call Dispose()?", GetType());
                 }
                 disposed = true;
             }

@@ -10,7 +10,7 @@ namespace OpenTK
     /// <remarks>
     /// The Vector2 structure is suitable for interoperation with unmanaged code requiring two consecutive floats.
     /// </remarks>
-    [Serializable]
+    
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector2i : IEquatable<Vector2>
     {
@@ -972,7 +972,7 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector2 with the Y and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2i Yx { get { return new Vector2i(Y, X); } set { Y = value.X; X = value.Y; } }
 
         #endregion

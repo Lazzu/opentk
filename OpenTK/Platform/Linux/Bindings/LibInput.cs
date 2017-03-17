@@ -61,11 +61,7 @@ namespace OpenTK.Platform.Linux
         {
             unsafe
             {
-#if !NETCORE
-                return new string((sbyte*)DeviceGetNameInternal(device));
-#else
                 return UTF8String.String(DeviceGetNameInternal(device));
-#endif
             }
         }
 
@@ -82,11 +78,8 @@ namespace OpenTK.Platform.Linux
             unsafe
             {
                 IntPtr pname = DeviceGetOutputNameInternal(device);
-#if !NETCORE
-                return pname == IntPtr.Zero ? String.Empty : new string((sbyte*) pname);
-#else
+
                 return pname == null ? String.Empty : UTF8String.String(pname);
-#endif
             }
         }
 
@@ -133,11 +126,7 @@ namespace OpenTK.Platform.Linux
         {
             unsafe
             {
-#if !NETCORE
-                return new string((sbyte*)SeatGetLogicalNameInternal(seat));
-#else
                 return UTF8String.String(SeatGetLogicalNameInternal(seat));
-#endif
             }
         }
 
@@ -147,11 +136,7 @@ namespace OpenTK.Platform.Linux
         {
             unsafe
             {
-#if !NETCORE
-                return new string((sbyte*)SeatGetPhysicalNameInternal(seat));
-#else
                 return UTF8String.String(SeatGetPhysicalNameInternal(seat));
-#endif
             }
         }
     }

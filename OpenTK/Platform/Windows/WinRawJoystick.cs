@@ -188,7 +188,7 @@ namespace OpenTK.Platform.Windows
         public WinRawJoystick(IntPtr window)
         {
             Debug.WriteLine("Using WinRawJoystick.");
-            Debug.Indent();
+            
 
             if (window == IntPtr.Zero)
                 throw new ArgumentNullException("window");
@@ -201,17 +201,17 @@ namespace OpenTK.Platform.Windows
 
             if (!Functions.RegisterRawInputDevices(DeviceTypes, DeviceTypes.Length, API.RawInputDeviceSize))
             {
-                Debug.Print("[Warning] Raw input registration failed with error: {0}.",
+                Debug.WriteLine("[Warning] Raw input registration failed with error: {0}.",
                     Marshal.GetLastWin32Error());
             }
             else
             {
-                Debug.Print("[WinRawJoystick] Registered for raw input");
+                Debug.WriteLine("[WinRawJoystick] Registered for raw input");
             }
 
             RefreshDevices();
 
-            Debug.Unindent();
+            
         }
 
         #region Public Members
@@ -281,7 +281,7 @@ namespace OpenTK.Platform.Windows
 
                     Devices.Add(hardware_id, device);
 
-                    Debug.Print("[{0}] Connected joystick {1} ({2})",
+                    Debug.WriteLine("[{0}] Connected joystick {1} ({2})",
                         GetType().Name, device.GetGuid(), device.GetCapabilities());
                 }
             }
@@ -308,7 +308,7 @@ namespace OpenTK.Platform.Windows
                     Device stick = GetDevice(handle);
                     if (stick == null)
                     {
-                        Debug.Print("[WinRawJoystick] Unknown device {0}", handle);
+                        Debug.WriteLine("[WinRawJoystick] Unknown device {0}", handle);
                         return false;
                     }
 
@@ -327,7 +327,7 @@ namespace OpenTK.Platform.Windows
                     int report_count = HidProtocol.MaxDataListLength(HidProtocolReportType.Input, PreparsedData);
                     if (report_count == 0)
                     {
-                        Debug.Print("[WinRawJoystick] HidProtocol.MaxDataListLength() failed with {0}",
+                        Debug.WriteLine("[WinRawJoystick] HidProtocol.MaxDataListLength() failed with {0}",
                             Marshal.GetLastWin32Error());
                         return false;
                     }
@@ -361,7 +361,7 @@ namespace OpenTK.Platform.Windows
             {
                 if (stick.AxisCaps[i].IsRange)
                 {
-                    Debug.Print("[{0}] Axis range collections not implemented. Please report your controller type at http://www.opentk.com",
+                    Debug.WriteLine("[{0}] Axis range collections not implemented. Please report your controller type at http://www.opentk.com",
                         GetType().Name);
                     continue;
                 }
@@ -380,7 +380,7 @@ namespace OpenTK.Platform.Windows
 
                 if (status != HidProtocolStatus.Success)
                 {
-                    Debug.Print("[{0}] HidProtocol.GetScaledUsageValue() failed. Error: {1}",
+                    Debug.WriteLine("[{0}] HidProtocol.GetScaledUsageValue() failed. Error: {1}",
                         GetType().Name, status);
                     continue;
                 }
@@ -420,7 +420,7 @@ namespace OpenTK.Platform.Windows
 
                 if (status != HidProtocolStatus.Success)
                 {
-                    Debug.Print("[WinRawJoystick] HidProtocol.GetUsages() failed with {0}",
+                    Debug.WriteLine("[WinRawJoystick] HidProtocol.GetUsages() failed with {0}",
                         Marshal.GetLastWin32Error());
                     continue;
                 }
@@ -445,7 +445,7 @@ namespace OpenTK.Platform.Windows
                 IntPtr.Zero, ref preparsed_size);
             if (preparsed_size == 0)
             {
-                Debug.Print("[WinRawJoystick] Functions.GetRawInputDeviceInfo(PARSEDDATA) failed with {0}",
+                Debug.WriteLine("[WinRawJoystick] Functions.GetRawInputDeviceInfo(PARSEDDATA) failed with {0}",
                     Marshal.GetLastWin32Error());
                 return false;
             }
@@ -460,7 +460,7 @@ namespace OpenTK.Platform.Windows
             if (Functions.GetRawInputDeviceInfo(handle, RawInputDeviceInfoEnum.PREPARSEDDATA,
                 prepared_data, ref preparsed_size) < 0)
             {
-                Debug.Print("[WinRawJoystick] Functions.GetRawInputDeviceInfo(PARSEDDATA) failed with {0}",
+                Debug.WriteLine("[WinRawJoystick] Functions.GetRawInputDeviceInfo(PARSEDDATA) failed with {0}",
                     Marshal.GetLastWin32Error());
                 return false;
             }
@@ -470,12 +470,12 @@ namespace OpenTK.Platform.Windows
 
         bool QueryDeviceCaps(Device stick)
         {
-            Debug.Print("[{0}] Querying joystick {1}",
+            Debug.WriteLine("[{0}] Querying joystick {1}",
                 TypeName, stick.GetGuid());
 
             try
             {
-                Debug.Indent();
+                
                 HidProtocolCaps caps;
 
                 if (GetPreparsedData(stick.Handle, ref PreparsedData) &&
@@ -484,21 +484,21 @@ namespace OpenTK.Platform.Windows
                     if (stick.AxisCaps.Count >= JoystickState.MaxAxes ||
                         stick.ButtonCaps.Count >= JoystickState.MaxButtons)
                     {
-                        Debug.Print("Device {0} has {1} and {2} buttons. This might be a touch device - skipping.",
+                        Debug.WriteLine("Device {0} has {1} and {2} buttons. This might be a touch device - skipping.",
                             stick.Handle, stick.AxisCaps.Count, stick.ButtonCaps.Count);
                         return false;
                     }
 
                     for (int i = 0; i < stick.AxisCaps.Count; i++)
                     {
-                        Debug.Print("Analyzing value collection {0} {1} {2}",
+                        Debug.WriteLine("Analyzing value collection {0} {1} {2}",
                             i,
                             stick.AxisCaps[i].IsRange ? "range" : "",
                             stick.AxisCaps[i].IsAlias ? "alias" : "");
 
                         if (stick.AxisCaps[i].IsRange || stick.AxisCaps[i].IsAlias)
                         {
-                            Debug.Print("Skipping value collection {0}", i);
+                            Debug.WriteLine("Skipping value collection {0}", i);
                             continue;
                         }
 
@@ -519,21 +519,21 @@ namespace OpenTK.Platform.Windows
                                     case HIDUsageGD.Slider:
                                     case HIDUsageGD.Dial:
                                     case HIDUsageGD.Wheel:
-                                        Debug.Print("Found axis {0} ({1} / {2})",
+                                        Debug.WriteLine("Found axis {0} ({1} / {2})",
                                             JoystickAxis.Axis0 + stick.GetCapabilities().AxisCount,
                                             page, (HIDUsageGD)stick.AxisCaps[i].NotRange.Usage);
                                         stick.SetAxis(collection, page, stick.AxisCaps[i].NotRange.Usage, 0);
                                         break;
 
                                     case HIDUsageGD.Hatswitch:
-                                        Debug.Print("Found hat {0} ({1} / {2})",
+                                        Debug.WriteLine("Found hat {0} ({1} / {2})",
                                             JoystickHat.Hat0 + stick.GetCapabilities().HatCount,
                                             page, (HIDUsageGD)stick.AxisCaps[i].NotRange.Usage);
                                         stick.SetHat(collection, page, stick.AxisCaps[i].NotRange.Usage, HatPosition.Centered);
                                         break;
 
                                     default:
-                                        Debug.Print("Unknown usage {0} for page {1}",
+                                        Debug.WriteLine("Unknown usage {0} for page {1}",
                                             gd_usage, page);
                                         break;
                                 }
@@ -544,7 +544,7 @@ namespace OpenTK.Platform.Windows
                                 {
                                     case HIDUsageSim.Rudder:
                                     case HIDUsageSim.Throttle:
-                                        Debug.Print("Found simulation axis {0} ({1} / {2})",
+                                        Debug.WriteLine("Found simulation axis {0} ({1} / {2})",
                                             JoystickAxis.Axis0 + stick.GetCapabilities().AxisCount,
                                             page, (HIDUsageSim)stick.AxisCaps[i].NotRange.Usage);
                                         stick.SetAxis(collection, page, stick.AxisCaps[i].NotRange.Usage, 0);
@@ -553,21 +553,21 @@ namespace OpenTK.Platform.Windows
                                 break;
 
                             default:
-                                Debug.Print("Unknown page {0}", page);
+                                Debug.WriteLine("Unknown page {0}", page);
                                 break;
                         }
                     }
 
                     for (int i = 0; i < stick.ButtonCaps.Count; i++)
                     {
-                        Debug.Print("Analyzing button collection {0} {1} {2}",
+                        Debug.WriteLine("Analyzing button collection {0} {1} {2}",
                             i,
                             stick.ButtonCaps[i].IsRange ? "range" : "",
                             stick.ButtonCaps[i].IsAlias ? "alias" : "");
 
                         if (stick.ButtonCaps[i].IsAlias)
                         {
-                            Debug.Print("Skipping button collection {0}", i);
+                            Debug.WriteLine("Skipping button collection {0}", i);
                             continue;
                         }
 
@@ -581,7 +581,7 @@ namespace OpenTK.Platform.Windows
                                 {
                                     for (short usage = stick.ButtonCaps[i].Range.UsageMin; usage <= stick.ButtonCaps[i].Range.UsageMax; usage++)
                                     {
-                                        Debug.Print("Found button {0} ({1} / {2})",
+                                        Debug.WriteLine("Found button {0} ({1} / {2})",
                                             JoystickButton.Button0 + stick.GetCapabilities().ButtonCount,
                                             page, usage);
                                         stick.SetButton(collection, page, usage, false);
@@ -589,7 +589,7 @@ namespace OpenTK.Platform.Windows
                                 }
                                 else
                                 {
-                                    Debug.Print("Found button {0} ({1} / {2})",
+                                    Debug.WriteLine("Found button {0} ({1} / {2})",
                                         JoystickButton.Button0 + stick.GetCapabilities().ButtonCount,
                                         page, stick.ButtonCaps[i].NotRange.Usage);
                                     stick.SetButton(collection, page, stick.ButtonCaps[i].NotRange.Usage, false);
@@ -597,7 +597,7 @@ namespace OpenTK.Platform.Windows
                                 break;
 
                             default:
-                                Debug.Print("Unknown page {0} for button.", page);
+                                Debug.WriteLine("Unknown page {0} for button.", page);
                                 break;
                         }
                     }
@@ -605,7 +605,7 @@ namespace OpenTK.Platform.Windows
             }
             finally
             {
-                Debug.Unindent();
+                
             }
 
             return true;
@@ -617,7 +617,7 @@ namespace OpenTK.Platform.Windows
             caps = new HidProtocolCaps();
             if (HidProtocol.GetCaps(preparsed_data, ref caps) != HidProtocolStatus.Success)
             {
-                Debug.Print("[WinRawJoystick] HidProtocol.GetCaps() failed with {0}",
+                Debug.WriteLine("[WinRawJoystick] HidProtocol.GetCaps() failed with {0}",
                     Marshal.GetLastWin32Error());
                 return false;
             }
@@ -632,7 +632,7 @@ namespace OpenTK.Platform.Windows
                 axis_caps, ref axis_count, preparsed_data) !=
                 HidProtocolStatus.Success)
             {
-                Debug.Print("[WinRawJoystick] HidProtocol.GetValueCaps() failed with {0}",
+                Debug.WriteLine("[WinRawJoystick] HidProtocol.GetValueCaps() failed with {0}",
                     Marshal.GetLastWin32Error());
                 return false;
             }
@@ -643,7 +643,7 @@ namespace OpenTK.Platform.Windows
                 button_caps, ref button_count, preparsed_data) !=
                 HidProtocolStatus.Success)
             {
-                Debug.Print("[WinRawJoystick] HidProtocol.GetButtonCaps() failed with {0}",
+                Debug.WriteLine("[WinRawJoystick] HidProtocol.GetButtonCaps() failed with {0}",
                     Marshal.GetLastWin32Error());
                 return false;
             }
@@ -666,7 +666,7 @@ namespace OpenTK.Platform.Windows
             int size = info.Size;
             if (Functions.GetRawInputDeviceInfo(handle, RawInputDeviceInfoEnum.DEVICEINFO, info, ref size) < 0)
             {
-                Debug.Print("[WinRawJoystick] Functions.GetRawInputDeviceInfo(DEVICEINFO) failed with error {0}",
+                Debug.WriteLine("[WinRawJoystick] Functions.GetRawInputDeviceInfo(DEVICEINFO) failed with error {0}",
                     Marshal.GetLastWin32Error());
                 return Guid.Empty;
             }
@@ -700,7 +700,7 @@ namespace OpenTK.Platform.Windows
                 int size = 0;
                 if (Functions.GetRawInputDeviceInfo(handle, RawInputDeviceInfoEnum.DEVICENAME, IntPtr.Zero, ref size) < 0 || size == 0)
                 {
-                    Debug.Print("[WinRawJoystick] Functions.GetRawInputDeviceInfo(DEVICENAME) failed with error {0}",
+                    Debug.WriteLine("[WinRawJoystick] Functions.GetRawInputDeviceInfo(DEVICENAME) failed with error {0}",
                         Marshal.GetLastWin32Error());
                     return is_xinput;
                 }
@@ -709,20 +709,17 @@ namespace OpenTK.Platform.Windows
                 sbyte* pname = stackalloc sbyte[size + 1];
                 if (Functions.GetRawInputDeviceInfo(handle, RawInputDeviceInfoEnum.DEVICENAME, (IntPtr)pname, ref size) < 0)
                 {
-                    Debug.Print("[WinRawJoystick] Functions.GetRawInputDeviceInfo(DEVICENAME) failed with error {0}",
+                    Debug.WriteLine("[WinRawJoystick] Functions.GetRawInputDeviceInfo(DEVICENAME) failed with error {0}",
                         Marshal.GetLastWin32Error());
                     return is_xinput;
                 }
 
                 // Convert the buffer to a .Net string, and split it into parts
-#if NETCORE
+
                 string name = new string((char*)pname);
-#else
-                string name = new string(pname);
-#endif
                 if (String.IsNullOrEmpty(name))
                 {
-                    Debug.Print("[WinRawJoystick] Failed to construct device name");
+                    Debug.WriteLine("[WinRawJoystick] Failed to construct device name");
                     return is_xinput;
                 }
 

@@ -24,15 +24,12 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-#if !NETCORE
-using System.Xml.Serialization;
-#endif
+
 namespace OpenTK
 {
     /// <summary>
     /// Represents a 3D vector using three double-precision floating-point numbers.
     /// </summary>
-    [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3d : IEquatable<Vector3d>
     {
@@ -1232,37 +1229,37 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the X and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2d Xy { get { return new Vector2d(X, Y); } set { X = value.X; Y = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the X and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2d Xz { get { return new Vector2d(X, Z); } set { X = value.X; Z = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the Y and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2d Yx { get { return new Vector2d(Y, X); } set { Y = value.X; X = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the Y and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2d Yz { get { return new Vector2d(Y, Z); } set { Y = value.X; Z = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the Z and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2d Zx { get { return new Vector2d(Z, X); } set { Z = value.X; X = value.Y; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the Z and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector2d Zy { get { return new Vector2d(Z, Y); } set { Z = value.X; Y = value.Y; } }
 
         #endregion
@@ -1272,31 +1269,31 @@ namespace OpenTK
         /// <summary>
         /// Gets or sets an OpenTK.Vector3d with the X, Z, and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3d Xzy { get { return new Vector3d(X, Z, Y); } set { X = value.X; Z = value.Y; Y = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3d with the Y, X, and Z components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3d Yxz { get { return new Vector3d(Y, X, Z); } set { Y = value.X; X = value.Y; Z = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3d with the Y, Z, and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3d Yzx { get { return new Vector3d(Y, Z, X); } set { Y = value.X; Z = value.Y; X = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3d with the Z, X, and Y components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3d Zxy { get { return new Vector3d(Z, X, Y); } set { Z = value.X; X = value.Y; Y = value.Z; } }
 
         /// <summary>
         /// Gets or sets an OpenTK.Vector3d with the Z, Y, and X components of this instance.
         /// </summary>
-        [XmlIgnore]
+        
         public Vector3d Zyx { get { return new Vector3d(Z, Y, X); } set { Z = value.X; Y = value.Y; X = value.Z; } }
 
         #endregion

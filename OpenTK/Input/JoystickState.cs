@@ -203,7 +203,7 @@ namespace OpenTK.Input
             }
             else
             {
-                Debug.Print("[Joystick] Invalid axis {0}", axis);
+                Debug.WriteLine("[Joystick] Invalid axis {0}", axis);
             }
             return value;
         }

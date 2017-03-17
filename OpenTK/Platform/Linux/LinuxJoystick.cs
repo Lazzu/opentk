@@ -326,11 +326,11 @@ namespace OpenTK.Platform.Linux
                         }
                     }
 
-                    Debug.Print("Found joystick on path {0}", path);
+                    Debug.WriteLine("Found joystick on path {0}", path);
                 }
                 catch (Exception e)
                 {
-                    Debug.Print("Error opening joystick: {0}", e.ToString());
+                    Debug.WriteLine("Error opening joystick: {0}", e.ToString());
                 }
                 finally
                 {

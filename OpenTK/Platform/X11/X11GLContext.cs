@@ -70,7 +70,7 @@ namespace OpenTK.Platform.X11
                 supported &= Glx.QueryVersion(Display, out glx_major, out glx_minor);
                 if (supported)
                 {
-                    Debug.Print("[X11] GLX supported. Version is {0}.{1}", glx_major, glx_minor);
+                    Debug.WriteLine("[X11] GLX supported. Version is {0}.{1}", glx_major, glx_minor);
                 }
                 else
                 {
@@ -124,14 +124,14 @@ namespace OpenTK.Platform.X11
             }
             
             if (Handle != ContextHandle.Zero)
-                Debug.Print("Context created (id: {0}).", Handle);
+                Debug.WriteLine("Context created (id: {0}).", Handle);
             else
                 throw new GraphicsContextException("Failed to create OpenGL context. Glx.CreateContext call returned 0.");
 
             using (new XLock(Display))
             {
                 if (!Glx.IsDirect(Display, Handle.Handle))
-                    Debug.Print("Warning: Context is not direct.");
+                    Debug.WriteLine("Warning: Context is not direct.");
             }
         }
 
@@ -316,7 +316,7 @@ namespace OpenTK.Platform.X11
                         currentWindow = null;
                     }
                 }
-                Debug.Print("{0}", result ? "done!" : "failed.");
+                Debug.WriteLine("{0}", result ? "done!" : "failed.");
             }
             else
             {
@@ -372,7 +372,7 @@ namespace OpenTK.Platform.X11
             {
                 if (currentWindow == null)
                 {
-                    Debug.Print("Context must be current");
+                    Debug.WriteLine("Context must be current");
                     throw new InvalidOperationException();
                 }
 
@@ -400,7 +400,7 @@ namespace OpenTK.Platform.X11
             {
                 if (currentWindow == null)
                 {
-                    Debug.Print("Context must be current");
+                    Debug.WriteLine("Context must be current");
                     throw new InvalidOperationException();
                 }
 
@@ -429,7 +429,7 @@ namespace OpenTK.Platform.X11
                 if (error_code == X11.ErrorCode.NO_ERROR)
                     sgi_swap_interval = value;
                 else
-                    Debug.Print("VSync = {0} failed, error code: {1}.", value, error_code);
+                    Debug.WriteLine("VSync = {0} failed, error code: {1}.", value, error_code);
             }
         }
 
@@ -453,9 +453,9 @@ namespace OpenTK.Platform.X11
             vsync_tear_supported =
                 SupportsExtension(display, currentWindow, "GLX_EXT_swap_control_tear");
 
-            Debug.Print("Context supports vsync: {0}.",
+            Debug.WriteLine("Context supports vsync: {0}.",
                 vsync_ext_supported || vsync_mesa_supported || vsync_sgi_supported);
-            Debug.Print("Context supports adaptive vsync: {0}.",
+            Debug.WriteLine("Context supports adaptive vsync: {0}.",
                 vsync_tear_supported);
 
             base.LoadAll();
@@ -506,7 +506,7 @@ namespace OpenTK.Platform.X11
             }
             else
             {
-                Debug.Print("[Warning] {0} leaked.", this.GetType().Name);
+                Debug.WriteLine("[Warning] {0} leaked.", this.GetType().Name);
             }
             IsDisposed = true;
         }

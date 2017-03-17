@@ -54,7 +54,7 @@ namespace OpenTK.Platform.SDL2
 
         public void Dispose()
         {
-            Debug.Print("Disposing {0}", GetType());
+            Debug.WriteLine("Disposing {0}", GetType());
         }
 
         #endregion
