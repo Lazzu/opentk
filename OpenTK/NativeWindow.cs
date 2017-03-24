@@ -31,6 +31,8 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using OpenTK.Platform;
 
+using OpenTK.Platform.Common.Drawing;
+
 namespace OpenTK
 {
 

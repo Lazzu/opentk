@@ -35,6 +35,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
+using OpenTK.Platform.Common.Drawing;
+
+using ImageSharp;
+using ImageSharp.Colors;
+
 namespace OpenTK.Platform.Windows
 {
     /// \internal
@@ -865,7 +870,10 @@ namespace OpenTK.Platform.Windows
                 wc.Instance = Instance;
                 wc.WndProc = WindowProcedureDelegate;
                 wc.ClassName = ClassName;
-                wc.Icon = Icon != null ? Icon.Handle : IntPtr.Zero;
+                using (PixelAccessor<Color> pixels = Icon.Bitmap.Lock())
+                {
+                    wc.Icon = Icon != null ? pixels.DataPointer : IntPtr.Zero;
+                }
                 // Todo: the following line appears to resize one of the 'large' icons, rather than using a small icon directly (multi-icon files). Investigate!
                 wc.IconSm = Icon != null ? new Icon(Icon, 16, 16).Handle : IntPtr.Zero;
                 wc.Cursor = Functions.LoadCursor(CursorName.Arrow);
@@ -1033,6 +1041,7 @@ namespace OpenTK.Platform.Windows
                     icon = value;
                     if (window.Handle != IntPtr.Zero)
                     {
+                        
                         Functions.SendMessage(window.Handle, WindowMessage.SETICON, (IntPtr)0, icon == null ? IntPtr.Zero : value.Handle);
                         Functions.SendMessage(window.Handle, WindowMessage.SETICON, (IntPtr)1, icon == null ? IntPtr.Zero : value.Handle);
                     }

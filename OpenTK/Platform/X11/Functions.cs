@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
+using ImageSharp;
+using ImageSharp.Colors;
+
 namespace OpenTK.Platform.X11
 {
     #region Types
@@ -568,49 +571,57 @@ namespace OpenTK.Platform.X11
                     (byte)(argb & 0xFF));
             }
         }
-        public static IntPtr CreatePixmapFromImage(Display display, Bitmap image) 
+        public static unsafe IntPtr CreatePixmapFromImage(Display display, Image image) 
         { 
             int width = image.Width;
             int height = image.Height;
 
+            IntPtr pixmap = IntPtr.Zero;
+
+            /*
             BitmapData data = image.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
-            
-            IntPtr ximage = XCreateImage(display, CopyFromParent, 24, ImageFormat.ZPixmap, 
-                0, data.Scan0, (uint)width, (uint)height, 32, 0); 
-            IntPtr pixmap = XCreatePixmap(display, XDefaultRootWindow(display), 
-                width, height, 24); 
-            IntPtr gc = XCreateGC(display, pixmap, IntPtr.Zero, null);
-            
-            XPutImage(display, pixmap, gc, ximage, 0, 0, 0, 0, (uint)width, (uint)height);
-            
-            XFreeGC(display, gc);
-            image.UnlockBits(data);
+            */
+            using (PixelAccessor<Color> blob = image.Lock())
+            {
+                IntPtr ximage = XCreateImage(display, CopyFromParent, 24, ImageFormat.ZPixmap,
+                    0, blob.DataPointer, (uint)width, (uint)height, 32, 0);
+                pixmap = XCreatePixmap(display, XDefaultRootWindow(display),
+                    width, height, 24);
+                IntPtr gc = XCreateGC(display, pixmap, IntPtr.Zero, null);
+
+                XPutImage(display, pixmap, gc, ximage, 0, 0, 0, 0, (uint)width, (uint)height);
+
+                XFreeGC(display, gc);
+            }
+            //image.UnlockBits(data);
 
             return pixmap; 
-        } 
-        
-        public static IntPtr CreateMaskFromImage(Display display, Bitmap image) 
-        { 
-            int width = image.Width; 
-            int height = image.Height; 
-            int stride = (width + 7) >> 3; 
+        }
+
+        public static IntPtr CreateMaskFromImage(Display display, Image image)
+        {
+            int width = image.Width;
+            int height = image.Height;
+            int stride = (width + 7) >> 3;
             byte[] mask = new byte[stride * height];
             bool msbfirst = (XBitmapBitOrder(display) == 1); // 1 = MSBFirst
-        
-            for (int y = 0; y < height; ++y) 
+
+            using (PixelAccessor<Color> pixels = image.Lock())
             { 
-                for (int x = 0; x < width; ++x) 
-                { 
-                    byte bit = (byte) (1 << (msbfirst ? (7 - (x & 7)) : (x & 7))); 
-                    int offset = y * stride + (x >> 3); 
-        
-                    if (image.GetPixel(x, y).A >= 128) 
-                        mask[offset] |= bit; 
-                } 
-            } 
-        
+                for (int y = 0; y < height; ++y)
+                {
+                    for (int x = 0; x < width; ++x)
+                    {
+                        byte bit = (byte)(1 << (msbfirst ? (7 - (x & 7)) : (x & 7)));
+                        int offset = y * stride + (x >> 3);
+
+                        if (pixels[x, y].A >= 128)
+                            mask[offset] |= bit;
+                    }
+                }
+            }
             Pixmap pixmap = XCreatePixmapFromBitmapData(display, XDefaultRootWindow(display), 
                 mask, width, height, new IntPtr(1), IntPtr.Zero, 1); 
         

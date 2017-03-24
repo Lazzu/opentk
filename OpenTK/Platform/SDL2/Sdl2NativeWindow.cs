@@ -33,6 +33,8 @@ using OpenTK;
 using OpenTK.Input;
 using System.Text;
 
+using OpenTK.Platform.Common.Drawing;
+
 namespace OpenTK.Platform.SDL2
 {
     class Sdl2NativeWindow : NativeWindowBase

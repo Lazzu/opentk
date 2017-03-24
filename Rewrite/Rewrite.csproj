@@ -12,18 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Mono.Cecil">
-      <HintPath>..\Dependencies\managed\Mono.Cecil.dll</HintPath>
+      <HintPath>..\..\cecil_0.9.6_core\Mono.Cecil\bin\x64\Release\netcoreapp1.1\Mono.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>..\Dependencies\managed\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\Dependencies\managed\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>..\Dependencies\managed\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System.Runtime\CompilerServices\" />
   </ItemGroup>
 
 </Project>

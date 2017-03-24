@@ -31,6 +31,8 @@ using System.ComponentModel;
 using System.Text;
 using OpenTK.Platform;
 
+using OpenTK.Platform.Common.Drawing;
+
 namespace OpenTK
 {
     /// <summary>

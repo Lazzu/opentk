@@ -34,6 +34,8 @@ using OpenTK.Graphics;
 using OpenTK.Input;
 using OpenTK.Platform.Egl;
 
+using OpenTK.Platform.Common.Drawing;
+
 namespace OpenTK.Platform.Linux
 {
     using Egl = OpenTK.Platform.Egl.Egl;

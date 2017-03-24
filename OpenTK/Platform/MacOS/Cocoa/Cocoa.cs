@@ -30,6 +30,9 @@
 using System.Runtime.InteropServices;
 using System;
 
+using ImageSharp;
+using ImageSharp.Formats;
+
 namespace OpenTK.Platform.MacOS
 {
     static class Cocoa
@@ -202,8 +205,8 @@ namespace OpenTK.Platform.MacOS
         public static unsafe IntPtr ToNSImage(Image img)
         {
             using (System.IO.MemoryStream s = new System.IO.MemoryStream())
-            {
-                img.Save(s, ImageFormat.Png);
+            {                
+                img.Save(s, new PngEncoder());
                 byte[] b = s.ToArray();
 
                 fixed (byte* pBytes = b)

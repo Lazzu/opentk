@@ -35,6 +35,8 @@ using System.Text;
 using OpenTK.Graphics;
 using OpenTK.Input;
 
+using OpenTK.Platform.Common.Drawing;
+
 namespace OpenTK.Platform.X11
 {
     /// \internal

@@ -32,6 +32,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using OpenTK.Input;
 
+using OpenTK.Platform.Common.Drawing;
+
 namespace OpenTK.Platform
 {
     // Common base class for all INativeWindow implementations

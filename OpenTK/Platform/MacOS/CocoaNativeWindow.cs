@@ -35,6 +35,8 @@ using System.Threading;
 using OpenTK.Graphics;
 using OpenTK.Input;
 
+using OpenTK.Platform.Common.Drawing;
+
 namespace OpenTK.Platform.MacOS
 {
     class CocoaNativeWindow : NativeWindowBase
