@@ -36,10 +36,16 @@ namespace OpenTK.Platform.Windows.Drawing
 
     public static class WinIconHelper
     {
-        public static bool LoadIcon(string filepath, out WinIcon icon)
+        
+        public static bool FromFile(string filepath, out WinIcon icon)
         {
             icon = new WinIcon();
             return false;
+        }
+
+        public static bool FromAppleIcon()
+        {
+            throw new NotImplementedException();
         }
     }
 }
