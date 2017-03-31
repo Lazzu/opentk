@@ -5,47 +5,67 @@ using System.Runtime.InteropServices;
 
 namespace OpenTK.Platform.Windows.Drawing
 {
+    [CLSCompliant(false)]
     [StructLayout(LayoutKind.Sequential)]
     public struct WinIcon
     {
-        IconDirHeader header;
-        IconDirEntry[] entries;
-        byte[] imagedata;
+        public IconDirHeader header;
+        public IconDirEntry[] entries;
+        public byte[] imagedata;
     }
 
+    [CLSCompliant(false)]
     [StructLayout(LayoutKind.Sequential)]
     public struct IconDirHeader
     {
-        ushort zerofillheader;
-        ushort filetype;
-        ushort numberofimages;
+        public ushort zerofillheader;
+        public ushort filetype;
+        public ushort numberofimages;
     }
 
+    [CLSCompliant(false)]
     [StructLayout(LayoutKind.Sequential)]
     public struct IconDirEntry
     {
-        byte width;
-        byte height;
-        byte palette;
-        byte zerobit;
-        ushort colorplanes;
-        ushort bitsperpixel;
-        uint imagedatainbytes;
-        uint imagedataoffsetfromfilestart;
+        public byte width;
+        public byte height;
+        public byte palette;
+        public byte zerobit;
+        public ushort colorplanes;
+        public ushort bitsperpixel;
+        public uint imagedatainbytes;
+        public uint imagedataoffsetfromfilestart;
     }
 
+    [CLSCompliant(false)]
     public static class WinIconHelper
     {
-        
-        public static bool FromFile(string filepath, out WinIcon icon)
+        private const int HEADERSIZE = 6;
+        private const int ENTRYSIZE = 16;
+
+        public static IconDirHeader GetHeader()
         {
-            icon = new WinIcon();
-            return false;
+            IconDirHeader header = new IconDirHeader();
+            header.zerofillheader = 0;
+            header.filetype = 1;
+            header.numberofimages = 1;
+
+            return header;
         }
 
-        public static bool FromAppleIcon()
+        public static IconDirEntry GetEntry(byte width, byte height, uint datasize)
         {
-            throw new NotImplementedException();
+            IconDirEntry entry = new IconDirEntry();
+            entry.width = width;
+            entry.height = height;
+            entry.palette = 0;
+            entry.zerobit = 0;
+            entry.colorplanes = 1;
+            entry.bitsperpixel = 32;
+            entry.imagedatainbytes = datasize;
+            entry.imagedataoffsetfromfilestart = HEADERSIZE + ENTRYSIZE;
+
+            return entry;
         }
     }
 }
