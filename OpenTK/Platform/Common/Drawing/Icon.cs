@@ -49,6 +49,19 @@ namespace OpenTK.Platform.Common.Drawing
 {
     public sealed class Icon : IDisposable
     {
-        
+        public void FromPNGFile(string file)
+        {
+
+        }
+
+        public void FromPNGStream(Stream stream)
+        {
+
+        }
+
+        public void FromPNGByteArray(byte[] PNGbytes)
+        {
+
+        }
     }
 }
