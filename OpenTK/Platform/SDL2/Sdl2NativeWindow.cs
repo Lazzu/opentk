@@ -34,6 +34,8 @@ using OpenTK.Input;
 using System.Text;
 
 using OpenTK.Platform.Common.Drawing;
+using ImageSharp;
+using ImageSharp.Colors;
 
 namespace OpenTK.Platform.SDL2
 {

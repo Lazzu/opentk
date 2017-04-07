@@ -158,7 +158,18 @@ namespace OpenTK.Platform.X11
 
         #region Event queue management
 
-        
+        #region Structs
+        [StructLayout(LayoutKind.Sequential)]
+        public struct XAnyEvent{
+            int type;
+            ulong serial;   /* # of last request processed by server */
+            Bool send_event;    /* true if this came from a SendEvent request */
+            Display display;   /* Display the event was read from */
+            Window window;
+        }
+
+        #endregion
+
         [DllImport(_dll_name, EntryPoint = "XEventsQueued")]
         extern public static int EventsQueued(Display display, int mode);
 
@@ -170,7 +181,7 @@ namespace OpenTK.Platform.X11
         [DllImport(_dll_name, EntryPoint = "XNextEvent")]
         extern public static void NextEvent(
             Display display,
-            [MarshalAs(UnmanagedType.AsAny)][In, Out]object e);
+            [In, Out]XAnyEvent e);
 
         [DllImport(_dll_name, EntryPoint = "XNextEvent")]
         extern public static void NextEvent(Display display, [In, Out] IntPtr e);
@@ -178,7 +189,7 @@ namespace OpenTK.Platform.X11
         [DllImport(_dll_name, EntryPoint = "XPeekEvent")]
         extern public static void PeekEvent(
             Display display,
-            [MarshalAs(UnmanagedType.AsAny)][In, Out]object event_return
+            [In, Out]XAnyEvent event_return
         );
 
         [DllImport(_dll_name, EntryPoint = "XPeekEvent")]

@@ -36,6 +36,7 @@ using System.IO;
 using System.Reflection;
 
 using OpenTK.Platform.Common.Drawing;
+using OpenTK.Platform.Windows.Drawing;
 
 using ImageSharp;
 using ImageSharp.Colors;
@@ -870,12 +871,18 @@ namespace OpenTK.Platform.Windows
                 wc.Instance = Instance;
                 wc.WndProc = WindowProcedureDelegate;
                 wc.ClassName = ClassName;
-                using (PixelAccessor<Color> pixels = Icon.Bitmap.Lock())
-                {
-                    wc.Icon = Icon != null ? pixels.DataPointer : IntPtr.Zero;
-                }
+
+                int rawsize = Marshal.SizeOf(Icon.WinIcon32);
+                IntPtr iconptr = Marshal.AllocHGlobal(rawsize);
+                Marshal.StructureToPtr(Icon.WinIcon32,iconptr,false);
+                wc.Icon = Icon != null ? iconptr : IntPtr.Zero;
+
                 // Todo: the following line appears to resize one of the 'large' icons, rather than using a small icon directly (multi-icon files). Investigate!
-                wc.IconSm = Icon != null ? new Icon(Icon, 16, 16).Handle : IntPtr.Zero;
+                int smrawsize = Marshal.SizeOf(Icon.WinIcon32);
+                IntPtr smiconptr = Marshal.AllocHGlobal(smrawsize);
+
+                Marshal.StructureToPtr(Icon.WinIcon16, smiconptr, false);
+                wc.IconSm = Icon != null ? smiconptr : IntPtr.Zero;
                 wc.Cursor = Functions.LoadCursor(CursorName.Arrow);
                 ushort atom = Functions.RegisterClassEx(ref wc);
 
@@ -1041,9 +1048,11 @@ namespace OpenTK.Platform.Windows
                     icon = value;
                     if (window.Handle != IntPtr.Zero)
                     {
-                        
-                        Functions.SendMessage(window.Handle, WindowMessage.SETICON, (IntPtr)0, icon == null ? IntPtr.Zero : value.Handle);
-                        Functions.SendMessage(window.Handle, WindowMessage.SETICON, (IntPtr)1, icon == null ? IntPtr.Zero : value.Handle);
+                        IntPtr ptr = IntPtr.Zero;
+                        Marshal.StructureToPtr(value.WinIcon32, ptr, false);
+
+                        Functions.SendMessage(window.Handle, WindowMessage.SETICON, (IntPtr)0, icon == null ? IntPtr.Zero : ptr);
+                        Functions.SendMessage(window.Handle, WindowMessage.SETICON, (IntPtr)1, icon == null ? IntPtr.Zero : ptr);
                     }
                     OnIconChanged(EventArgs.Empty);
                 }
@@ -1135,63 +1144,7 @@ namespace OpenTK.Platform.Windows
             }
             set
             {
-                if (value != cursor)
-                {
-                    bool destoryOld = cursor != MouseCursor.Default;
-                    IntPtr oldCursor = IntPtr.Zero;
-
-                    if (value == MouseCursor.Default)
-                    {
-                        cursor_handle = Functions.LoadCursor(CursorName.Arrow);
-                        oldCursor = Functions.SetCursor(cursor_handle);
-                        cursor = value;
-                    }
-                    else
-                    {
-                        var stride = value.Width *
-                            (Bitmap.GetPixelFormatSize(PixelFormat.Format32bppArgb) / 8);
-
-                        Bitmap bmp;
-                        unsafe
-                        {
-                            fixed (byte* pixels = value.Data)
-                            {
-                                bmp = new Bitmap(value.Width, value.Height, stride,
-                                    PixelFormat.Format32bppArgb,
-                                    new IntPtr(pixels));
-                            }
-                        }
-                        using (bmp)
-                        {
-                            var iconInfo = new IconInfo();
-                            var bmpIcon = bmp.GetHicon();
-                            var success = Functions.GetIconInfo(bmpIcon, out iconInfo);
-
-                            if (success)
-                            {
-                                iconInfo.xHotspot = value.X;
-                                iconInfo.yHotspot = value.Y;
-                                iconInfo.fIcon = false;
-
-                                var icon = Functions.CreateIconIndirect(ref iconInfo);
-
-                                if (icon != IntPtr.Zero)
-                                {
-                                    // Currently using a custom cursor so destroy it 
-                                    // once replaced
-                                    cursor = value;
-                                    cursor_handle = icon;
-                                    oldCursor = Functions.SetCursor(icon);
-                                }
-                            }
-                        }
-                    }
-
-                    if (destoryOld && oldCursor != IntPtr.Zero)
-                    {
-                        Functions.DestroyIcon(oldCursor);
-                    }
-                }
+                throw new NotImplementedException();
             }
         }
 
