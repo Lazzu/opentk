@@ -31,6 +31,13 @@ namespace OpenTK.Platform.MacOS.Drawing
 
     public static class AppleIconHelper
     {
-        
+        //Magicheader
+        public static readonly byte[] MHeader = new byte[4] { 0x69, 0x63, 0x6e, 0x73 };
+
+        //Icontypes
+        public static readonly byte[] AppleicontypeICP4 = new byte[4] { 0x69, 0x63, 0x70, 4 };
+        public static readonly byte[] AppleicontypeICP5 = new byte[4] { 0x69, 0x63, 0x70, 5 };
+        public static readonly byte[] AppleicontypeICP6 = new byte[4] { 0x69, 0x63, 0x70, 6 };
+        public static readonly byte[] AppleicontypeICP7 = new byte[4] { 0x69, 0x63, 0x70, 7 };
     }
 }

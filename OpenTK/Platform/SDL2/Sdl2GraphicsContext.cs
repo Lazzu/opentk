@@ -303,7 +303,7 @@ namespace OpenTK.Platform.SDL2
                 }
                 else
                 {
-                    Trace.WriteLine("Warning: SDL2 requires a shared context to be current before sharing. Sharing failed.");
+                    Debug.WriteLine("Warning: SDL2 requires a shared context to be current before sharing. Sharing failed.");
                 }
             }
         }

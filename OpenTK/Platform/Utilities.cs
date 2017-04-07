@@ -97,8 +97,10 @@ namespace OpenTK.Platform
             MethodInfo load_delegate_method_info = type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             if (load_delegate_method_info == null)
                 throw new InvalidOperationException(type.ToString() + " does not contain a static LoadDelegate method.");
-            LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(
-                typeof(LoadDelegateFunction), load_delegate_method_info);
+
+            LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)load_delegate_method_info.CreateDelegate(typeof(LoadDelegateFunction));
+                /*(LoadDelegateFunction)Delegate.CreateDelegate(
+                typeof(LoadDelegateFunction), load_delegate_method_info);*/
 
             Debug.Write("Load extensions for " + type.ToString() + "... ");
 
@@ -151,8 +153,15 @@ namespace OpenTK.Platform
                 return false;
             }
 
-            LoadDelegateFunction LoadDelegate = (LoadDelegateFunction)Delegate.CreateDelegate(typeof(LoadDelegateFunction),
-                type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public));
+            MethodInfo load_delegate_method_info = type.GetMethod("LoadDelegate", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+            if (load_delegate_method_info == null)
+            {
+                Debug.WriteLine(type.ToString(), " does not contain a static LoadDelegate method.");
+                return false;
+            }
+
+            LoadDelegateFunction LoadDelegate = 
+                (LoadDelegateFunction)load_delegate_method_info.CreateDelegate(typeof(LoadDelegateFunction));
             if (LoadDelegate == null)
             {
                 Debug.WriteLine(type.ToString(), " does not contain a static LoadDelegate method.");

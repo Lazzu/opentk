@@ -10,6 +10,7 @@ using ImageSharp.Colors;
 using ImageSharp.Formats;
 
 using OpenTK.Platform.Windows.Drawing;
+using OpenTK.Platform.MacOS.Drawing;
 
 namespace OpenTK.Platform.Common.Drawing
 {
@@ -21,6 +22,11 @@ namespace OpenTK.Platform.Common.Drawing
 
         public byte[] PNG16;
         public byte[] PNG32;
+
+        public AppleIcon Appleicon16;
+        public AppleIcon Appleicon32;
+        public AppleIcon Appleicon64;
+        public AppleIcon Appleicon128;
 
         public void FromPNGFile(string file)
         {

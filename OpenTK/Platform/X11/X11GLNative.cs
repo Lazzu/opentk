@@ -1094,6 +1094,8 @@ namespace OpenTK.Platform.X11
             }
             set
             {
+                throw new NotImplementedException();
+                /*
                 if (value == icon)
                     return;
 
@@ -1153,6 +1155,7 @@ namespace OpenTK.Platform.X11
 
                 icon = value;
                 OnIconChanged(EventArgs.Empty);
+                */
             }
         }
 

@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace OpenTK.Platform.Windows
 {
@@ -40,8 +41,8 @@ namespace OpenTK.Platform.Windows
         public WinDisplayDeviceDriver()
         {
             RefreshDisplayDevices();
-            SystemEvents.DisplaySettingsChanged +=
-                HandleDisplaySettingsChanged;
+            #warning notimplemented in .net Core
+            //SystemEvents.DisplaySettingsChanged += HandleDisplaySettingsChanged;
         }
 
         #endregion
@@ -211,8 +212,8 @@ namespace OpenTK.Platform.Windows
 
         ~WinDisplayDeviceDriver()
         {
-            SystemEvents.DisplaySettingsChanged -=
-                HandleDisplaySettingsChanged;
+            #warning notimplemented in .net Core
+            //SystemEvents.DisplaySettingsChanged -= HandleDisplaySettingsChanged;
         }
 
         #endregion

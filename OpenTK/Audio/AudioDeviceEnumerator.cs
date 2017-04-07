@@ -192,12 +192,12 @@ namespace OpenTK.Audio
             }
             catch (DllNotFoundException e)
             {
-                Trace.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
                 openal_supported = false;
             }
             catch (AudioContextException ace)
             {
-                Trace.WriteLine(ace.ToString());
+                Debug.WriteLine(ace.ToString());
                 openal_supported = false;
             }
             finally

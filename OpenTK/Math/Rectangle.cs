@@ -168,6 +168,23 @@ namespace OpenTK
         public static readonly Rectangle Empty = new Rectangle();
 
         /// <summary>
+        ///	Union Shared Method
+        /// </summary>
+        ///
+        /// <remarks>
+        ///	Produces a new Rectangle from the union of 2 existing 
+        ///	Rectangles.
+        /// </remarks>
+
+        public static Rectangle Union(Rectangle a, Rectangle b)
+        {
+            return FromLTRB(Math.Min(a.Left, b.Left),
+                     Math.Min(a.Top, b.Top),
+                     Math.Max(a.Right, b.Right),
+                     Math.Max(a.Bottom, b.Bottom));
+        }
+
+        /// <summary>
         /// Constructs a new instance with the specified edges.
         /// </summary>
         /// <param name="left">The left edge of the Rectangle.</param>

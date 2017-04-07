@@ -605,6 +605,8 @@ namespace OpenTK.Platform.SDL2
             {
                 lock (sync)
                 {
+                    throw new NotImplementedException();
+                    /*
                     if (Exists)
                     {
                         // Set the new icon, if any, or clear the current
@@ -640,7 +642,7 @@ namespace OpenTK.Platform.SDL2
 
                         icon = value;
                         OnIconChanged(EventArgs.Empty);
-                    }
+                    }*/
                 }
             }
         }

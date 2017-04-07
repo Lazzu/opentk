@@ -751,6 +751,8 @@ namespace OpenTK.Platform.MacOS
             get { return icon; }
             set
             {
+                throw new NotImplementedException();
+                /*
                 if (value != null && value != icon)
                 {
                     // Create and set new icon
@@ -779,7 +781,7 @@ namespace OpenTK.Platform.MacOS
                     current_icon_handle = nsimg;
                     icon = value;
                     OnIconChanged(EventArgs.Empty);
-                }
+                }*/
             }
         }
 
